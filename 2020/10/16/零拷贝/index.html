@@ -3,23 +3,29 @@
 <head>
   <meta charset="utf-8">
   
-  <title>浅谈操作系统概论 | 如果方向错误，停止前进就是一种进步</title>
+  <title>零拷贝（zero-copy）学习 | 如果方向错误，停止前进就是一种进步</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="零拷贝" />
   
   
   
-  <meta name="description" content="计算机系统的组成硬件：中央处理器（cpu），存储器（外存，内存），输入输出设备 操作系统 程序   2.操作系统的发展​        顺序处理 ​        简单批处理系统:  使用一个监控程序按顺序自动将作业装入内存处理 ​        多道批处理系统：主存同时存放多个用户作业，提高效率 ​        分时系统：将cpu的单位时间划分成若干个时间片，轮流分配给各联机用户使用 ​">
+  
+  <meta name="description" content="概念零拷贝（Zero-copy）是一种高效的数据传输机制，是指计算机执行操作时，CPU不需要先将数据从某处内存复制到另一个特定区域 传统IO传输方法12345678public static void main(String[] args) throws IOException &amp;#123;    File file &#x3D; new File(&quot;test.txt&quot;);    Ran">
 <meta property="og:type" content="article">
-<meta property="og:title" content="浅谈操作系统概论">
-<meta property="og:url" content="https://www.yusp-spin.github.io/2020/10/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%A6%82%E8%AE%BA/index.html">
+<meta property="og:title" content="零拷贝（Zero-copy）学习">
+<meta property="og:url" content="https://www.yusp-spin.github.io/2020/10/16/%E9%9B%B6%E6%8B%B7%E8%B4%9D/index.html">
 <meta property="og:site_name" content="如果方向错误，停止前进就是一种进步">
-<meta property="og:description" content="计算机系统的组成硬件：中央处理器（cpu），存储器（外存，内存），输入输出设备 操作系统 程序   2.操作系统的发展​        顺序处理 ​        简单批处理系统:  使用一个监控程序按顺序自动将作业装入内存处理 ​        多道批处理系统：主存同时存放多个用户作业，提高效率 ​        分时系统：将cpu的单位时间划分成若干个时间片，轮流分配给各联机用户使用 ​">
+<meta property="og:description" content="概念零拷贝（Zero-copy）是一种高效的数据传输机制，是指计算机执行操作时，CPU不需要先将数据从某处内存复制到另一个特定区域 传统IO传输方法12345678public static void main(String[] args) throws IOException &amp;#123;    File file &#x3D; new File(&quot;test.txt&quot;);    Ran">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-10-12T14:33:47.000Z">
-<meta property="article:modified_time" content="2020-10-12T15:48:20.595Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/195230-b16e57175b87e8bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/922/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/195230-b29d64619b3e98a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/846/format/webp">
+<meta property="article:published_time" content="2020-10-16T02:02:27.000Z">
+<meta property="article:modified_time" content="2020-10-16T03:46:27.155Z">
 <meta property="article:author" content="spin">
+<meta property="article:tag" content="零拷贝">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/195230-b16e57175b87e8bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/922/format/webp">
   
     <link rel="alternate" href="/atom.xml" title="如果方向错误，停止前进就是一种进步" type="application/atom+xml">
   
@@ -169,7 +175,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-操作系统-概论" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-零拷贝" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -177,7 +183,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      浅谈操作系统概论
+      零拷贝（Zero-copy）学习
     </h1>
   
 
@@ -185,12 +191,12 @@
     
     <div class="article-meta">
       
-	<a href="/2020/10/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%A6%82%E8%AE%BA/" class="article-date">
-	  <time datetime="2020-10-12T14:33:47.000Z" itemprop="datePublished">2020-10-12</time>
+	<a href="/2020/10/16/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" class="article-date">
+	  <time datetime="2020-10-16T02:02:27.000Z" itemprop="datePublished">2020-10-16</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+    <a class="article-category-link" href="/categories/IO/">IO</a>
 
       
 	<a class="article-views">
@@ -204,24 +210,30 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <ol>
-<li><h5 id="计算机系统的组成"><a href="#计算机系统的组成" class="headerlink" title="计算机系统的组成"></a>计算机系统的组成</h5><p>硬件：中央处理器（cpu），存储器（外存，内存），输入输出设备</p>
-<p>操作系统</p>
-<p>程序</p>
-</li>
-</ol>
-<h5 id="2-操作系统的发展"><a href="#2-操作系统的发展" class="headerlink" title="2.操作系统的发展"></a>2.操作系统的发展</h5><p>​        顺序处理</p>
-<p>​        简单批处理系统:  使用一个监控程序按顺序自动将作业装入内存处理</p>
-<p>​        多道批处理系统：主存同时存放多个用户作业，提高效率</p>
-<p>​        分时系统：将cpu的单位时间划分成若干个时间片，轮流分配给各联机用户使用</p>
-<p>​        实时系统：不以作业为处理对象，而是数据或信息作为处理对象，对外部时间作出及时响应和处理</p>
-<p>​        嵌入式系统</p>
-<h5 id="3-操作系统的组成"><a href="#3-操作系统的组成" class="headerlink" title="3. 操作系统的组成"></a>3. 操作系统的组成</h5><p>​        进程管理，内存管理，设备管理，文件管理</p>
-<h5 id="4-用户于操作系统的接口（主要讲系统调用）"><a href="#4-用户于操作系统的接口（主要讲系统调用）" class="headerlink" title="4.用户于操作系统的接口（主要讲系统调用）"></a>4.用户于操作系统的接口（主要讲系统调用）</h5><p>系统调用：通过系统调用命令，向操作系统提出资源请求或获得系统的一些功能服务</p>
-<p>CPU的两种操作方式：用户态，内核态</p>
-<p>系统调用命令：进程控制，文件管理，设备管理，权限管理</p>
-<p>系统调用流程：1.通过陷入使系统切换到核心态（需要硬件支持）；2.将程序计数器和处理机的当前状态存入任务的堆栈中；3.将系统调用号存入核心堆栈中；4.执行汇编代码保持通用寄存器的内容；5. 执行相应操作系统例程来完成系统调用；6.返回到用户方式</p>
-<h5 id="5-操作系统的运行方式"><a href="#5-操作系统的运行方式" class="headerlink" title="5.操作系统的运行方式"></a>5.操作系统的运行方式</h5>
+        <h5 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h5><p>零拷贝（Zero-copy）是一种高效的数据传输机制，是指计算机执行操作时，CPU不需要先将数据从某处内存复制到另一个特定区域</p>
+<h5 id="传统IO传输方法"><a href="#传统IO传输方法" class="headerlink" title="传统IO传输方法"></a>传统IO传输方法</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    File file = <span class="keyword">new</span> File(<span class="string">&quot;test.txt&quot;</span>);</span><br><span class="line">    RandomAccessFile accessFile = <span class="keyword">new</span> RandomAccessFile(file, <span class="string">&quot;rw&quot;</span>);</span><br><span class="line">    <span class="keyword">byte</span>[] arr = <span class="keyword">new</span> <span class="keyword">byte</span>[(<span class="keyword">int</span>) file.length()];</span><br><span class="line">    accessFile.read(arr);</span><br><span class="line">    Socket socket = <span class="keyword">new</span> ServerSocket(<span class="number">6666</span>).accept();</span><br><span class="line">    socket.getOutputStream().write(arr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从操作系统层面来看这一次传输操作</p>
+<p>1.JVM向OS发出read()系统调用，触发上下文切换，从用户态切换到内核态。</p>
+<p>2.从外部存储（如硬盘）读取文件内容，通过直接内存访问（DMA）存入内核地址空间的缓冲区。</p>
+<p>3.将数据从内核缓冲区拷贝到用户空间缓冲区，read()系统调用返回，并从内核态切换回用户态。</p>
+<p>4.JVM向OS发出write()系统调用，触发上下文切换，从用户态切换到内核态。</p>
+<p>5.将数据从用户缓冲区拷贝到内核中与目的地Socket关联的缓冲区。</p>
+<p>6.数据最终经由Socket通过DMA传送到硬件（如网卡）缓冲区，write()系统调用返回，并从内核态切换回用户态。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/195230-b16e57175b87e8bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/922/format/webp" alt="img"></p>
+<p>上面总共是经过了<strong>4次上下文切换（严格来讲是模式切换），并且数据也被来回拷贝了4次</strong></p>
+<p>第2、3次拷贝（也就是从内核空间到用户空间的来回复制）是没有意义的，数据应该可以直接从内核缓冲区直接送入Socket缓冲区。零拷贝机制就实现了这一点。不过零拷贝需要由操作系统直接支持，不同OS有不同的实现方法</p>
+<h5 id="零拷贝"><a href="#零拷贝" class="headerlink" title="零拷贝"></a>零拷贝</h5><p>下面的零拷贝机制下的时序图。</p>
+<p>零拷贝消除了从内核空间到用户空间的来回复制，因此“zero-copy”这个词实际上是站在内核的角度来说的，并不是完全不会发生任何拷贝。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/195230-b29d64619b3e98a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/846/format/webp" alt="img"></p>
+<p>在Java NIO包中提供了零拷贝机制对应的API，即FileChannel.transferTo()方法，可将拷贝次数变为3次，上下文切换次数减少到2次。</p>
+<h5 id="Scatter-Gather的优化"><a href="#Scatter-Gather的优化" class="headerlink" title="Scatter/Gather的优化"></a>Scatter/Gather的优化</h5><p>​    从“Read buffer”到“Socket buffer”，在一般的Block DMA方式中，源物理地址和目标物理地址都得是连续的，所以一次只能传输物理上连续的一块数据，每传输一个块发起一次中断，直到传输完成，所以必须要在两个缓冲区之间拷贝数据。</p>
+<p>而Scatter/Gather DMA方式则不同，会预先维护一个物理上不连续的块描述符的链表，描述符中包含有数据的起始地址和长度。传输时只需要遍历链表，按序传输数据，全部完成后发起一次中断即可，效率比Block DMA要高。也就是说，硬件可以通过Scatter/Gather DMA直接从内核缓冲区中取得全部数据，不需要再从内核缓冲区向Socket缓冲区拷贝数据。</p>
+<h5 id="对内存映射（mmap）的支持"><a href="#对内存映射（mmap）的支持" class="headerlink" title="对内存映射（mmap）的支持"></a>对内存映射（mmap）的支持</h5><p>以上机制，如果想在传输时修改数据本身，就无能为力了，不过，很多操作系统也提供了内存映射机制，对应的系统调用为mmap()/munmap()。通过它可以将文件数据映射到内核地址空间，直接进行操作</p>
+<p>但是呢，这样会造成4次上下文切换，另外，它需要在快表（TLB）中始终维护着所有数据对应的地址空间，直到刷写完成，因此处理缺页的overhead也会更大。在使用该机制时，需要权衡效率。</p>
+<p>NIO框架中提供了MappedByteBuffer用来支持mmap。它与常用的DirectByteBuffer一样，都是在堆外内存分配空间。相对地，HeapByteBuffer在堆内内存分配空间。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/193cae9cbf07">https://www.jianshu.com/p/193cae9cbf07</a></p>
+
       
     </div>
     <footer class="article-footer">
@@ -234,7 +246,7 @@
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2020/10/12/操作系统-概论/" target="_blank" title="浅谈操作系统概论">https://www.yusp-spin.github.io/2020/10/12/操作系统-概论/</a>
+          <a href="/2020/10/16/零拷贝/" target="_blank" title="零拷贝（Zero-copy）学习">https://www.yusp-spin.github.io/2020/10/16/零拷贝/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -274,6 +286,8 @@
       
       
         
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" rel="tag">零拷贝</a></li></ul>
+
       
 
     </footer>
@@ -282,19 +296,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/10/16/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          零拷贝（Zero-copy）学习
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/10/05/%E5%89%91%E6%8C%87offer%206-15/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/10/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%A6%82%E8%AE%BA/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">剑指offer 6-15</div>
+      <div class="article-nav-title">浅谈操作系统概论</div>
     </a>
   
 </nav>
@@ -308,7 +313,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%BB%84%E6%88%90"><span class="nav-number">1.</span> <span class="nav-text">计算机系统的组成</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8F%91%E5%B1%95"><span class="nav-number">2.</span> <span class="nav-text">2.操作系统的发展</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%BB%84%E6%88%90"><span class="nav-number">3.</span> <span class="nav-text">3. 操作系统的组成</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-%E7%94%A8%E6%88%B7%E4%BA%8E%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%8E%A5%E5%8F%A3%EF%BC%88%E4%B8%BB%E8%A6%81%E8%AE%B2%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">4.用户于操作系统的接口（主要讲系统调用）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%BF%90%E8%A1%8C%E6%96%B9%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">5.操作系统的运行方式</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9FIO%E4%BC%A0%E8%BE%93%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">传统IO传输方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9B%B6%E6%8B%B7%E8%B4%9D"><span class="nav-number">3.</span> <span class="nav-text">零拷贝</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Scatter-Gather%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">Scatter&#x2F;Gather的优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AF%B9%E5%86%85%E5%AD%98%E6%98%A0%E5%B0%84%EF%BC%88mmap%EF%BC%89%E7%9A%84%E6%94%AF%E6%8C%81"><span class="nav-number">5.</span> <span class="nav-text">对内存映射（mmap）的支持</span></a></li></ol>
     
     </div>
   </aside>
