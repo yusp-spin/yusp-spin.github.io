@@ -305,7 +305,7 @@
         
           <section id="main" style="float:none;">
   
-    <article id="post-背包问题"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-Unsafe函数六道面试题"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -313,7 +313,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/09/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">背包问题</a>
+      <a class="article-title" href="/2020/09/14/Unsafe%E5%87%BD%E6%95%B0%E5%85%AD%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/">Unsafe函数六道面试题</a>
     </h1>
   
 
@@ -321,12 +321,12 @@
     
     <div class="article-meta">
       
-	<a href="/2020/09/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" class="article-date">
-	  <time datetime="2020-09-14T07:22:47.000Z" itemprop="datePublished">2020-09-14</time>
+	<a href="/2020/09/14/Unsafe%E5%87%BD%E6%95%B0%E5%85%AD%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/" class="article-date">
+	  <time datetime="2020-09-14T13:22:47.000Z" itemprop="datePublished">2020-09-14</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+    <a class="article-category-link" href="/categories/%E5%B9%B6%E5%8F%91/">并发</a>
 
       
       
@@ -335,12 +335,12 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          今天来个简单的背包问题大汇总
-1. 01背包​    01背包顾名思义就是对一种物品只有选或者不选两种选择​    对于背包体积为W，物品数量是N，每个物品的体积是w[i]，每个物品的价值是price[i]的选择，求用这个背包装下的物品价值最大​    dp[i][j]表示数量为i体积为j的时候选出的最大价值​    方程：dp[i][j]=Math.max(dp[i-1][j],dp[i][j-w[i]]+prices[i])
-123456789101112131415161718pub...
+          
+Unsafe是什么？ Java 无法直接访问底层操作系统，而是通过本地（native）方法来访问。不过尽管如此，JVM 还是开了一个后门，JDK 中有一个类 Unsafe，底层是使用C/C++写的，它提供了硬件级别的原子操作。Unsafe为我们提供了访问底层的机制，这种机制仅供java核心类库使用，而不应该被普通用户使用。
+ UnSafe的功能主要有：（1）实例化一个类；（2）修改私有字段的值；（3）抛出checked异常；（4）使用堆外内存；（5）CAS操作；（6）阻塞/唤醒线程；（7...
         </p>
         <p class="article-more-link">
-          <a href="/2020/09/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/#more">Read More</a>
+          <a href="/2020/09/14/Unsafe%E5%87%BD%E6%95%B0%E5%85%AD%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/#more">Read More</a>
         </p>
       
     </div>
@@ -407,6 +407,60 @@ tcp与udp的区别
         </p>
         <p class="article-more-link">
           <a href="/2020/09/14/%E8%85%BE%E8%AE%AF%E9%9D%A2%E7%BB%8F/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-背包问题"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2020/09/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">背包问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/09/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" class="article-date">
+	  <time datetime="2020-09-14T07:22:47.000Z" itemprop="datePublished">2020-09-14</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+
+      
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          今天来个简单的背包问题大汇总
+1. 01背包​    01背包顾名思义就是对一种物品只有选或者不选两种选择​    对于背包体积为W，物品数量是N，每个物品的体积是w[i]，每个物品的价值是price[i]的选择，求用这个背包装下的物品价值最大​    dp[i][j]表示数量为i体积为j的时候选出的最大价值​    方程：dp[i][j]=Math.max(dp[i-1][j],dp[i][j-w[i]]+prices[i])
+123456789101112131415161718pub...
+        </p>
+        <p class="article-more-link">
+          <a href="/2020/09/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/#more">Read More</a>
         </p>
       
     </div>
