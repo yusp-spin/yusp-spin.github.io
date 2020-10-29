@@ -3,18 +3,25 @@
 <head>
   <meta charset="utf-8">
   
-  <title>category: 操作系统 | 如果方向错误，停止前进就是一种进步</title>
+  <title>进程管理 | 如果方向错误，停止前进就是一种进步</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="进程" />
   
   
   
-  <meta property="og:type" content="website">
-<meta property="og:title" content="如果方向错误，停止前进就是一种进步">
-<meta property="og:url" content="https://www.yusp-spin.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/index.html">
+  
+  <meta name="description" content="一、进程的引入和概念  程序的顺序执行 最简单的程序设计方法是顺序的方法，这种方法有以下特点： ①. 程序在运行时独占资源，叫做封闭性；②. 程序执行时，只要初始条件相同，无论程序是连续执行还是断续执行，结果不变，叫做可再现性  程序的并行执行     进程的概念 ①. 进程定义 进程又叫做任务，是程序的一次执行过程，是程序在一个数据集合上顺序执行发生的活动，是系统资源分配的单位 ②. 进程和程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程管理">
+<meta property="og:url" content="https://www.yusp-spin.github.io/2020/10/29/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/index.html">
 <meta property="og:site_name" content="如果方向错误，停止前进就是一种进步">
+<meta property="og:description" content="一、进程的引入和概念  程序的顺序执行 最简单的程序设计方法是顺序的方法，这种方法有以下特点： ①. 程序在运行时独占资源，叫做封闭性；②. 程序执行时，只要初始条件相同，无论程序是连续执行还是断续执行，结果不变，叫做可再现性  程序的并行执行     进程的概念 ①. 进程定义 进程又叫做任务，是程序的一次执行过程，是程序在一个数据集合上顺序执行发生的活动，是系统资源分配的单位 ②. 进程和程序">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-10-29T14:33:47.000Z">
+<meta property="article:modified_time" content="2020-10-29T05:52:12.968Z">
 <meta property="article:author" content="spin">
+<meta property="article:tag" content="进程">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="如果方向错误，停止前进就是一种进步" type="application/atom+xml">
@@ -64,8 +71,6 @@
   
 
   
-    <link rel="stylesheet" href="/css/archive.css" >
-  
   
   
 
@@ -73,7 +78,7 @@
 
 
 
-  <body>
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
 
 
   
@@ -96,7 +101,7 @@
             
               <a class="brand" style="
                  margin-top: 0px;"  
-                 >
+                href="#" data-toggle="modal" data-target="#myModal" >
                   <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
               </a>
             
@@ -167,64 +172,212 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;">
-  
-  
-  
+          <section id="main" style="float:none;"><article id="post-操作系统-进程管理" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
     
     
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <h1><a href="/archives/2020" class="archive-year">2020</a></h1>
-        </div>
-        <div class="archives">
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      进程管理
+    </h1>
+  
+
+      </header>
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
+    <div class="article-meta">
       
-	<a href="/2020/10/29/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" class="archive-article-date">
+	<a href="/2020/10/29/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" class="article-date">
 	  <time datetime="2020-10-29T14:33:47.000Z" itemprop="datePublished">2020-10-29</time>
 	</a>
 
       
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2020/10/29/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/">进程管理</a>
-    </h1>
-  
+    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
       
-	<a href="/2020/10/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%A6%82%E8%AE%BA/" class="archive-article-date">
-	  <time datetime="2020-10-12T14:33:47.000Z" itemprop="datePublished">2020-10-12</time>
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
 	</a>
 
       
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2020/10/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%A6%82%E8%AE%BA/">浅谈操作系统概论</a>
-    </h1>
-  
 
-    </header>
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一、进程的引入和概念</p>
+<ol>
+<li><p>程序的顺序执行</p>
+<p>最简单的程序设计方法是顺序的方法，这种方法有以下特点：</p>
+<p>①. 程序在运行时独占资源，叫做封闭性；②. 程序执行时，只要初始条件相同，无论程序是连续执行还是断续执行，结果不变，叫做可再现性</p>
+<ol start="2">
+<li>程序的并行执行</li>
+</ol>
+</li>
+</ol>
+<ol start="3">
+<li><p>进程的概念</p>
+<p>①. 进程定义</p>
+<p>进程又叫做任务，是程序的一次执行过程，是程序在一个数据集合上顺序执行发生的活动，是系统资源分配的单位</p>
+<p>②. 进程和程序的联系和区别</p>
+<p>进程是程序的一次执行过程，具有动态性，而程序是一种可以长期保存的软件资源；进程是系统进行资源分配和资源调度的一个独立单位，句有独立性，程序不是；进程可以与其他进程并行；</p>
+</li>
+</ol>
+<p>二、进程的描述</p>
+<ol>
+<li><p>进程控制块</p>
+<p>为了描述进程的运行变化情况，操作系统为每个进程定义了一个数据结构叫做进程控制块（PCB），也叫进程描述符，是进程的唯一标志，包含了进程的描述信息和管理控制信息。</p>
+<p>PCB包含的信息：</p>
+<p>①. 进程标志数</p>
+<p>②. 进程的状态以及调度和存储器管理信息</p>
+<p>③. 进程使用的资源信息，包括分配给进程的IO设备、正在执行的IO请求信息</p>
+<p>④、CPU现场保护区</p>
+<p>⑤、记账信息，包括CPU时间量等</p>
+<p>⑥、进程之间的家族关系</p>
+<p>⑦、进程的链接指针</p>
+<ol start="2">
+<li>进程的状态</li>
+</ol>
+<p>创建态、终止态、就绪态、运行态、阻塞等待态</p>
+<p>①. 创建态，进程刚刚被创建</p>
+<p>②. 终止态， 进程不再受处理及调度管理，可能是正常完成或者已经中断</p>
+<p>③. 就绪态，已经获得了除cpu之外的所有资源，等待系统分配CPU</p>
+<p>④. 运行态，正在CPU执行的进程</p>
+<p>⑤. 阻塞等待态，等待某些资源</p>
+<ol start="3">
+<li>进程的组织</li>
+</ol>
+<p>进程控制块是系统对进程统一管理的依据，为了便于系统管理，通常对系统中的进程采用两种组织方式</p>
+<p>①. 线性表</p>
+<p>把所有进程的PCB组成一个数组，系统通过数组下标访问每一个PCB。系统通过数组下标访问每一个PCB，优点是简单，节省存储空间，缺点是系统开销大</p>
+<p>②. 链接表</p>
+<p>将同一状态下的进程链接成一个队列，系统会设置一个指针指向当前运行进程的PCB。</p>
+</li>
+</ol>
+<p>三、进程的控制</p>
+<p>​    所谓进程控制是指系统使用一些具有特定功能的程序段来创建、撤销进程以及完成进程各状态间转换的一系列有效管理。</p>
+<p>​    用于控制进程的原语如下：</p>
+<ol>
+<li><p>创建原语</p>
+<p>创建原语的功能：创建一个进程主要是为进程创建一个PCB，扫描系统的PCB的集合表，找到一个空闲的PCB，并获得PCB的内部名称，作为进程的标识。若程序和数据不在主存，也应为其分配主存，并调入主存，把调用者的参数填入PCB中，将状态置为就绪，插入队列中。</p>
+</li>
+<li><p>撤销原语</p>
+<p>撤销，归还资源</p>
+</li>
+<li><p>阻塞原语</p>
+<p>处于运行态的进程中断CPU，将其运行现场保存在其PCB的CPU现场保护区；状态置为阻塞态，插入相应等待队列</p>
+</li>
+<li><p>唤醒原语</p>
+</li>
+<li><p>挂前期原语</p>
+</li>
+<li><p>激活原语</p>
+</li>
+</ol>
+<p>四、处理机的调度</p>
+<ol>
+<li><p>处理机调度的级别</p>
+<p>作业调度、进程调度、交换调度</p>
+<p>作业调度是让作业有资格获得CPU，作业的运行需要通过进程调度实现，处理机的交换调度是为了使得资源分配更加合理</p>
+</li>
+<li><p>进程调度的方式</p>
+<p>非抢先方式</p>
+<p>抢先方式</p>
+</li>
+<li><p>处理机调度算法</p>
+<p>先来先到服务、最短作业优先、最短剩余时间优先、优先级调度，时间片轮转算法、多级反馈队列算法</p>
+</li>
+</ol>
+<p>五、 线程</p>
+<pre><code>1. 进程和线程的区别
+ 2. 线程分类：用户级线程、核心线程、两级结合</code></pre>
+<p>​    </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>spin</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2020/10/29/操作系统-进程管理/" target="_blank" title="进程管理">https://www.yusp-spin.github.io/2020/10/29/操作系统-进程管理/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li></ul>
+
+      
+
+    </footer>
   </div>
-</article>
+  
+    
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/10/28/%E4%B8%80%E4%BA%9B%E5%A5%BD%E7%BD%91%E7%AB%99/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">学习过程中一些网站的收藏</div>
+    </a>
   
+</nav>
 
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav">None</ol>
+    
+    </div>
+  </aside>
 
 </section>
         
@@ -328,6 +481,10 @@
 
 
 
+  
+<script src="/js/dialog.js"></script>
+
+
 
 
 
@@ -411,6 +568,8 @@
   
   <a id="rocket" href="#top" class=""></a>
   <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
   
 </body>
 </html>
