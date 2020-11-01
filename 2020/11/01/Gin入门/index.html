@@ -17,7 +17,7 @@
 <meta property="og:description" content="一、Gin简介​    Gin 是使用 Go&#x2F;golang 语言实现的 HTTP Web 框架。接口简洁，性能极高，框架源码仅5K 二、Gin 特性 快速：路由不使用反射，基于Radix树，内存占用少。 中间件：HTTP请求，可先经过一系列中间件处理，例如：Logger，Authorization，GZIP等。这个特性和 NodeJs 的 Koa 框架很像。中间件机制也极大地提高了框架的可扩展性。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-11-01T02:12:47.000Z">
-<meta property="article:modified_time" content="2020-11-01T04:06:16.041Z">
+<meta property="article:modified_time" content="2020-11-01T14:11:45.499Z">
 <meta property="article:author" content="spin">
 <meta name="twitter:card" content="summary">
   
@@ -236,7 +236,7 @@
 
 
 
-<h6 id="四、HTML模板"><a href="#四、HTML模板" class="headerlink" title="四、HTML模板"></a>四、HTML模板</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">    <span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>  &#123;</span><br><span class="line">    r := gin.Default()</span><br><span class="line">    <span class="comment">// 指明html加载文件目录</span></span><br><span class="line">    r.LoadHTMLGlob(<span class="string">&quot;./html/*&quot;</span>)</span><br><span class="line">    r.Handle(<span class="string">&quot;GET&quot;</span>, <span class="string">&quot;/&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">        <span class="comment">// 返回HTML文件，响应状态码200，html文件名为index.html，模板参数为nil</span></span><br><span class="line">        c.HTML(http.StatusOK, <span class="string">&quot;index.html&quot;</span>, <span class="literal">nil</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    r.Run()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="四、HTML模板"><a href="#四、HTML模板" class="headerlink" title="四、HTML模板"></a>四、HTML模板</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">    <span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>  &#123;</span><br><span class="line">    r := gin.Default()</span><br><span class="line">    <span class="comment">// 指明html加载文件目录</span></span><br><span class="line">    r.LoadHTMLGlob(<span class="string">&quot;./html/*&quot;</span>)</span><br><span class="line">    r.Handle(<span class="string">&quot;GET&quot;</span>, <span class="string">&quot;/&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">        <span class="comment">// 返回HTML文件，响应状态码200，html文件名为index.html，模板参数为nil</span></span><br><span class="line">        c.HTML(http.StatusOK, <span class="string">&quot;index.html&quot;</span>, <span class="literal">nil</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    r.Run()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
       
@@ -300,9 +300,9 @@
 <nav id="article-nav">
   
   
-    <a href="/2020/11/01/%E5%89%91%E6%8C%87offer%2056-67/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/11/01/Gin%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">剑指offer 56-67</div>
+      <div class="article-nav-title">Gin框架入门</div>
     </a>
   
 </nav>
@@ -316,7 +316,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E3%80%81Gin%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">一、Gin简介</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8C%E3%80%81Gin-%E7%89%B9%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">二、Gin 特性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E8%B7%AF%E7%94%B1%EF%BC%88Route%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">三、路由（Route）</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%9B%9B%E3%80%81HTML%E6%A8%A1%E6%9D%BF"><span class="nav-number">3.1.</span> <span class="nav-text">四、HTML模板</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E3%80%81Gin%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">一、Gin简介</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8C%E3%80%81Gin-%E7%89%B9%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">二、Gin 特性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E8%B7%AF%E7%94%B1%EF%BC%88Route%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">三、路由（Route）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%9B%E3%80%81HTML%E6%A8%A1%E6%9D%BF"><span class="nav-number">4.</span> <span class="nav-text">四、HTML模板</span></a></li></ol>
     
     </div>
   </aside>
