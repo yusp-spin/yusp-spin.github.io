@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>sync(go语言中的同步手段) | 如果方向错误，停止前进就是一种进步</title>
+  <title>操作系统-存储器管理 | 如果方向错误，停止前进就是一种进步</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   
   
   
-  <meta name="description" content="1.sync.WaitGroup​    Go语言中可以使用sync.WaitGroup来实现并发任务的同步。 ​    sync.WaitGroup内部维护着一个计数器，计数器的值可以增加和减少。例如当我们启动了N 个并发任务时，就将计数器值增加N。每个任务完成时通过调用Done()方法将计数器减1。通过调用Wait()来等待并发任务执行完，当计数器值为0时，表示所有并发任务已经完成  sync">
+  <meta name="description" content="1.概述​    存储器管理涉及一下五个功能： ​    1. 存储器分配，主要解决多道程序和多程序如何共享主存的问题 ​    2. 地址转换和重定位，研究各种地址变换方法及相应的地址变换机构 ​    3. 存储器保护 ​    4. 存储器扩充 ​    5. 存储器共享 地址空间：程序限定的空间叫逻辑地址空间，其中的地址叫做相对地址或逻辑地址 存储空间：存储空间是物理存储器中全部物理单元的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Sync(Go语言中的同步手段)">
-<meta property="og:url" content="https://www.yusp-spin.github.io/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/index.html">
+<meta property="og:title" content="操作系统-存储器管理">
+<meta property="og:url" content="https://www.yusp-spin.github.io/2020/11/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/index.html">
 <meta property="og:site_name" content="如果方向错误，停止前进就是一种进步">
-<meta property="og:description" content="1.sync.WaitGroup​    Go语言中可以使用sync.WaitGroup来实现并发任务的同步。 ​    sync.WaitGroup内部维护着一个计数器，计数器的值可以增加和减少。例如当我们启动了N 个并发任务时，就将计数器值增加N。每个任务完成时通过调用Done()方法将计数器减1。通过调用Wait()来等待并发任务执行完，当计数器值为0时，表示所有并发任务已经完成  sync">
+<meta property="og:description" content="1.概述​    存储器管理涉及一下五个功能： ​    1. 存储器分配，主要解决多道程序和多程序如何共享主存的问题 ​    2. 地址转换和重定位，研究各种地址变换方法及相应的地址变换机构 ​    3. 存储器保护 ​    4. 存储器扩充 ​    5. 存储器共享 地址空间：程序限定的空间叫逻辑地址空间，其中的地址叫做相对地址或逻辑地址 存储空间：存储空间是物理存储器中全部物理单元的">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-11-06T03:23:47.000Z">
-<meta property="article:modified_time" content="2020-11-06T03:53:22.025Z">
+<meta property="article:published_time" content="2020-11-07T02:25:43.000Z">
+<meta property="article:modified_time" content="2020-11-07T03:58:33.995Z">
 <meta property="article:author" content="spin">
 <meta name="twitter:card" content="summary">
   
@@ -171,7 +171,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-Sync(Go语言中的同步手段)" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-操作系统-存储器管理" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -179,7 +179,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      Sync(Go语言中的同步手段)
+      操作系统-存储器管理
     </h1>
   
 
@@ -187,12 +187,12 @@
     
     <div class="article-meta">
       
-	<a href="/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/" class="article-date">
-	  <time datetime="2020-11-06T03:23:47.000Z" itemprop="datePublished">2020-11-06</time>
+	<a href="/2020/11/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/" class="article-date">
+	  <time datetime="2020-11-07T02:25:43.000Z" itemprop="datePublished">2020-11-07</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a>
+    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
 
       
 	<a class="article-views">
@@ -206,42 +206,41 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h5 id="1-sync-WaitGroup"><a href="#1-sync-WaitGroup" class="headerlink" title="1.sync.WaitGroup"></a>1.sync.WaitGroup</h5><p>​    Go语言中可以使用sync.WaitGroup来实现并发任务的同步。</p>
-<p>​    sync.WaitGroup内部维护着一个计数器，计数器的值可以增加和减少。例如当我们启动了N 个并发任务时，就将计数器值增加N。每个任务完成时通过调用Done()方法将计数器减1。通过调用Wait()来等待并发任务执行完，当计数器值为0时，表示所有并发任务已经完成</p>
-<pre><code> sync.WaitGroup有以下几个方法：</code></pre>
-<table>
-<thead>
-<tr>
-<th>方法名</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>(wg * WaitGroup) Add(delta int)</td>
-<td>计数器+delta</td>
-</tr>
-<tr>
-<td>(wg *WaitGroup) Done()</td>
-<td>计数器-1</td>
-</tr>
-<tr>
-<td>(wg *WaitGroup) Wait()</td>
-<td>阻塞直到计数器变为0</td>
-</tr>
-</tbody></table>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;sync&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">()</span></span>  &#123;</span><br><span class="line">	<span class="keyword">defer</span> wg.Done()</span><br><span class="line">	fmt.Println(<span class="string">&quot;hello Goroutine!&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	wg.Add(<span class="number">1</span>)</span><br><span class="line">	<span class="keyword">go</span> hello()</span><br><span class="line">	fmt.Println(<span class="string">&quot;main gorountine done&quot;</span>)</span><br><span class="line">	wg.Wait()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h5 id="2-sync-Once"><a href="#2-sync-Once" class="headerlink" title="2.sync.Once"></a>2.sync.Once</h5><p>​    确保某些操作在高并发的场景下只执行一次,sunc.Once是一个针对值执行一次场景的解决方案</p>
-<p>​    整个程序，只会执行printNum()方法一次,print()方法是不会被执行的。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;sync&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> once sync.Once</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> i, v :=<span class="keyword">range</span> <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">10</span>) &#123;</span><br><span class="line">		once.Do(printNum)</span><br><span class="line">		fmt.Println(<span class="string">&quot;count:&quot;</span>,v,<span class="string">&quot;---&quot;</span>,i)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			once.Do(<span class="built_in">print</span>)</span><br><span class="line">			fmt.Println(<span class="string">&quot;hello&quot;</span>)</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	time.Sleep(<span class="number">4000</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">printNum</span><span class="params">()</span></span>  &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;123456&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">print</span><span class="params">()</span></span>  &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;abcdefg&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="3-sync-Map"><a href="#3-sync-Map" class="headerlink" title="3.sync.Map"></a>3.sync.Map</h5><p>​    Go语言中内置的map不是并发安全的,有些场景下就需要为map加锁来保证并发的安全性了，Go语言的sync包中提供了一个开箱即用的并发安全版map–sync.Map。开箱即用表示不用像内置的map一样使用make函数初始化就能直接使用。同时sync.Map内置了诸如Store、Load、LoadOrStore、Delete、Range等操作方法</p>
+        <h5 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h5><p>​    存储器管理涉及一下五个功能：</p>
+<p>​    1. 存储器分配，主要解决多道程序和多程序如何共享主存的问题</p>
+<p>​    2. 地址转换和重定位，研究各种地址变换方法及相应的地址变换机构</p>
+<p>​    3. 存储器保护</p>
+<p>​    4. 存储器扩充</p>
+<p>​    5. 存储器共享</p>
+<p><strong>地址空间</strong>：程序限定的空间叫逻辑地址空间，其中的地址叫做相对地址或逻辑地址</p>
+<p><strong>存储空间</strong>：存储空间是物理存储器中全部物理单元的集合所限定的空间，由字或字节组成的大大的阵列，每个字和字节有自己的编号。</p>
+<p><strong>地址重定位</strong>：</p>
+<ol>
+<li><p>链接</p>
+<p>链接就是将汇编/编译产生的一个或多个目标代码与所需要的库函数装配成一个可执行程序；链接有两种方式：静态和动态。采用静态链接时，在程序装入内存运行前，就将目标模块和库事先连接成可执行程序；动态链接分为装入和运行时两种，装入就是指将目标模块装入主存时，边装入边链接，运行就是指运行时才链接。运行时链接的效率更高</p>
+</li>
+<li><p>静态重定位</p>
+<p>在逻辑地址转换为物理地址的过程中，地址变换是在进程装入时一次完成的，以后不再改变。</p>
+<p><strong>优点</strong>：是无需增加硬件地址转换机构，便于实现程序的静态连接。在早期计算机系统中大多采用这种方案。 </p>
+<p><strong>缺点</strong>：内存空间不能移动；各个用户进程很难共享内存中同一程序的副本</p>
+</li>
+<li><p>动态重定位</p>
+<p>动态运行的装入程序把转入模块装入内存之后，并不立即把装入模块的逻辑地址进行转换，而是把这</p>
+<p>种地址转换推迟到程序执行时才进行，装入内存后的所有地址都仍是逻辑地址。这种方式需要寄存器的支持，其中</p>
+<p>放有当前正在执行的程序在内存空间中的起始地址。</p>
+<p><strong>优点：</strong>内存空间可以移动；各个用户进程可以共享内存中同一程序的副本。</p>
+<p><strong>缺点</strong>：增加了机器成本，而且实现存储管理的软件算法比较复杂。</p>
+<ol start="4">
+<li>存储器保护</li>
+</ol>
+<p>存储器分为两部分，一是操作系统占用区，另一部分是多用户进程分享的用户占用区。保护涉及两个方面：地址越界和存取方式的保护</p>
+<ol start="5">
+<li>存储器共享</li>
+</ol>
+</li>
+</ol>
+<h5 id="2-单用户单道程序的存储器分配"><a href="#2-单用户单道程序的存储器分配" class="headerlink" title="2.单用户单道程序的存储器分配"></a>2.单用户单道程序的存储器分配</h5><p>​    单一连续区分配，整个系统资源利用率低</p>
+<h5 id="3-多用户多道程序存储器分配——分区分配"><a href="#3-多用户多道程序存储器分配——分区分配" class="headerlink" title="3.多用户多道程序存储器分配——分区分配"></a>3.多用户多道程序存储器分配——分区分配</h5><p>​    固定式分区、可变式分区</p>
 
       
     </div>
@@ -255,7 +254,7 @@
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2020/11/06/Sync(Go语言中的同步手段)/" target="_blank" title="Sync(Go语言中的同步手段)">https://www.yusp-spin.github.io/2020/11/06/Sync(Go语言中的同步手段)/</a>
+          <a href="/2020/11/07/操作系统-存储器管理/" target="_blank" title="操作系统-存储器管理">https://www.yusp-spin.github.io/2020/11/07/操作系统-存储器管理/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -303,19 +302,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/11/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          操作系统-存储器管理
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/11/04/Goroutine/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Goroutine</div>
+      <div class="article-nav-title">Sync(Go语言中的同步手段)</div>
     </a>
   
 </nav>
@@ -329,7 +319,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-sync-WaitGroup"><span class="nav-number">1.</span> <span class="nav-text">1.sync.WaitGroup</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-sync-Once"><span class="nav-number">2.</span> <span class="nav-text">2.sync.Once</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-sync-Map"><span class="nav-number">3.</span> <span class="nav-text">3.sync.Map</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E5%8D%95%E7%94%A8%E6%88%B7%E5%8D%95%E9%81%93%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%AD%98%E5%82%A8%E5%99%A8%E5%88%86%E9%85%8D"><span class="nav-number">2.</span> <span class="nav-text">2.单用户单道程序的存储器分配</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E5%A4%9A%E7%94%A8%E6%88%B7%E5%A4%9A%E9%81%93%E7%A8%8B%E5%BA%8F%E5%AD%98%E5%82%A8%E5%99%A8%E5%88%86%E9%85%8D%E2%80%94%E2%80%94%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D"><span class="nav-number">3.</span> <span class="nav-text">3.多用户多道程序存储器分配——分区分配</span></a></li></ol>
     
     </div>
   </aside>
