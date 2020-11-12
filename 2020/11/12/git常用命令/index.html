@@ -3,25 +3,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>unsafe函数六道面试题 | 如果方向错误，停止前进就是一种进步</title>
+  <title>git常用命令 | 如果方向错误，停止前进就是一种进步</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="并发" />
   
   
   
-  
-  <meta name="description" content="Unsafe是什么？ Java 无法直接访问底层操作系统，而是通过本地（native）方法来访问。不过尽管如此，JVM 还是开了一个后门，JDK 中有一个类 Unsafe，底层是使用C&#x2F;C++写的，它提供了硬件级别的原子操作。Unsafe为我们提供了访问底层的机制，这种机制仅供java核心类库使用，而不应该被普通用户使用。  UnSafe的功能主要有：（1）实例化一个类；（2）修改私有字段的值；">
+  <meta name="description" content="git常用操作总结一下，也相当于做个笔记 1、git 配置git config user.name  查看 用户名 git config user.email   查看 邮箱 git config –global user.name   修改 用户名 git config –global user.email   修改 邮箱 ssh-keygen -t rsa -C “ &amp;#121;&amp;#111;&amp;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Unsafe函数六道面试题">
-<meta property="og:url" content="https://www.yusp-spin.github.io/2020/09/14/Unsafe%E5%87%BD%E6%95%B0%E5%85%AD%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:title" content="Git常用命令">
+<meta property="og:url" content="https://www.yusp-spin.github.io/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
 <meta property="og:site_name" content="如果方向错误，停止前进就是一种进步">
-<meta property="og:description" content="Unsafe是什么？ Java 无法直接访问底层操作系统，而是通过本地（native）方法来访问。不过尽管如此，JVM 还是开了一个后门，JDK 中有一个类 Unsafe，底层是使用C&#x2F;C++写的，它提供了硬件级别的原子操作。Unsafe为我们提供了访问底层的机制，这种机制仅供java核心类库使用，而不应该被普通用户使用。  UnSafe的功能主要有：（1）实例化一个类；（2）修改私有字段的值；">
+<meta property="og:description" content="git常用操作总结一下，也相当于做个笔记 1、git 配置git config user.name  查看 用户名 git config user.email   查看 邮箱 git config –global user.name   修改 用户名 git config –global user.email   修改 邮箱 ssh-keygen -t rsa -C “ &amp;#121;&amp;#111;&amp;">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-09-14T13:22:47.000Z">
-<meta property="article:modified_time" content="2020-11-04T05:31:19.510Z">
+<meta property="article:published_time" content="2020-11-12T13:58:13.000Z">
+<meta property="article:modified_time" content="2020-11-12T14:01:50.753Z">
 <meta property="article:author" content="spin">
-<meta property="article:tag" content="并发">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="如果方向错误，停止前进就是一种进步" type="application/atom+xml">
@@ -174,7 +171,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-Unsafe函数六道面试题" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-git常用命令" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -182,7 +179,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      Unsafe函数六道面试题
+      Git常用命令
     </h1>
   
 
@@ -190,12 +187,12 @@
     
     <div class="article-meta">
       
-	<a href="/2020/09/14/Unsafe%E5%87%BD%E6%95%B0%E5%85%AD%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/" class="article-date">
-	  <time datetime="2020-09-14T13:22:47.000Z" itemprop="datePublished">2020-09-14</time>
+	<a href="/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="article-date">
+	  <time datetime="2020-11-12T13:58:13.000Z" itemprop="datePublished">2020-11-12</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88java%EF%BC%89/">并发编程（java）</a>
+    <a class="article-category-link" href="/categories/Git/">Git</a>
 
       
 	<a class="article-views">
@@ -209,27 +206,68 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <ol>
-<li><p>Unsafe是什么？<br> Java 无法直接访问底层操作系统，而是通过本地（native）方法来访问。不过尽管如此，JVM 还是开了一个后门，JDK 中有一个类 Unsafe，底层是使用C/C++写的，它提供了硬件级别的原子操作。Unsafe为我们提供了访问底层的机制，这种机制仅供java核心类库使用，而不应该被普通用户使用。</p>
-<p> UnSafe的功能主要有：（1）实例化一个类；（2）修改私有字段的值；（3）抛出checked异常；（4）使用堆外内存；（5）CAS操作；（6）阻塞/唤醒线程；（7）内存屏障</p>
-</li>
-<li><p>Unsafe为什么是不安全的？<br> 因为官方不推荐使用,因为不安全,例如你使用unsafe创建一个超级大的数组,但是这个数组jvm是不管理的,只能你自己操作,容易oom,也不利于资源的回收.</p>
-</li>
-<li><p>Unsafe的实例怎么获取？<br> a. 在jdk8和之前如果获得其单例对象是会抛出异常的，只能通过反射获取，在jdk9及以后，可以通过getUnsafe静态方法获取<br> b. 我们知道 unsafe是提供给java核心内库使用的，那么我们如何获取Unsafe的实例呢？当然是反射！<br> c. 代码：</p>
-<pre><code> Field f = Unsafe.class.getDeclaredField(&quot;theUnsafe&quot;);
- f.setAccessible(true);
- Unsafe unsafe = (Unsafe) f.get(null);</code></pre>
-</li>
-<li><p>讲一讲Unsafe中的CAS操作？<br> a. JUC中用到了大量的CAS，他们的底层其实都是采用Unsafe的CAS操作，<br> b. CAS（比较与交换，Compare and swap）是一种有名的无锁算法,因为不需要加锁，性能比加锁搞。CAS是一个CPU指令。CAS还是一个乐观锁技术<br> c. CAS存在的问题：</p>
-<pre><code> i. 经典的ABA问题，危害有（以栈举例），解决方案：版本号控制，有的数据结构在高位用邮戳标记；不重复使用节点引用，而是构建新的节点，
- ii. CAS常常搭配自旋一起使用，如果自选长时间不成功，循环时间长 开销大
- iii. 只能保持一个共享变量的安全操作</code></pre>
-</li>
-<li><p>Unsafe的阻塞/唤醒操作？<br> a. LockSupport类中的park与unpark方法对unsafe中的park与unpark方法做了封装，LockSupport类中有各种版本pack方法，但最终都调用了Unsafe.park()方法。</p>
-</li>
-<li><p>实例化类的六种方式？<br> a. 通过构造方法new一个对象<br> b. 通过Class实例一个类<br> c. 通过发射实例化一个雷<br> d. 通过克隆<br> e. 通过反序列化<br> f. 通过Unsafe实例化一个类</p>
-</li>
-</ol>
+        <p>git常用操作总结一下，也相当于做个笔记</p>
+<h5 id="1、git-配置"><a href="#1、git-配置" class="headerlink" title="1、git 配置"></a>1、git 配置</h5><p>git config user.name  查看 用户名</p>
+<p>git config user.email   查看 邮箱</p>
+<p>git config –global user.name <name>  修改 用户名</p>
+<p>git config –global user.email <email>  修改 邮箱</p>
+<p>ssh-keygen -t rsa -C “ <a href="mailto:&#121;&#111;&#x75;&#x72;&#95;&#101;&#x6d;&#x61;&#x69;&#108;&#x40;&#x65;&#x78;&#x61;&#109;&#112;&#x6c;&#x65;&#x2e;&#x63;&#x6f;&#109;">&#121;&#111;&#x75;&#x72;&#95;&#101;&#x6d;&#x61;&#x69;&#108;&#x40;&#x65;&#x78;&#x61;&#109;&#112;&#x6c;&#x65;&#x2e;&#x63;&#x6f;&#109;</a>“ 创建SSH key 【可以填写任意值作为注释key，例如邮箱】</p>
+<p>ssh -T <a href="mailto:&#x67;&#x69;&#116;&#x40;&#x67;&#x69;&#116;&#101;&#101;&#x2e;&#99;&#x6f;&#x6d;">&#x67;&#x69;&#116;&#x40;&#x67;&#x69;&#116;&#101;&#101;&#x2e;&#99;&#x6f;&#x6d;</a> 测试该SHH key 已添加到 gitee.com【码云】</p>
+<h5 id="2、创建版本库"><a href="#2、创建版本库" class="headerlink" title="2、创建版本库"></a>2、创建版本库</h5><p>git init  初始化本地版本库【创建一个 .git的子目录】</p>
+<p>git init [project-name]  新建一个目录，并将其初始化为 git 代码库；</p>
+<p>git clone <url>  克隆远程版本库；</p>
+<h5 id="3、修改和提交"><a href="#3、修改和提交" class="headerlink" title="3、修改和提交"></a>3、修改和提交</h5><p>git status  显示文件的状态 【红色表示被修改没提交到暂存区，绿色代表已提交到暂存区；】</p>
+<p>git status -s  以极简的方式显示文件的状态【红色的M 表示被修改没提交到暂存区，绿色的M代表已提交到暂存区；】</p>
+<p><strong>git add</strong>  将文件从工作目录添加至暂存区；</p>
+<p>　　git add -u | –update  仅将被修改的文件添加至暂存区（不包含新添加的文件）；</p>
+<p>　　git add .  将被修改的文件 和 新添加的文件提交到暂存区（不包含已经删除的文件）；</p>
+<p>　　git add -a  将本地所有修改的内容添加至暂存区（包含新添加的 和 已经删除的）；</p>
+<p><strong>git commit</strong>  将暂存区的修改提交到本地仓库，同时生成一个commit-id；</p>
+<p>　　git commit -m <message>  将暂存区修改提交到本地仓库</p>
+<p>　　git commit -a -m <message>  将工作区的修改提交到本地仓库 【相当于 <strong>git add + git commit</strong> 】</p>
+<p>　　git commit -amend  修改上一次提交【代码没有任何变化，则修改提交信息】</p>
+<h5 id="4、分支操作"><a href="#4、分支操作" class="headerlink" title="4、分支操作"></a>4、分支操作</h5><p><strong>git branch</strong></p>
+<p>　　git branch  列出所有本地分支</p>
+<p>　　git branch -r  列出所有远程分支</p>
+<p>　　git branch -a 列出所有本地和远程分支</p>
+<p>　　git branch [branch-name]  新建一个分支，仍停留在当前分支</p>
+<p>　　git branch -m <nameA> <nameB>  将分支nameA 改名为 nameB</p>
+<p>　　git branch -d [branch-name] 删除分支</p>
+<p><strong>git checkout</strong></p>
+<p>　　git checkout [branch-name]  切换到指定分支</p>
+<p>　　git checkout -b [branch-name]  新建一个分支，并切换到该分支</p>
+<p>　　git checkout - 切换到上一个分支</p>
+<p><strong>git merge</strong></p>
+<p>　　git merge [branch-name] 合并指定分支到当前分支</p>
+<h5 id="5、远程操作"><a href="#5、远程操作" class="headerlink" title="5、远程操作"></a>5、远程操作</h5><p>git fetch 将远程主机上所有分支的更新取回本地，并记录在 .git/FETCH_HEAD 中；</p>
+<p>　　git fetch <remote-name> 下载远程仓库的所有变动；</p>
+<p>　　git fetch <remote-name> master:test 在本地新建test 分支，并将主机上master分支代码下载到本地 test 分支；</p>
+<p><strong>git remote</strong></p>
+<p>　　git remote -v  显示所有远程仓库</p>
+<p>　　git remote show <remote-name> 显示某个远程仓库的信息</p>
+<p>　　git remote add <remote-name> [ url ] 增加一个新的远程仓库 并命名</p>
+<p><strong>git pull</strong></p>
+<p>　　git pull &lt;远程主机名&gt; &lt;远程分支名&gt; : &lt;本地分支名&gt;  取回远程仓库某个分支的更新，并与本地分支合并</p>
+<p>　　git pull origin dev: master 取回远程主机的 dev 分支，与本地的master分支合并</p>
+<p>　　git pull origin dev 相当于以下两个命令：</p>
+<p>　　　　git fetch origin 获取远程主机上所有分支的更新</p>
+<p>　　　　git merge origin/dev 与当前分支合并</p>
+<p><strong>git push</strong></p>
+<p>　　git push &lt;远程主机名&gt; &lt;本地分支名&gt; : &lt;远程分支&gt; 上传本地指定分支到远程仓库的指定分支</p>
+<p>　　　　省略远程分支名，表示将本地分支推送到与之存在“追踪关系”的远程分支，通常两者同名，后者不存在，将会被创建；</p>
+<p>　　　　省略本地分支名，表示删除指定的远程分支【这相当推送一个空的本地分支到远程分支】；</p>
+<p>　　git push origin master 将本地的master 分支推送到 origin 主机的master 分支【后者不存在，将会被创建】</p>
+<p>　　git push origin : master 删除 origin 主机的master 分支；【相当于 git push origin –delete master】</p>
+<h5 id="6、撤销修改"><a href="#6、撤销修改" class="headerlink" title="6、撤销修改"></a>6、撤销修改</h5><p>撤销工作区的修改： 【文件修改之后撤销】</p>
+<p>　　git checkout – file 恢复暂存区的指定文件到工作区</p>
+<p>　　git checkout . 恢复暂存区的所有文件到工作区</p>
+<p>撤销暂存区的修改： 【git add 之后】</p>
+<p>　　git reste HEAD <file></p>
+<p>版本回退 ：</p>
+<p>　　 git reset –hard <commit_id> </p>
+<p>git log 查看提交历史，确定回退到那个版本；</p>
+<p>git reflog 查看历史命令，确定回到未来的版本；</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/james23dong/p/12375970.html">https://www.cnblogs.com/james23dong/p/12375970.html</a></p>
 
       
     </div>
@@ -243,7 +281,7 @@
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2020/09/14/Unsafe函数六道面试题/" target="_blank" title="Unsafe函数六道面试题">https://www.yusp-spin.github.io/2020/09/14/Unsafe函数六道面试题/</a>
+          <a href="/2020/11/12/git常用命令/" target="_blank" title="Git常用命令">https://www.yusp-spin.github.io/2020/11/12/git常用命令/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -283,8 +321,6 @@
       
       
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li></ul>
-
       
 
     </footer>
@@ -293,19 +329,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/09/14/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E5%AD%97%E7%AC%A6%E4%B8%B2/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          动态规划-字符串
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/09/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/11/09/Netty%E4%BB%8B%E7%BB%8D/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">背包问题</div>
+      <div class="article-nav-title">Netty介绍</div>
     </a>
   
 </nav>
@@ -319,7 +346,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav">None</ol>
+        <ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#1%E3%80%81git-%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">1、git 配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2%E3%80%81%E5%88%9B%E5%BB%BA%E7%89%88%E6%9C%AC%E5%BA%93"><span class="nav-number">2.</span> <span class="nav-text">2、创建版本库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3%E3%80%81%E4%BF%AE%E6%94%B9%E5%92%8C%E6%8F%90%E4%BA%A4"><span class="nav-number">3.</span> <span class="nav-text">3、修改和提交</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4%E3%80%81%E5%88%86%E6%94%AF%E6%93%8D%E4%BD%9C"><span class="nav-number">4.</span> <span class="nav-text">4、分支操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5%E3%80%81%E8%BF%9C%E7%A8%8B%E6%93%8D%E4%BD%9C"><span class="nav-number">5.</span> <span class="nav-text">5、远程操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6%E3%80%81%E6%92%A4%E9%94%80%E4%BF%AE%E6%94%B9"><span class="nav-number">6.</span> <span class="nav-text">6、撤销修改</span></a></li></ol>
     
     </div>
   </aside>
