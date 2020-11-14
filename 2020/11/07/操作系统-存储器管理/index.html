@@ -17,7 +17,7 @@
 <meta property="og:description" content="1.概述​    存储器管理涉及一下五个功能： ​    1. 存储器分配，主要解决多道程序和多程序如何共享主存的问题 ​    2. 地址转换和重定位，研究各种地址变换方法及相应的地址变换机构 ​    3. 存储器保护 ​    4. 存储器扩充 ​    5. 存储器共享 地址空间：程序限定的空间叫逻辑地址空间，其中的地址叫做相对地址或逻辑地址 存储空间：存储空间是物理存储器中全部物理单元的">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-11-07T02:25:43.000Z">
-<meta property="article:modified_time" content="2020-11-14T11:44:12.205Z">
+<meta property="article:modified_time" content="2020-11-14T13:06:40.637Z">
 <meta property="article:author" content="spin">
 <meta name="twitter:card" content="summary">
   
@@ -241,8 +241,16 @@
 </ol>
 <h5 id="2-单用户单道程序的存储器分配"><a href="#2-单用户单道程序的存储器分配" class="headerlink" title="2.单用户单道程序的存储器分配"></a>2.单用户单道程序的存储器分配</h5><p>​    单一连续区分配，整个系统资源利用率低</p>
 <h5 id="3-多用户多道程序存储器分配——分区分配"><a href="#3-多用户多道程序存储器分配——分区分配" class="headerlink" title="3.多用户多道程序存储器分配——分区分配"></a>3.多用户多道程序存储器分配——分区分配</h5><p>​    固定式分区、可变式分区</p>
-<p>​    固定式分区：</p>
-<p>​    可变式分区：</p>
+<h6 id="固定式分区"><a href="#固定式分区" class="headerlink" title="固定式分区"></a>固定式分区</h6><p>​    固定式分区是适合多到程序运行的最简单的存储器管理，把主存用户区预先划分为几个大小不等的区域，当进程到达时，选择一个合适进程要求最小的，空闲分区分给进程；没有合适的空闲分区的时候，让其等待。为了充分利用存储器，将进程按照请求空间的大小在不同分区排队等待。</p>
+<p>​    这种方法管理简单，但有可能出现大分区队列空闲，小分区队列拥挤的现象。当这情况出现时，会使存储器造成更大的浪费，为了充分利用存储器，系统只维护一个存储器等待队列，任何时候，只要有一个分区变为空闲，队列中的一个进程就可装入运行</p>
+<h6 id="可变式分区"><a href="#可变式分区" class="headerlink" title="可变式分区"></a>可变式分区</h6><p>​    为了提高存储器的利用率，存储空间的划分推迟到装入进程时进行，当进程要求运行时，系统从空闲的存储空间划分出大小正好等于进程大小的一个存储区分配给进程，这叫做可变式分区或者动态分区，使用这种技术时，分区的大小和个数不断变化。</p>
+<p>​    可变式分区能改进存储器的使用效率，但是却使存储的分配和释放工作复杂了</p>
+<h6 id="可变式分区管理使用的数据结构"><a href="#可变式分区管理使用的数据结构" class="headerlink" title="可变式分区管理使用的数据结构"></a>可变式分区管理使用的数据结构</h6><p>​    1.分区说明表：由两张表格组成，一张是已分配区表，记录已分配给进程的分区情况；另一张是未分区表，记录主存空闲区的情况。</p>
+<p>​    2.空闲区链：记录存储空间的一个较好方法就是表格信息附加在每个已分配取和未分配区中，通常将表格信息放在每个分区的首字或尾字中。已分配的信息放在各个进程的PCB表中，空闲区的信息用空闲链表管理</p>
+<h6 id="分区管理的地址重定位和存储器保护"><a href="#分区管理的地址重定位和存储器保护" class="headerlink" title="分区管理的地址重定位和存储器保护"></a>分区管理的地址重定位和存储器保护</h6><p>​    固定式分区采用静态重定位，在装入的时候，上下界限两个寄存器来保护存储器，方式地址越界错误</p>
+<p>​    可变式分区采用动态重定位，系统会设置一个基址（重定位）寄存器，存放运行进程分配的主存区起始地址，再增设一个限长寄存器，用来存放运行程序的大小，也是起到保护作用。</p>
+<h6 id="分区管理的优缺点"><a href="#分区管理的优缺点" class="headerlink" title="分区管理的优缺点"></a>分区管理的优缺点</h6><p>​    优点：实现了多道程序共享主存、实现分区管理的系统设计相对简单、实现存储器保护的手段也比较简单</p>
+<p>​    缺点：主存利用不够充分、没有实现主存的扩充问题</p>
 
       
     </div>
@@ -330,7 +338,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E5%8D%95%E7%94%A8%E6%88%B7%E5%8D%95%E9%81%93%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%AD%98%E5%82%A8%E5%99%A8%E5%88%86%E9%85%8D"><span class="nav-number">2.</span> <span class="nav-text">2.单用户单道程序的存储器分配</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E5%A4%9A%E7%94%A8%E6%88%B7%E5%A4%9A%E9%81%93%E7%A8%8B%E5%BA%8F%E5%AD%98%E5%82%A8%E5%99%A8%E5%88%86%E9%85%8D%E2%80%94%E2%80%94%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D"><span class="nav-number">3.</span> <span class="nav-text">3.多用户多道程序存储器分配——分区分配</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E5%8D%95%E7%94%A8%E6%88%B7%E5%8D%95%E9%81%93%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%AD%98%E5%82%A8%E5%99%A8%E5%88%86%E9%85%8D"><span class="nav-number">2.</span> <span class="nav-text">2.单用户单道程序的存储器分配</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E5%A4%9A%E7%94%A8%E6%88%B7%E5%A4%9A%E9%81%93%E7%A8%8B%E5%BA%8F%E5%AD%98%E5%82%A8%E5%99%A8%E5%88%86%E9%85%8D%E2%80%94%E2%80%94%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D"><span class="nav-number">3.</span> <span class="nav-text">3.多用户多道程序存储器分配——分区分配</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%9B%BA%E5%AE%9A%E5%BC%8F%E5%88%86%E5%8C%BA"><span class="nav-number">3.1.</span> <span class="nav-text">固定式分区</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8F%AF%E5%8F%98%E5%BC%8F%E5%88%86%E5%8C%BA"><span class="nav-number">3.2.</span> <span class="nav-text">可变式分区</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8F%AF%E5%8F%98%E5%BC%8F%E5%88%86%E5%8C%BA%E7%AE%A1%E7%90%86%E4%BD%BF%E7%94%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">3.3.</span> <span class="nav-text">可变式分区管理使用的数据结构</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%88%86%E5%8C%BA%E7%AE%A1%E7%90%86%E7%9A%84%E5%9C%B0%E5%9D%80%E9%87%8D%E5%AE%9A%E4%BD%8D%E5%92%8C%E5%AD%98%E5%82%A8%E5%99%A8%E4%BF%9D%E6%8A%A4"><span class="nav-number">3.4.</span> <span class="nav-text">分区管理的地址重定位和存储器保护</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%88%86%E5%8C%BA%E7%AE%A1%E7%90%86%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">3.5.</span> <span class="nav-text">分区管理的优缺点</span></a></li></ol></li></ol>
     
     </div>
   </aside>
