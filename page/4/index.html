@@ -310,7 +310,7 @@
         
           <section id="main" style="float:none;">
   
-    <article id="post-阿里面经"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-背包问题"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -318,7 +318,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/09/14/%E9%98%BF%E9%87%8C%E9%9D%A2%E7%BB%8F/">阿里面经</a>
+      <a class="article-title" href="/2020/09/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">背包问题</a>
     </h1>
   
 
@@ -326,12 +326,12 @@
     
     <div class="article-meta">
       
-	<a href="/2020/09/14/%E9%98%BF%E9%87%8C%E9%9D%A2%E7%BB%8F/" class="article-date">
+	<a href="/2020/09/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" class="article-date">
 	  <time datetime="2020-09-14T07:22:47.000Z" itemprop="datePublished">2020-09-14</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a>
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
 
       
       
@@ -340,36 +340,12 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          阿里一面：
-自我介绍 
-IOC的流程 
-熟悉啥数据库 
-设计一个树形结构的组织 
-写过注解没 
-秒杀项目的架构 
-项目中遇到的最大难题 
-类加载流程 
-什么时候触发full GC 
-空间分配担保失败 
-hashmap的底层 
-堆和栈的区别 
-Callable和Runable的区别 
-抽象类和接口的区别 
-反射的原理 
-
-二面：
-自我介绍
-
-讲讲秒杀项目的逻辑和架构？ 
-
-悲观锁性能不高为什么还要用分布式锁（单纯为了对比） 
-
-什么时候是行锁，什么时候是表锁？ 
-
-redis和zk做分布式锁...
+          今天来个简单的背包问题大汇总
+1. 01背包​    01背包顾名思义就是对一种物品只有选或者不选两种选择​    对于背包体积为W，物品数量是N，每个物品的体积是w[i]，每个物品的价值是price[i]的选择，求用这个背包装下的物品价值最大​    dp[i][j]表示数量为i体积为j的时候选出的最大价值​    方程：dp[i][j]=Math.max(dp[i-1][j],dp[i][j-w[i]]+prices[i])
+123456789101112131415161718pub...
         </p>
         <p class="article-more-link">
-          <a href="/2020/09/14/%E9%98%BF%E9%87%8C%E9%9D%A2%E7%BB%8F/#more">Read More</a>
+          <a href="/2020/09/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/#more">Read More</a>
         </p>
       
     </div>
