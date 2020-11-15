@@ -310,6 +310,65 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-了解ConcurrentHashMap"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2020/11/15/%E4%BA%86%E8%A7%A3ConcurrentHashMap/">了解ConcurrentHashMap</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/11/15/%E4%BA%86%E8%A7%A3ConcurrentHashMap/" class="article-date">
+	  <time datetime="2020-11-15T02:09:01.000Z" itemprop="datePublished">2020-11-15</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+
+      
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          
+ConcurrentHashMap中没有负载因子和阈值吗 是没有，改用了sizeCtl控制，0表示默认值，-1表示正在扩容，&gt;0表示下一次扩容的门槛，-（1+nThreads）n个线程正在扩容，sizeCtl的变化都是CAS操作
+ sizeCtl：
+ （1）-1，表示有线程正在进行初始化操作
+ （2）-(1 + nThreads)，表示有n个线程正在一起扩容
+ （3）0，默认值，后续在真正初始化的时候使用默认容量
+ （4）&gt; 0，初始化或扩容完成后下一次的扩容门槛
+ 1234...
+        </p>
+        <p class="article-more-link">
+          <a href="/2020/11/15/%E4%BA%86%E8%A7%A3ConcurrentHashMap/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-操作系统-存储器管理"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -407,7 +466,7 @@
 git config user.email   查看 邮箱
 git config –global user.name   修改 用户名
 git config –global user.email   修改 邮箱
-ssh-keygen -t rsa -C “ &#x79;&#111;&#x75;&#114;&#95;&#101;&#109;&#x61;&#x69;&#x6c;&...
+ssh-keygen -t rsa -C “ &#x79;&#111;&#117;&#x72;&#95;&#101;&#x6d;&#97;&#x69;&#x6c;&#...
         </p>
         <p class="article-more-link">
           <a href="/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#more">Read More</a>
@@ -798,59 +857,6 @@ ssh-keygen -t rsa -C “ &#x79;&#111;&#x75;&#114;&#95;&#101;&#109;&#x61;&#x69;&#
         </p>
         <p class="article-more-link">
           <a href="/2020/11/01/%E5%89%91%E6%8C%87offer%2056-67/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-操作系统-进程管理-用户级线程和内核级线程的区别"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/10/31/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86-%E7%94%A8%E6%88%B7%E7%BA%A7%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%86%85%E6%A0%B8%E7%BA%A7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/">操作系统-进程管理-用户级线程和内核级线程的区别</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2020/10/31/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86-%E7%94%A8%E6%88%B7%E7%BA%A7%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%86%85%E6%A0%B8%E7%BA%A7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
-	  <time datetime="2020-10-31T09:07:23.000Z" itemprop="datePublished">2020-10-31</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
-
-      
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          一、线程的分类​    线程的实现可以分为两大类：用户级线程和内核级线程。
-1.用户级线程​    在一个纯粹的用户级线程软件中，有关线程管理的所有工作都由应用程序完成，内核意识不到线程的存在。任何应用程序都可以通过使用线程库被设计成多线程程序。线程库是用于用户级线程管理的一个例程包，它包含用于创建和销毁线程的代码、在线程间传递消息和数据的代码、调度线程执行的代码、以及保存和恢复线程上下文的代码。在默认情况下，应用程序从单线程开始，并在该线程中开始运行。该应用程序及其线程被分配给一个由内核...
-        </p>
-        <p class="article-more-link">
-          <a href="/2020/10/31/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86-%E7%94%A8%E6%88%B7%E7%BA%A7%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%86%85%E6%A0%B8%E7%BA%A7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/#more">Read More</a>
         </p>
       
     </div>
