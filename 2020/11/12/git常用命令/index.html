@@ -9,12 +9,12 @@
   
   
   
-  <meta name="description" content="git常用操作总结一下，也相当于做个笔记 1、git 配置git config user.name  查看 用户名 git config user.email   查看 邮箱 git config –global user.name   修改 用户名 git config –global user.email   修改 邮箱 ssh-keygen -t rsa -C “ &amp;#x79;&amp;#111;&amp;">
+  <meta name="description" content="git常用操作总结一下，也相当于做个笔记 1、git 配置git config user.name  查看 用户名 git config user.email   查看 邮箱 git config –global user.name   修改 用户名 git config –global user.email   修改 邮箱 ssh-keygen -t rsa -C “ &amp;#121;&amp;#x6f;&amp;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git常用命令">
 <meta property="og:url" content="https://www.yusp-spin.github.io/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
 <meta property="og:site_name" content="如果方向错误，停止前进就是一种进步">
-<meta property="og:description" content="git常用操作总结一下，也相当于做个笔记 1、git 配置git config user.name  查看 用户名 git config user.email   查看 邮箱 git config –global user.name   修改 用户名 git config –global user.email   修改 邮箱 ssh-keygen -t rsa -C “ &amp;#x79;&amp;#111;&amp;">
+<meta property="og:description" content="git常用操作总结一下，也相当于做个笔记 1、git 配置git config user.name  查看 用户名 git config user.email   查看 邮箱 git config –global user.name   修改 用户名 git config –global user.email   修改 邮箱 ssh-keygen -t rsa -C “ &amp;#121;&amp;#x6f;&amp;">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-11-12T13:58:13.000Z">
 <meta property="article:modified_time" content="2020-11-12T14:01:50.753Z">
@@ -209,13 +209,13 @@
         <p>git常用操作总结一下，也相当于做个笔记</p>
 <h5 id="1、git-配置"><a href="#1、git-配置" class="headerlink" title="1、git 配置"></a>1、git 配置</h5><p>git config user.name  查看 用户名</p>
 <p>git config user.email   查看 邮箱</p>
-<p>git config –global user.name <name>  修改 用户名</p>
-<p>git config –global user.email <email>  修改 邮箱</p>
-<p>ssh-keygen -t rsa -C “ <a href="mailto:&#x79;&#111;&#x75;&#x72;&#x5f;&#101;&#x6d;&#x61;&#105;&#108;&#64;&#x65;&#120;&#x61;&#x6d;&#x70;&#108;&#x65;&#46;&#99;&#111;&#x6d;">&#x79;&#111;&#x75;&#x72;&#x5f;&#101;&#x6d;&#x61;&#105;&#108;&#64;&#x65;&#120;&#x61;&#x6d;&#x70;&#108;&#x65;&#46;&#99;&#111;&#x6d;</a>“ 创建SSH key 【可以填写任意值作为注释key，例如邮箱】</p>
-<p>ssh -T <a href="mailto:&#x67;&#105;&#x74;&#64;&#x67;&#105;&#116;&#101;&#x65;&#46;&#99;&#111;&#109;">&#x67;&#105;&#x74;&#64;&#x67;&#105;&#116;&#101;&#x65;&#46;&#99;&#111;&#109;</a> 测试该SHH key 已添加到 gitee.com【码云】</p>
+<p>git config –global user.name <name>  修改 用户名</name></p>
+<p>git config –global user.email <email>  修改 邮箱</email></p>
+<p>ssh-keygen -t rsa -C “ <a href="mailto:&#121;&#x6f;&#117;&#x72;&#95;&#x65;&#x6d;&#97;&#x69;&#x6c;&#64;&#101;&#x78;&#x61;&#x6d;&#112;&#x6c;&#x65;&#46;&#99;&#111;&#x6d;">&#121;&#x6f;&#117;&#x72;&#95;&#x65;&#x6d;&#97;&#x69;&#x6c;&#64;&#101;&#x78;&#x61;&#x6d;&#112;&#x6c;&#x65;&#46;&#99;&#111;&#x6d;</a>“ 创建SSH key 【可以填写任意值作为注释key，例如邮箱】</p>
+<p>ssh -T <a href="mailto:&#103;&#x69;&#x74;&#64;&#x67;&#105;&#116;&#101;&#x65;&#46;&#99;&#111;&#109;">&#103;&#x69;&#x74;&#64;&#x67;&#105;&#116;&#101;&#x65;&#46;&#99;&#111;&#109;</a> 测试该SHH key 已添加到 gitee.com【码云】</p>
 <h5 id="2、创建版本库"><a href="#2、创建版本库" class="headerlink" title="2、创建版本库"></a>2、创建版本库</h5><p>git init  初始化本地版本库【创建一个 .git的子目录】</p>
 <p>git init [project-name]  新建一个目录，并将其初始化为 git 代码库；</p>
-<p>git clone <url>  克隆远程版本库；</p>
+<p>git clone <url>  克隆远程版本库；</url></p>
 <h5 id="3、修改和提交"><a href="#3、修改和提交" class="headerlink" title="3、修改和提交"></a>3、修改和提交</h5><p>git status  显示文件的状态 【红色表示被修改没提交到暂存区，绿色代表已提交到暂存区；】</p>
 <p>git status -s  以极简的方式显示文件的状态【红色的M 表示被修改没提交到暂存区，绿色的M代表已提交到暂存区；】</p>
 <p><strong>git add</strong>  将文件从工作目录添加至暂存区；</p>
@@ -223,15 +223,15 @@
 <p>　　git add .  将被修改的文件 和 新添加的文件提交到暂存区（不包含已经删除的文件）；</p>
 <p>　　git add -a  将本地所有修改的内容添加至暂存区（包含新添加的 和 已经删除的）；</p>
 <p><strong>git commit</strong>  将暂存区的修改提交到本地仓库，同时生成一个commit-id；</p>
-<p>　　git commit -m <message>  将暂存区修改提交到本地仓库</p>
-<p>　　git commit -a -m <message>  将工作区的修改提交到本地仓库 【相当于 <strong>git add + git commit</strong> 】</p>
+<p>　　git commit -m <message>  将暂存区修改提交到本地仓库</message></p>
+<p>　　git commit -a -m <message>  将工作区的修改提交到本地仓库 【相当于 <strong>git add + git commit</strong> 】</message></p>
 <p>　　git commit -amend  修改上一次提交【代码没有任何变化，则修改提交信息】</p>
 <h5 id="4、分支操作"><a href="#4、分支操作" class="headerlink" title="4、分支操作"></a>4、分支操作</h5><p><strong>git branch</strong></p>
 <p>　　git branch  列出所有本地分支</p>
 <p>　　git branch -r  列出所有远程分支</p>
 <p>　　git branch -a 列出所有本地和远程分支</p>
 <p>　　git branch [branch-name]  新建一个分支，仍停留在当前分支</p>
-<p>　　git branch -m <nameA> <nameB>  将分支nameA 改名为 nameB</p>
+<p>　　git branch -m <nameA> <nameB>  将分支nameA 改名为 nameB</nameB></nameA></p>
 <p>　　git branch -d [branch-name] 删除分支</p>
 <p><strong>git checkout</strong></p>
 <p>　　git checkout [branch-name]  切换到指定分支</p>
@@ -240,12 +240,12 @@
 <p><strong>git merge</strong></p>
 <p>　　git merge [branch-name] 合并指定分支到当前分支</p>
 <h5 id="5、远程操作"><a href="#5、远程操作" class="headerlink" title="5、远程操作"></a>5、远程操作</h5><p>git fetch 将远程主机上所有分支的更新取回本地，并记录在 .git/FETCH_HEAD 中；</p>
-<p>　　git fetch <remote-name> 下载远程仓库的所有变动；</p>
-<p>　　git fetch <remote-name> master:test 在本地新建test 分支，并将主机上master分支代码下载到本地 test 分支；</p>
+<p>　　git fetch <remote-name> 下载远程仓库的所有变动；</remote-name></p>
+<p>　　git fetch <remote-name> master:test 在本地新建test 分支，并将主机上master分支代码下载到本地 test 分支；</remote-name></p>
 <p><strong>git remote</strong></p>
 <p>　　git remote -v  显示所有远程仓库</p>
-<p>　　git remote show <remote-name> 显示某个远程仓库的信息</p>
-<p>　　git remote add <remote-name> [ url ] 增加一个新的远程仓库 并命名</p>
+<p>　　git remote show <remote-name> 显示某个远程仓库的信息</remote-name></p>
+<p>　　git remote add <remote-name> [ url ] 增加一个新的远程仓库 并命名</remote-name></p>
 <p><strong>git pull</strong></p>
 <p>　　git pull &lt;远程主机名&gt; &lt;远程分支名&gt; : &lt;本地分支名&gt;  取回远程仓库某个分支的更新，并与本地分支合并</p>
 <p>　　git pull origin dev: master 取回远程主机的 dev 分支，与本地的master分支合并</p>
@@ -262,9 +262,9 @@
 <p>　　git checkout – file 恢复暂存区的指定文件到工作区</p>
 <p>　　git checkout . 恢复暂存区的所有文件到工作区</p>
 <p>撤销暂存区的修改： 【git add 之后】</p>
-<p>　　git reste HEAD <file></p>
+<p>　　git reste HEAD <file></file></p>
 <p>版本回退 ：</p>
-<p>　　 git reset –hard <commit_id> </p>
+<p>　　 git reset –hard <commit_id> </commit_id></p>
 <p>git log 查看提交历史，确定回退到那个版本；</p>
 <p>git reflog 查看历史命令，确定回到未来的版本；</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/james23dong/p/12375970.html">https://www.cnblogs.com/james23dong/p/12375970.html</a></p>

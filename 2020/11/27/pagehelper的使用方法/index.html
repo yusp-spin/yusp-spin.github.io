@@ -18,7 +18,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.yusp-spin.github.io/2020/11/27/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/..%5Cphoto%5Cfenye.png">
 <meta property="article:published_time" content="2020-11-27T02:55:54.000Z">
-<meta property="article:modified_time" content="2020-11-27T03:57:10.162Z">
+<meta property="article:modified_time" content="2020-11-27T04:05:25.361Z">
 <meta property="article:author" content="spin">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://www.yusp-spin.github.io/2020/11/27/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/..%5Cphoto%5Cfenye.png">
@@ -210,7 +210,7 @@
       
         <h5 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h5><p>现在一般springboot，mybatis项目中的mapper，pojo都是通过逆向工程直接生成的，但是生成的mapper中的查询语句中是没有分页功能的，如果想要分页的话，只能自己再去xml配置文件中修改sql语句，显得特别麻烦。为了方便快捷的翻页，这里引入一个分页插件。</p>
 <p>pagehelper，原理如下</p>
-<p><img src="..%5Cphoto%5Cfenye.png" alt="fenye"></p>
+<p><img src="/2020/11/27/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/..%5Cphoto%5Cfenye.png" alt="fenye"></p>
 <p>使用这个插件后，会自动在我们的sql查询中加上limit，而不需要我们自己再去做limit处理</p>
 <h5 id="二、使用方法"><a href="#二、使用方法" class="headerlink" title="二、使用方法"></a>二、使用方法</h5><p>​    首先引入依赖</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.pagehelper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pagehelper-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
