@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>剑指offer 46-55 | 如果方向错误，停止前进就是一种进步</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="剑指offer" />
+  
+  
+  
+  
+  <meta name="description" content="46.孩子们的游戏(圆圈中最后剩下的数)​    每年六一儿童节,牛客都会准备一些小礼物去看望孤儿院的小朋友,今年亦是如此。HF作为牛客的资深元老,自然也准备了一些小游戏。其中,有个游戏是这样的:首先,让小朋友们围成一个大圈。然后,他随机指定一个数m,让编号为0的小朋友开始报数。每次喊到m-1的那个小朋友要出列唱首歌,然后可以在礼品箱中任意的挑选礼物,并且不再回到圈中,从他的下一个小朋友开始,继续">
+<meta property="og:type" content="article">
+<meta property="og:title" content="剑指offer 46-55">
+<meta property="og:url" content="https://www.yusp-spin.github.io/2020/10/31/%E5%89%91%E6%8C%87offer%2046-55/index.html">
+<meta property="og:site_name" content="如果方向错误，停止前进就是一种进步">
+<meta property="og:description" content="46.孩子们的游戏(圆圈中最后剩下的数)​    每年六一儿童节,牛客都会准备一些小礼物去看望孤儿院的小朋友,今年亦是如此。HF作为牛客的资深元老,自然也准备了一些小游戏。其中,有个游戏是这样的:首先,让小朋友们围成一个大圈。然后,他随机指定一个数m,让编号为0的小朋友开始报数。每次喊到m-1的那个小朋友要出列唱首歌,然后可以在礼品箱中任意的挑选礼物,并且不再回到圈中,从他的下一个小朋友开始,继续">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-10-31T05:26:24.000Z">
+<meta property="article:modified_time" content="2020-10-31T05:38:17.133Z">
+<meta property="article:author" content="spin">
+<meta property="article:tag" content="剑指offer">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="如果方向错误，停止前进就是一种进步" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt; src:url("/css/fonts/FuturaPTBold.otf") format("woff");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt-light; src:url("/css/fonts/FuturaPTBook.otf") format("woff");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt-italic; src:url("/css/fonts/FuturaPTBookOblique.otf") format("woff");font-weight:400;font-style:italic;}
+}
+
+  </style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">主页</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">分类</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">标签</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">文章</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories/life">记录</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">关于</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-剑指offer 46-55" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      剑指offer 46-55
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/10/31/%E5%89%91%E6%8C%87offer%2046-55/" class="article-date">
+	  <time datetime="2020-10-31T05:26:24.000Z" itemprop="datePublished">2020-10-31</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h6 id="46-孩子们的游戏-圆圈中最后剩下的数"><a href="#46-孩子们的游戏-圆圈中最后剩下的数" class="headerlink" title="46.孩子们的游戏(圆圈中最后剩下的数)"></a>46.孩子们的游戏(圆圈中最后剩下的数)</h6><p>​    每年六一儿童节,牛客都会准备一些小礼物去看望孤儿院的小朋友,今年亦是如此。HF作为牛客的资深元老,自然也准备了一些小游戏。其中,有个游戏是这样的:首先,让小朋友们围成一个大圈。然后,他随机指定一个数m,让编号为0的小朋友开始报数。每次喊到m-1的那个小朋友要出列唱首歌,然后可以在礼品箱中任意的挑选礼物,并且不再回到圈中,从他的下一个小朋友开始,继续0…m-1报数….这样下去….直到剩下最后一个小朋友,可以不用表演,并且拿到牛客名贵的“名侦探柯南”典藏版(名额有限哦!!^_^)。请你试着想下,哪个小朋友会得到这份礼品呢？(注：小朋友的编号是从0到n-1)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">LastRemaining_Solution</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> m)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(m==<span class="number">0</span>||n==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;Integer&gt; res=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            res.add(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> index=-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(res.size()&gt;<span class="number">1</span>)&#123;</span><br><span class="line">            index=(index+m)%res.size();</span><br><span class="line">            res.remove(index);</span><br><span class="line">            index--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res.get(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="47-求1-2-3-…-n"><a href="#47-求1-2-3-…-n" class="headerlink" title="47.求1+2+3+…+n"></a>47.求1+2+3+…+n</h6><p>​    求1+2+3+…+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">Sum_Solution</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> sum=n;</span><br><span class="line">        <span class="keyword">boolean</span> flag=n&gt;<span class="number">0</span>&amp;&amp;(sum+=Sum_Solution(n-<span class="number">1</span>))&gt;<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="48-不用加减乘除做加法"><a href="#48-不用加减乘除做加法" class="headerlink" title="48.不用加减乘除做加法"></a>48.不用加减乘除做加法</h6><p>​    写一个函数，求两个整数之和，要求在函数体内不得使用+、-、*、/四则运算符号。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">Add</span><span class="params">(<span class="keyword">int</span> num1,<span class="keyword">int</span> num2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> tmp=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(num1!=<span class="number">0</span>)&#123;</span><br><span class="line">            tmp=(num1^num2);</span><br><span class="line">            num1=((num1&amp;num2)&lt;&lt;<span class="number">1</span>);</span><br><span class="line">            num2=tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> num2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="49-把字符串转换成整数"><a href="#49-把字符串转换成整数" class="headerlink" title="49.把字符串转换成整数"></a>49.把字符串转换成整数</h6><p>​    将一个字符串转换成一个整数，要求不能使用字符串转换整数的库函数。 数值为0或者字符串不是一个合法的数值则返回0</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">StrToInt</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(str==<span class="keyword">null</span>||str.length()==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">boolean</span> flag=<span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">int</span> index=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(str.charAt(index)==<span class="string">&#x27;+&#x27;</span>)&#123;</span><br><span class="line">            index++;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(str.charAt(index)==<span class="string">&#x27;-&#x27;</span>)&#123;</span><br><span class="line">            index++;</span><br><span class="line">            flag=<span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=index;i&lt;str.length();i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(str.charAt(i)&lt;<span class="string">&#x27;0&#x27;</span>||str.charAt(i)&gt;<span class="string">&#x27;9&#x27;</span>)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> p = str.charAt(i)-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">            <span class="keyword">if</span>(flag&amp;&amp;((sum==Integer.MAX_VALUE/<span class="number">10</span>&amp;&amp;p&gt;<span class="number">7</span>)||sum&gt;Integer.MAX_VALUE/<span class="number">10</span>))&#123;</span><br><span class="line">                <span class="keyword">return</span> Integer.MAX_VALUE;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(!flag&amp;&amp;((-sum==Integer.MIN_VALUE/<span class="number">10</span>&amp;&amp;p&gt;<span class="number">8</span>)||-sum&lt;Integer.MIN_VALUE/<span class="number">10</span>))&#123;</span><br><span class="line">                <span class="keyword">return</span> Integer.MIN_VALUE;</span><br><span class="line">            &#125;</span><br><span class="line">            sum=sum*<span class="number">10</span>+p;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> flag?sum:-sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="50-数组中重复的数字"><a href="#50-数组中重复的数字" class="headerlink" title="50.数组中重复的数字"></a>50.数组中重复的数字</h6><p>​    在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中第一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是第一个重复的数字2。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Parameters:</span></span><br><span class="line">    <span class="comment">//    numbers:     an array of integers</span></span><br><span class="line">    <span class="comment">//    length:      the length of array numbers</span></span><br><span class="line">    <span class="comment">//    duplication: (Output) the duplicated number in the array number,length of duplication array is 1,so using duplication[0] = ? in implementation;</span></span><br><span class="line">    <span class="comment">//                  Here duplication like pointor in C/C++, duplication[0] equal *duplication in C/C++</span></span><br><span class="line">    <span class="comment">//    这里要特别注意~返回任意重复的一个，赋值duplication[0]</span></span><br><span class="line">    <span class="comment">// Return value:       true if the input is valid, and there are some duplications in the array number</span></span><br><span class="line">    <span class="comment">//                     otherwise false</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">duplicate</span><span class="params">(<span class="keyword">int</span> numbers[],<span class="keyword">int</span> length,<span class="keyword">int</span> [] duplication)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(length==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;length;i++)&#123;</span><br><span class="line">            <span class="keyword">while</span>(numbers[i]!=i)&#123;</span><br><span class="line">                <span class="keyword">if</span>(numbers[i]==numbers[numbers[i]])&#123;</span><br><span class="line">                    duplication[<span class="number">0</span>]=numbers[i];</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">int</span> tmp=numbers[i];</span><br><span class="line">                    numbers[i]=numbers[tmp];</span><br><span class="line">                    numbers[tmp]=tmp;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">             </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="51-构建乘积数组"><a href="#51-构建乘积数组" class="headerlink" title="51.构建乘积数组"></a>51.构建乘积数组</h6><p>​    给定一个数组A[0,1,…,n-1],请构建一个数组B[0,1,…,n-1],其中B中的元素B[i]=A[0]<em>A[1]</em>…*A[i-1]<em>A[i+1]</em>…*A[n-1]。不能使用除法。（注意：规定B[0] = A[1] * A[2] * … * A[n-1]，B[n-1] = A[0] * A[1] * … * A[n-2];）</p>
+<p>对于A长度为1的情况，B无意义，故而无法构建，因此该情况不会存在。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] multiply(<span class="keyword">int</span>[] A) &#123;</span><br><span class="line">        <span class="keyword">int</span> len=A.length;</span><br><span class="line">        <span class="keyword">if</span>(len==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> A;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span>[] B=<span class="keyword">new</span> <span class="keyword">int</span>[len];</span><br><span class="line">        <span class="keyword">int</span> tmp=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;i++)&#123;</span><br><span class="line">            B[i]=tmp;</span><br><span class="line">            tmp*=A[i];</span><br><span class="line">        &#125;</span><br><span class="line">        tmp=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=len-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            B[i]*=tmp;</span><br><span class="line">            tmp*=A[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> B;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="52-正则表达式匹配"><a href="#52-正则表达式匹配" class="headerlink" title="52.正则表达式匹配"></a>52.正则表达式匹配</h6><p>​    请实现一个函数用来匹配包括’.’和’<em>‘的正则表达式。模式中的字符’.’表示任意一个字符，而’</em>‘表示它前面的字符可以出现任意次（包含0次）。 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串”aaa”与模式”a.a”和”ab<em>ac</em>a”匹配，但是与”aa.a”和”ab*a”均不匹配</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    Integer[][] memo;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">match</span><span class="params">(<span class="keyword">char</span>[] str, <span class="keyword">char</span>[] p)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> m=str.length;</span><br><span class="line">        <span class="keyword">int</span> n=p.length;</span><br><span class="line">        memo = <span class="keyword">new</span> Integer[m+<span class="number">1</span>][n+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">return</span> help(str,p,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">help</span><span class="params">(<span class="keyword">char</span>[] c,<span class="keyword">char</span>[] p,<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(j==p.length)&#123;</span><br><span class="line">            <span class="keyword">return</span> i==c.length;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(memo[i][j]!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> memo[i][j]!=-<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">boolean</span> firstMatch = i&lt;c.length&amp;&amp;j&lt;p.length&amp;&amp;(c[i]==p[j]||p[j]==<span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">        <span class="keyword">boolean</span> ans;</span><br><span class="line">        <span class="keyword">if</span>(j+<span class="number">1</span>&lt;p.length&amp;&amp;p[j+<span class="number">1</span>]==<span class="string">&#x27;*&#x27;</span>)&#123;</span><br><span class="line">            ans=help(c,p,i,j+<span class="number">2</span>)||(firstMatch&amp;&amp;help(c,p,i+<span class="number">1</span>,j));</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            ans=help(c,p,i+<span class="number">1</span>,j+<span class="number">1</span>)&amp;&amp;firstMatch;</span><br><span class="line">        &#125;</span><br><span class="line">        memo[i][j]=ans?<span class="number">1</span>:-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="53-表示数值的字符串"><a href="#53-表示数值的字符串" class="headerlink" title="53.表示数值的字符串"></a>53.表示数值的字符串</h6><p>​    请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> index=<span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isNumeric</span><span class="params">(<span class="keyword">char</span>[] str)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> flag = isPoNum(str);</span><br><span class="line">        <span class="keyword">if</span>(index&lt;str.length&amp;&amp;str[index]==<span class="string">&#x27;.&#x27;</span>)&#123;</span><br><span class="line">            index++;</span><br><span class="line">            flag = isNum(str)||flag;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(index&lt;str.length&amp;&amp;(str[index]==<span class="string">&#x27;e&#x27;</span>||str[index]==<span class="string">&#x27;E&#x27;</span>))&#123;</span><br><span class="line">            index++;</span><br><span class="line">            flag = isPoNum(str)&amp;&amp;flag;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> flag&amp;&amp;index==str.length;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isPoNum</span><span class="params">(<span class="keyword">char</span>[] str)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(index&lt;str.length&amp;&amp;(str[index]==<span class="string">&#x27;+&#x27;</span>||str[index]==<span class="string">&#x27;-&#x27;</span>))</span><br><span class="line">            index++;</span><br><span class="line">        <span class="keyword">return</span> isNum(str);</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isNum</span><span class="params">(<span class="keyword">char</span>[] str)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> start=index;</span><br><span class="line">        <span class="keyword">while</span>(index&lt;str.length&amp;&amp;(str[index]&gt;=<span class="string">&#x27;0&#x27;</span>&amp;&amp;str[index]&lt;=<span class="string">&#x27;9&#x27;</span>))&#123;</span><br><span class="line">            index++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> index&gt;start;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="54-字符流中第一个不重复的字符"><a href="#54-字符流中第一个不重复的字符" class="headerlink" title="54.字符流中第一个不重复的字符"></a>54.字符流中第一个不重复的字符</h6><p>​    请实现一个函数用来找出字符流中第一个只出现一次的字符。例如，当从字符流中只读出前两个字符”go”时，第一个只出现一次的字符是”g”。当从该字符流中读出前六个字符“google”时，第一个只出现一次的字符是”l”。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">//Insert one char from stringstream</span></span><br><span class="line">    Queue&lt;Character&gt; queue=<span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">    <span class="keyword">int</span>[] map = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">256</span>];</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Insert</span><span class="params">(<span class="keyword">char</span> ch)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        map[ch]++;</span><br><span class="line">        <span class="keyword">if</span>(map[ch]==<span class="number">1</span>)&#123;</span><br><span class="line">            queue.add(ch);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="comment">//return the first appearence once char in current stringstream</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">char</span> <span class="title">FirstAppearingOnce</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">char</span> c = <span class="string">&#x27;#&#x27;</span>;</span><br><span class="line">        <span class="keyword">while</span>(!queue.isEmpty())&#123;</span><br><span class="line">            c=queue.peek();</span><br><span class="line">            <span class="keyword">if</span>(map[c]==<span class="number">1</span>)&#123;</span><br><span class="line">                <span class="keyword">return</span> c;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                queue.poll();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;#&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="55-链表中环的入口结点"><a href="#55-链表中环的入口结点" class="headerlink" title="55.链表中环的入口结点"></a>55.链表中环的入口结点</h6><p>给一个链表，若其中包含环，请找出该链表的环的入口结点，否则，输出null。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">EntryNodeOfLoop</span><span class="params">(ListNode head)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        ListNode p=head;</span><br><span class="line">        ListNode q=head;</span><br><span class="line">        <span class="keyword">while</span>(q!=<span class="keyword">null</span>&amp;&amp;q.next!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            p=p.next;</span><br><span class="line">            q=q.next.next;</span><br><span class="line">            <span class="keyword">if</span>(p==q)&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">         </span><br><span class="line">        <span class="keyword">if</span>(q==<span class="keyword">null</span>||q.next==<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        p=head;</span><br><span class="line">        <span class="keyword">while</span>(p!=q)&#123;</span><br><span class="line">            p=p.next;</span><br><span class="line">            q=q.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>spin</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2020/10/31/剑指offer 46-55/" target="_blank" title="剑指offer 46-55">https://www.yusp-spin.github.io/2020/10/31/剑指offer 46-55/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li></ul>
+
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/10/31/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86-%E7%94%A8%E6%88%B7%E7%BA%A7%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%86%85%E6%A0%B8%E7%BA%A7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          操作系统-进程管理-用户级线程和内核级线程的区别
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/10/30/%E5%89%91%E6%8C%87offer%2036-45/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">剑指offer 36-45</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#46-%E5%AD%A9%E5%AD%90%E4%BB%AC%E7%9A%84%E6%B8%B8%E6%88%8F-%E5%9C%86%E5%9C%88%E4%B8%AD%E6%9C%80%E5%90%8E%E5%89%A9%E4%B8%8B%E7%9A%84%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">46.孩子们的游戏(圆圈中最后剩下的数)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#47-%E6%B1%821-2-3-%E2%80%A6-n"><span class="nav-number">2.</span> <span class="nav-text">47.求1+2+3+…+n</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#48-%E4%B8%8D%E7%94%A8%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E5%81%9A%E5%8A%A0%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">48.不用加减乘除做加法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#49-%E6%8A%8A%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90%E6%95%B4%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">49.把字符串转换成整数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#50-%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97"><span class="nav-number">5.</span> <span class="nav-text">50.数组中重复的数字</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#51-%E6%9E%84%E5%BB%BA%E4%B9%98%E7%A7%AF%E6%95%B0%E7%BB%84"><span class="nav-number">6.</span> <span class="nav-text">51.构建乘积数组</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#52-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8C%B9%E9%85%8D"><span class="nav-number">7.</span> <span class="nav-text">52.正则表达式匹配</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#53-%E8%A1%A8%E7%A4%BA%E6%95%B0%E5%80%BC%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">8.</span> <span class="nav-text">53.表示数值的字符串</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#54-%E5%AD%97%E7%AC%A6%E6%B5%81%E4%B8%AD%E7%AC%AC%E4%B8%80%E4%B8%AA%E4%B8%8D%E9%87%8D%E5%A4%8D%E7%9A%84%E5%AD%97%E7%AC%A6"><span class="nav-number">9.</span> <span class="nav-text">54.字符流中第一个不重复的字符</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#55-%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%8E%AF%E7%9A%84%E5%85%A5%E5%8F%A3%E7%BB%93%E7%82%B9"><span class="nav-number">10.</span> <span class="nav-text">55.链表中环的入口结点</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2020 如果方向错误，停止前进就是一种进步 All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/categories" class="mobile-nav-link">分类</a>
+  
+    <a href="/tags" class="mobile-nav-link">标签</a>
+  
+    <a href="/archives" class="mobile-nav-link">文章</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">记录</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            如果方向错误，停止前进就是一种进步
+          </div>
+          <div class="panel-body">
+            Copyright © 2020 spin All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>
