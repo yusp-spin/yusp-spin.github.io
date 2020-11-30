@@ -268,6 +268,69 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-Sync(Go语言中的同步手段)"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/">Sync(Go语言中的同步手段)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/" class="article-date">
+	  <time datetime="2020-11-06T03:23:47.000Z" itemprop="datePublished">2020-11-06</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a>
+
+      
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          1.sync.WaitGroup​    Go语言中可以使用sync.WaitGroup来实现并发任务的同步。
+​    sync.WaitGroup内部维护着一个计数器，计数器的值可以增加和减少。例如当我们启动了N 个并发任务时，就将计数器值增加N。每个任务完成时通过调用Done()方法将计数器减1。通过调用Wait()来等待并发任务执行完，当计数器值为0时，表示所有并发任务已经完成
+ sync.WaitGroup有以下几个方法：
+
+
+
+方法名
+功能
+
+
+
+(wg * WaitGroup...
+        </p>
+        <p class="article-more-link">
+          <a href="/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Goroutine"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -740,68 +803,6 @@
         </p>
         <p class="article-more-link">
           <a href="/2020/10/29/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-一些好网站"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/10/28/%E4%B8%80%E4%BA%9B%E5%A5%BD%E7%BD%91%E7%AB%99/">学习过程中一些网站的收藏</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2020/10/28/%E4%B8%80%E4%BA%9B%E5%A5%BD%E7%BD%91%E7%AB%99/" class="article-date">
-	  <time datetime="2020-10-28T07:22:47.000Z" itemprop="datePublished">2020-10-28</time>
-	</a>
-
-      
-      
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          
-
-
-Bookmarks
-Bookmarks
-
-    Bookmarks bar
-    
-        算法
-        
-            (3条未读私信) 全部动态_牛客网
-            力扣 (LeetCode) 官网 - 全球极客挚爱的技术成长平台
-            https://mp.weixin.qq.com/mp/homepage?__biz=MzI4Njc4MzMwMw==&amp;hid=1&amp;sn=58bf8e995138b269...
-        </p>
-        <p class="article-more-link">
-          <a href="/2020/10/28/%E4%B8%80%E4%BA%9B%E5%A5%BD%E7%BD%91%E7%AB%99/#more">Read More</a>
         </p>
       
     </div>
