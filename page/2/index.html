@@ -268,6 +268,60 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-Go-make和new关键字的区别和实现原理"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2020/11/08/Go-make%E5%92%8Cnew%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Go-make和new关键字的区别和实现原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/11/08/Go-make%E5%92%8Cnew%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="article-date">
+	  <time datetime="2020-11-08T13:32:47.000Z" itemprop="datePublished">2020-11-08</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Go%E5%9F%BA%E7%A1%80/">Go基础</a>
+
+      
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          一、简介​     make 和 new都用来初始化一个结构，make 关键字的主要作用是初始化内置的数据结构，也就是我们在前面提到的数组、切片和 Channel，而当我们想要获取指向某个类型的指针时可以使用 new 关键字
+二、区别make在Go语言中用来初始化语言的基本类型
+12345func main() &#123;	slice := make([]int, 0, 100)	myMap := make(map[string]int, 10)	ch := make(chan int,...
+        </p>
+        <p class="article-more-link">
+          <a href="/2020/11/08/Go-make%E5%92%8Cnew%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Sync(Go语言中的同步手段)"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -741,68 +795,6 @@
         </p>
         <p class="article-more-link">
           <a href="/2020/10/30/%E6%9C%80%E8%BF%91%E5%9B%B0%E6%89%B0/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-操作系统-进程管理"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/10/29/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/">进程管理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2020/10/29/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" class="article-date">
-	  <time datetime="2020-10-29T14:33:47.000Z" itemprop="datePublished">2020-10-29</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
-
-      
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          一、进程的引入和概念
-程序的顺序执行最简单的程序设计方法是顺序的方法，这种方法有以下特点：
-①. 程序在运行时独占资源，叫做封闭性；②. 程序执行时，只要初始条件相同，无论程序是连续执行还是断续执行，结果不变，叫做可再现性 
-
-程序的并行执行
-
-
-进程的概念①. 进程定义
-进程又叫做任务，是程序的一次执行过程，是程序在一个数据集合上顺序执行发生的活动，是系统资源分配的单位
-②. 进程和程序的联系和区别
-进程是程序的一次执行过程，具有动态性，而程序是一种可以长期保存的软件资源；进程是系统进行...
-        </p>
-        <p class="article-more-link">
-          <a href="/2020/10/29/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/#more">Read More</a>
         </p>
       
     </div>
