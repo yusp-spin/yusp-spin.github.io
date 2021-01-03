@@ -18,11 +18,16 @@
 <meta property="og:site_name" content="如果方向错误，停止前进就是一种进步">
 <meta property="og:description" content="一、Redis主从概念​     为了避免单点故障，通常的做法是将数据库复制多个副本以部署在不同的服务器上，这样即使有一台服务器出现故障，其他服务器依然可以继续提供服务。为此， Redis 提供了复制（replication）功能，可以实现当一台数据库中的数据更新后，自动将更新的数据同步到其他数据库上。  ​     在复制的概念中，数据库分为两类，一类是主数据库（master），另一类是从数据库">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.yusp-spin.github.io/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/%5Cphoto%5Chash1.png">
+<meta property="og:image" content="https://www.yusp-spin.github.io/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/%5Cphoto%5Chash2.png">
+<meta property="og:image" content="https://www.yusp-spin.github.io/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/%5Cphoto%5Chash3.png">
+<meta property="og:image" content="https://www.yusp-spin.github.io/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/%5Cphoto%5Chash4.png">
 <meta property="article:published_time" content="2020-12-31T12:55:34.000Z">
-<meta property="article:modified_time" content="2020-12-31T14:18:19.594Z">
+<meta property="article:modified_time" content="2021-01-03T04:23:51.847Z">
 <meta property="article:author" content="spin">
 <meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.yusp-spin.github.io/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/%5Cphoto%5Chash1.png">
   
     <link rel="alternate" href="/atom.xml" title="如果方向错误，停止前进就是一种进步" type="application/atom+xml">
   
@@ -217,7 +222,56 @@
 <p>​    通常是采用hash算法计算key的hash值，然后通过取模，均匀的映射到N个redis服务器上，如果增加一个服务器，那么映射公式就变成了hash(key)%(N+1)，如果有一个服务器宕机了，映射公式变成了hash(key)%(N-1)</p>
 <p>​    这种情况下，几乎所有的缓存都失效了，会导致数据库访问的压力陡增，甚至导致数据库宕机</p>
 <h6 id="3-2-一致性hash算法"><a href="#3-2-一致性hash算法" class="headerlink" title="3.2 一致性hash算法"></a>3.2 一致性hash算法</h6><p>​     一致性哈希算法可以说是哈希算法的升级版，解决了哈希算法扩展性差的问题，一致性哈希算法跟哈希算法不一样，一致性哈希算法会将服务器和数据都通过哈希函数映射到一个首尾相连的哈希环上 </p>
-<p>​    </p>
+<p>具体步骤如下：</p>
+<ol>
+<li>首先求出服务器（节点）的哈希值，并将其配置到0～232的圆（continuum）上。</li>
+<li>然后采用同样的方法求出存储数据的键的哈希值，并映射到相同的圆上。</li>
+<li>然后从数据映射到的位置开始顺时针查找，将数据保存到找到的第一个服务器上。如果超过232仍然找不到服务器，就会保存到第一台服务器上。</li>
+</ol>
+<p><img src="/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/%5Cphoto%5Chash1.png" alt="hash1"></p>
+<p><img src="/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/%5Cphoto%5Chash2.png" alt="hash2"></p>
+<p>可能存在的问题：</p>
+<p>​     一个master宕机不会导致大部分缓存失效，可能存在缓存热点问题 ，比如某个区间的值特别多没那么会导致大量的数据都涌入一个服务器内，造成缓存热点问题，出现性能瓶颈</p>
+<p><img src="/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/%5Cphoto%5Chash3.png" alt="hash3"></p>
+<h6 id="3-3-用虚拟节点改进的一致性hash算法"><a href="#3-3-用虚拟节点改进的一致性hash算法" class="headerlink" title="3.3 用虚拟节点改进的一致性hash算法"></a>3.3 用虚拟节点改进的一致性hash算法</h6><p>​    缓存热点问题是在服务器节点数非常少的时候容易出现，因此，我们通过添加虚拟节点的方式，来使的服务器节点数变多，从而大量数据均匀分布，而不是涌入到一个服务器内</p>
+<p><img src="/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/%5Cphoto%5Chash4.png" alt="hash4"></p>
+<h6 id="3-4-rediscluster的hash-slot算法"><a href="#3-4-rediscluster的hash-slot算法" class="headerlink" title="3.4  rediscluster的hash slot算法"></a>3.4  rediscluster的hash slot算法</h6><p>​     <a href>redis</a> cluster中每个master都会持有部分slot，比如有3个master，那么可能每个master持有5000多个hash slot </p>
+<pre><code>  hash slot让node的增加和移除很简单，增加一个master，就将其他master的hash slot移动部分过去，减少一个master，就将它的hash slot移动到其他master上去</code></pre>
+<p>​    <a target="_blank" rel="noopener" href="https://www.nowcoder.com/jump/super-jump/word?word=%E5%AE%A2%E6%88%B7%E7%AB%AF">客户端</a>的api，可以对指定的数据，让他们走同一个hash slot，通过hash tag来实现</p>
+<p>​    <a target="_blank" rel="noopener" href="https://www.nowcoder.com/jump/super-jump/word?word=%E5%AE%A2%E6%88%B7%E7%AB%AF">客户端</a>向节点发送键命令，节点要计算这个键属于哪个槽。如果是自己负责这个槽，那么直接执行命令，如果不是，向<a target="_blank" rel="noopener" href="https://www.nowcoder.com/jump/super-jump/word?word=%E5%AE%A2%E6%88%B7%E7%AB%AF">客户端</a>返回一个MOVED错误，指引<a target="_blank" rel="noopener" href="https://www.nowcoder.com/jump/super-jump/word?word=%E5%AE%A2%E6%88%B7%E7%AB%AF">客户端</a>转向正确的节点。</p>
+<h5 id="四、节点间的通信机制"><a href="#四、节点间的通信机制" class="headerlink" title="四、节点间的通信机制"></a>四、节点间的通信机制</h5><p><strong>1.基础通信</strong></p>
+<p>（1）<a href>redis</a> cluster节点间采取gossip协议进行通信 </p>
+<p>  跟集中式不同，不是将集群元数据（节点信息，故障，等等）集中存储在某个节点上，而是互相之间不断通信，保持整个集群所有节点的数据是完整的 </p>
+<p>  集中式：好处在于，元数据的更新和读取，时效性非常好，一旦元数据出现了变更，立即就更新到集中式的存储中，其他节点读取的时候立即就可以感知到; 不好在于，所有的元数据的跟新压力全部集中在一个地方，可能会导致元数据的存储有压力 </p>
+<p>  gossip：好处在于，元数据的更新比较分散，不是集中在一个地方，更新请求会陆陆续续，打到所有节点上去更新，有一定的延时，降低了压力; 缺点，元数据更新有延时，可能导致集群的一些操作会有一些滞后 </p>
+<p> （2）10000端口 </p>
+<p>  每个节点都有一个专门用于节点间通信的端口，就是自己提供服务的端口号+10000，比如7001，那么用于节点间通信的就是17001端口 </p>
+<p>  每隔节点每隔一段时间都会往另外几个节点发送ping消息，同时其他几点接收到ping之后返回pong </p>
+<p> （3）交换的信息 </p>
+<p>  故障信息，节点的增加和移除，hash slot信息，等等</p>
+<p><strong>2. gossip协议</strong> </p>
+<ol>
+<li><p>meet: 某个节点发送meet给新加入的节点，让新节点加入集群中，然后新节点就会开始与其他节点进行通信 </p>
+</li>
+<li><p>ping: 每个节点都会频繁给其他节点发送ping，其中包含自己的状态还有自己维护的集群元数据，互相通过ping交换元数据 每个节点每秒都会频繁发送ping给其他的集群，ping，频繁的互相之间交换数据，互相进行元数据的更新 </p>
+</li>
+<li><p>pong: 返回ping和meet，包含自己的状态和其他信息，也可以用于信息广播和更新 </p>
+</li>
+<li><p>fail: 某个节点判断另一个节点fail之后，就发送fail给其他节点，通知其他节点，指定的节点宕机了</p>
+</li>
+</ol>
+<h5 id="五、redis-cluster-的高可用与主备切换原理"><a href="#五、redis-cluster-的高可用与主备切换原理" class="headerlink" title="五、redis cluster 的高可用与主备切换原理"></a>五、redis cluster 的高可用与主备切换原理</h5><p>redis cluster 的高可用的原理，<strong>几乎跟哨兵是类似</strong>的。</p>
+<h6 id="5-1-判断节点宕机"><a href="#5-1-判断节点宕机" class="headerlink" title="5.1 判断节点宕机"></a>5.1 判断节点宕机</h6><p>如果<strong>一个节点</strong>认为另外一个节点宕机，那么就是 <code>pfail</code>，<strong>主观宕机</strong>。如果<strong>多个节点</strong>都认为另外一个节点宕机了，那么就是 <code>fail</code>，<strong>客观宕机</strong>，跟哨兵的原理几乎一样，<strong>sdown</strong>，<strong>odown</strong>。</p>
+<p>在 <code>cluster-node-timeout</code> 内，某个节点一直没有返回 <code>pong</code>，那么就被认为 <code>pfail</code>。</p>
+<p>如果一个节点认为某个节点 <code>pfail</code> 了，那么会在 <code>gossip ping</code> 消息中，<code>ping</code> 给其他节点，如果<strong>超过半数</strong>的节点都认为 <code>pfail</code> 了，那么就会变成 <code>fail</code>。</p>
+<h6 id="5-2-从节点过滤"><a href="#5-2-从节点过滤" class="headerlink" title="5.2 从节点过滤"></a>5.2 从节点过滤</h6><p>对宕机的 master node，<strong>从其所有的 slave node 中</strong>，<strong>选择一个切换成 master node</strong>。</p>
+<p>检查每个 slave node 与 master node 断开连接的时间，如果超过了 <code>cluster-node-timeout * cluster-slave-validity-factor</code>，那么就<strong>没有资格</strong>切换成 <code>master</code>。</p>
+<h6 id="5-3-从节点选举"><a href="#5-3-从节点选举" class="headerlink" title="5.3 从节点选举"></a>5.3 从节点选举</h6><p>每个<strong>从节点</strong>，都根据自己<strong>对 master 复制数据的 offset</strong>，来设置一个<strong>选举时间</strong>，offset 越大（<strong>复制数据越多</strong>）的从节点，<strong>选举时间越靠前</strong>，优先进行选举。</p>
+<p>所有的 <strong>master node 开始 slave 选举投票</strong>，给要进行选举的 slave 进行投票，如果<strong>大部分</strong> master node<code>（N/2 + 1）</code>都投票给了某个<strong>从节点</strong>，那么<strong>选举通过</strong>，那个从节点可以切换成 master。</p>
+<p>从节点<strong>执行主备切换</strong>，从节点切换为主节点。</p>
+<h6 id="5-4-与哨兵比较"><a href="#5-4-与哨兵比较" class="headerlink" title="5.4 与哨兵比较"></a>5.4 与哨兵比较</h6><p>整个流程跟哨兵相比，非常类似，所以说，redis cluster 功能强大，直接<strong>集成了 replication 和 sentinel</strong> 的功能。</p>
+<p>部分文字参考链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/364714?type=post&amp;order=time&amp;pos=&amp;page=0">https://www.nowcoder.com/discuss/364714?type=post&amp;order=time&amp;pos=&amp;page=0</a></p>
+<p>图片为作者所绘制，不存在参考</p>
 
       
     </div>
@@ -298,7 +352,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E3%80%81Redis%E4%B8%BB%E4%BB%8E%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">一、Redis主从概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89%E9%9B%86%E7%BE%A4%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">二、为什么要有集群？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83%E7%AE%97%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">三、数据分布算法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#3-1-hash%E7%AE%97%E6%B3%95"><span class="nav-number">3.1.</span> <span class="nav-text">3.1  hash算法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-2-%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 一致性hash算法</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E3%80%81Redis%E4%B8%BB%E4%BB%8E%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">一、Redis主从概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89%E9%9B%86%E7%BE%A4%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">二、为什么要有集群？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83%E7%AE%97%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">三、数据分布算法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#3-1-hash%E7%AE%97%E6%B3%95"><span class="nav-number">3.1.</span> <span class="nav-text">3.1  hash算法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-2-%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 一致性hash算法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-3-%E7%94%A8%E8%99%9A%E6%8B%9F%E8%8A%82%E7%82%B9%E6%94%B9%E8%BF%9B%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 用虚拟节点改进的一致性hash算法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-4-rediscluster%E7%9A%84hash-slot%E7%AE%97%E6%B3%95"><span class="nav-number">3.4.</span> <span class="nav-text">3.4  rediscluster的hash slot算法</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E8%8A%82%E7%82%B9%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6"><span class="nav-number">4.</span> <span class="nav-text">四、节点间的通信机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%94%E3%80%81redis-cluster-%E7%9A%84%E9%AB%98%E5%8F%AF%E7%94%A8%E4%B8%8E%E4%B8%BB%E5%A4%87%E5%88%87%E6%8D%A2%E5%8E%9F%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">五、redis cluster 的高可用与主备切换原理</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#5-1-%E5%88%A4%E6%96%AD%E8%8A%82%E7%82%B9%E5%AE%95%E6%9C%BA"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 判断节点宕机</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#5-2-%E4%BB%8E%E8%8A%82%E7%82%B9%E8%BF%87%E6%BB%A4"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 从节点过滤</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#5-3-%E4%BB%8E%E8%8A%82%E7%82%B9%E9%80%89%E4%B8%BE"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 从节点选举</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#5-4-%E4%B8%8E%E5%93%A8%E5%85%B5%E6%AF%94%E8%BE%83"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 与哨兵比较</span></a></li></ol></li></ol>
     
     </div>
   </aside>
