@@ -3,25 +3,25 @@
 <head>
   <meta charset="utf-8">
   
-  <title>看看threadlocal是什么，threadlocalrandom呢？ | 如果方向错误，停止前进就是一种进步</title>
+  <title>redis cluster集群模式介绍 | 如果方向错误，停止前进就是一种进步</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="线程封闭" />
+  <meta name="keywords" content="Redis" />
   
   
   
   
-  <meta name="description" content="这两个知识点比较类似，恰巧在面试中也被频繁问起，所以对他两做一个简单的介绍 一、ThreadLocal：​    指的是线程私有的变量，通过set，get，remove等方法进行操作，对应的底层操作其实是ThreadLocalMap​     1.ThreadLocalMap存的是什么ThreadLocal里的键值对，key是threadlocal的弱引用，value是我们存放的值 2.Threa">
+  <meta name="description" content="一、Redis主从概念​     为了避免单点故障，通常的做法是将数据库复制多个副本以部署在不同的服务器上，这样即使有一台服务器出现故障，其他服务器依然可以继续提供服务。为此， Redis 提供了复制（replication）功能，可以实现当一台数据库中的数据更新后，自动将更新的数据同步到其他数据库上。  ​     在复制的概念中，数据库分为两类，一类是主数据库（master），另一类是从数据库">
 <meta property="og:type" content="article">
-<meta property="og:title" content="看看ThreadLocal是什么，ThreadLocalRandom呢？">
-<meta property="og:url" content="https://www.yusp-spin.github.io/2020/09/15/%E7%9C%8B%E7%9C%8BThreadLocal%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8CThreadLocalRandom%E5%91%A2%EF%BC%9F/index.html">
+<meta property="og:title" content="Redis cluster集群模式介绍">
+<meta property="og:url" content="https://www.yusp-spin.github.io/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/index.html">
 <meta property="og:site_name" content="如果方向错误，停止前进就是一种进步">
-<meta property="og:description" content="这两个知识点比较类似，恰巧在面试中也被频繁问起，所以对他两做一个简单的介绍 一、ThreadLocal：​    指的是线程私有的变量，通过set，get，remove等方法进行操作，对应的底层操作其实是ThreadLocalMap​     1.ThreadLocalMap存的是什么ThreadLocal里的键值对，key是threadlocal的弱引用，value是我们存放的值 2.Threa">
+<meta property="og:description" content="一、Redis主从概念​     为了避免单点故障，通常的做法是将数据库复制多个副本以部署在不同的服务器上，这样即使有一台服务器出现故障，其他服务器依然可以继续提供服务。为此， Redis 提供了复制（replication）功能，可以实现当一台数据库中的数据更新后，自动将更新的数据同步到其他数据库上。  ​     在复制的概念中，数据库分为两类，一类是主数据库（master），另一类是从数据库">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-09-15T07:22:47.000Z">
-<meta property="article:modified_time" content="2020-11-04T05:31:10.141Z">
+<meta property="article:published_time" content="2020-12-31T12:55:34.000Z">
+<meta property="article:modified_time" content="2020-12-31T14:18:19.594Z">
 <meta property="article:author" content="spin">
-<meta property="article:tag" content="线程封闭">
+<meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="如果方向错误，停止前进就是一种进步" type="application/atom+xml">
@@ -174,7 +174,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-看看ThreadLocal是什么，ThreadLocalRandom呢？" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-关于redisCluster" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -182,7 +182,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      看看ThreadLocal是什么，ThreadLocalRandom呢？
+      Redis cluster集群模式介绍
     </h1>
   
 
@@ -190,12 +190,12 @@
     
     <div class="article-meta">
       
-	<a href="/2020/09/15/%E7%9C%8B%E7%9C%8BThreadLocal%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8CThreadLocalRandom%E5%91%A2%EF%BC%9F/" class="article-date">
-	  <time datetime="2020-09-15T07:22:47.000Z" itemprop="datePublished">2020-09-15</time>
+	<a href="/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/" class="article-date">
+	  <time datetime="2020-12-31T12:55:34.000Z" itemprop="datePublished">2020-12-31</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88java%EF%BC%89/">并发编程（java）</a>
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
 
       
 	<a class="article-views">
@@ -209,13 +209,15 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>这两个知识点比较类似，恰巧在面试中也被频繁问起，所以对他两做一个简单的介绍</p>
-<h4 id="一、ThreadLocal："><a href="#一、ThreadLocal：" class="headerlink" title="一、ThreadLocal："></a>一、ThreadLocal：</h4><p>​    指的是线程私有的变量，通过set，get，remove等方法进行操作，对应的底层操作其实是ThreadLocalMap<br>​    </p>
-<h5 id="1-ThreadLocalMap存的是什么"><a href="#1-ThreadLocalMap存的是什么" class="headerlink" title="1.ThreadLocalMap存的是什么"></a>1.ThreadLocalMap存的是什么</h5><p>ThreadLocal里的键值对，key是threadlocal的弱引用，value是我们存放的值</p>
-<h5 id="2-ThreadLocalMap的key为什么是弱引用"><a href="#2-ThreadLocalMap的key为什么是弱引用" class="headerlink" title="2.ThreadLocalMap的key为什么是弱引用"></a>2.ThreadLocalMap的key为什么是弱引用</h5><p>key 使用强引用：引用的ThreadLocal的对象被回收了，但是ThreadLocalMap还持有ThreadLocal的强引用，如果没有手动删除，ThreadLocal不会被回收，导致Entry内存泄漏。<br>ThreadLocalMap的key是弱引用，而Value是强引用。这就导致了一个问题，ThreadLocal在没有外部对象强引用时，发生GC时弱引用Key会被回收，而Value不会回收，如果创建ThreadLocal的线程一直持续运行，那么这个Entry对象中的value就有可能一直得不到回收，发生内存泄露。<br>我们可以发现：由于ThreadLocalMap的生命周期跟Thread一样长，如果都没有手动删除对应key，都会导致内存泄漏，但是使用弱引用可以多一层保障，set，get remove后面都会调用expungeStateEntry方法，对应的value在下一次ThreadLocalMap调用set,get,remove的时候会被清除。</p>
-<h5 id="3-ThreadLocalMap是怎么解决哈希冲突的"><a href="#3-ThreadLocalMap是怎么解决哈希冲突的" class="headerlink" title="3.ThreadLocalMap是怎么解决哈希冲突的"></a>3.ThreadLocalMap是怎么解决哈希冲突的</h5><p>开放寻址法</p>
-<h5 id="4-ThreadLocalMap为什么不定义在Thread里面，而是定义在ThreadLocal里面？"><a href="#4-ThreadLocalMap为什么不定义在Thread里面，而是定义在ThreadLocal里面？" class="headerlink" title="4 ThreadLocalMap为什么不定义在Thread里面，而是定义在ThreadLocal里面？"></a>4 ThreadLocalMap为什么不定义在Thread里面，而是定义在ThreadLocal里面？</h5><p>因为是线程私有的变量，所以看似定义在Thread里面更加符合逻辑，但是ThreadLocalMap不是必需品，我们并不需要一创建Thread就有ThreadLocalMap，为了减少成本，所以定义在ThreadLocal</p>
-<h4 id="二、ThreadLocalRandom"><a href="#二、ThreadLocalRandom" class="headerlink" title="二、ThreadLocalRandom"></a>二、ThreadLocalRandom</h4><p>Random计算随机数需要两步，根据老seed计算出新的seed；根据新的seed计算出随机数多线程如果同时获得同样的老seed就会产生同样的随机数，Random采用了CAS来保证只有一个线程获取seed，但是这样自旋会消耗很多性能，ThreadLocalRandom是相当于每个线程维护一个seed变量，不用竞争了在ThreadLocalRandom中并没有存放具体的种子，具体的种子存放在具体的调用线程的threadLocalRandomSeed变量中。和ThreadLocal类似，当线程调用ThreadLocalRandom中的current()方法时，ThreadLocalRandom负责初始化调用线程的threadLocalRandomSeed变量，也就是初始化种子。当调用ThreadLocalRandom的nextInt()方法时，实际是获取当前线程的threadLocalRandomSeed变量作为当前种子来计算新种子，然后将新种子更新到当前线程的threadLocalRandomSeed变量，然后根据这个新种子计算随机数。多个线程通过current获得的ThreadLocalRandom实例，其实获取的是同一个实例instance</p>
+        <h5 id="一、Redis主从概念"><a href="#一、Redis主从概念" class="headerlink" title="一、Redis主从概念"></a>一、Redis主从概念</h5><p>​     为了避免单点故障，通常的做法是将数据库复制多个副本以部署在不同的服务器上，这样即使有一台服务器出现故障，其他服务器依然可以继续提供服务。为此， Redis 提供了复制（replication）功能，可以实现当一台数据库中的数据更新后，自动将更新的数据同步到其他数据库上。 </p>
+<p>​     在复制的概念中，数据库分为两类，一类是主数据库（master），另一类是从数据库（slave）。主数据库可以进行读写操作，当写操作导致数据变化时会自动将数据同步给从数据库。而从数据库一般是只读的，并接受主数据库同步过来的数据。一个主数据库可以拥有多个从数据库，而一个从数据库只能拥有一个主数据库。 </p>
+<h5 id="二、为什么要有集群？"><a href="#二、为什么要有集群？" class="headerlink" title="二、为什么要有集群？"></a>二、为什么要有集群？</h5><p>​    redis的哨兵模式基本已经可以实现高可用，读写分离 ，但是在这种模式下每台redis服务器都存储相同的数据，很浪费内存，所以在redis3.0上加入了cluster模式，实现的redis的分布式存储，也就是说每台redis节点上存储不同的内容。</p>
+<h5 id="三、数据分布算法"><a href="#三、数据分布算法" class="headerlink" title="三、数据分布算法"></a>三、数据分布算法</h5><h6 id="3-1-hash算法"><a href="#3-1-hash算法" class="headerlink" title="3.1  hash算法"></a>3.1  hash算法</h6><p>​     哈希算法的思想非常简单，也许你知道 HashMap 的哈希函数，哈希算法跟 HashMap 一样，也是通过一个哈希函数得到某一个数字，然后根据数字找到相应的服务器。 </p>
+<p>​    比如有N个redis实例，那么如何将key映射到redis上呢？</p>
+<p>​    通常是采用hash算法计算key的hash值，然后通过取模，均匀的映射到N个redis服务器上，如果增加一个服务器，那么映射公式就变成了hash(key)%(N+1)，如果有一个服务器宕机了，映射公式变成了hash(key)%(N-1)</p>
+<p>​    这种情况下，几乎所有的缓存都失效了，会导致数据库访问的压力陡增，甚至导致数据库宕机</p>
+<h6 id="3-2-一致性hash算法"><a href="#3-2-一致性hash算法" class="headerlink" title="3.2 一致性hash算法"></a>3.2 一致性hash算法</h6><p>​     一致性哈希算法可以说是哈希算法的升级版，解决了哈希算法扩展性差的问题，一致性哈希算法跟哈希算法不一样，一致性哈希算法会将服务器和数据都通过哈希函数映射到一个首尾相连的哈希环上 </p>
+<p>​    </p>
 
       
     </div>
@@ -229,7 +231,7 @@
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2020/09/15/看看ThreadLocal是什么，ThreadLocalRandom呢？/" target="_blank" title="看看ThreadLocal是什么，ThreadLocalRandom呢？">https://www.yusp-spin.github.io/2020/09/15/看看ThreadLocal是什么，ThreadLocalRandom呢？/</a>
+          <a href="/2020/12/31/关于redisCluster/" target="_blank" title="Redis cluster集群模式介绍">https://www.yusp-spin.github.io/2020/12/31/关于redisCluster/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -269,7 +271,7 @@
       
       
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%B0%81%E9%97%AD/" rel="tag">线程封闭</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li></ul>
 
       
 
@@ -279,19 +281,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/09/15/%E6%89%8B%E6%92%95%E7%BA%BF%E7%A8%8B%E6%B1%A0/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          手撕线程池
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/09/14/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E5%AD%97%E7%AC%A6%E4%B8%B2/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/12/21/TopK%E9%97%AE%E9%A2%98%E7%94%A8%E5%BF%AB%E6%8E%92%E5%92%8C%E5%A0%86%E6%8E%92%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E5%88%AB%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">动态规划-字符串</div>
+      <div class="article-nav-title">TopK问题用快排和堆排的复杂度分别是多少？</div>
     </a>
   
 </nav>
@@ -305,7 +298,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E3%80%81ThreadLocal%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">一、ThreadLocal：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-ThreadLocalMap%E5%AD%98%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.1.</span> <span class="nav-text">1.ThreadLocalMap存的是什么</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-ThreadLocalMap%E7%9A%84key%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E5%BC%B1%E5%BC%95%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">2.ThreadLocalMap的key为什么是弱引用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-ThreadLocalMap%E6%98%AF%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%E7%9A%84"><span class="nav-number">1.3.</span> <span class="nav-text">3.ThreadLocalMap是怎么解决哈希冲突的</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-ThreadLocalMap%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E5%AE%9A%E4%B9%89%E5%9C%A8Thread%E9%87%8C%E9%9D%A2%EF%BC%8C%E8%80%8C%E6%98%AF%E5%AE%9A%E4%B9%89%E5%9C%A8ThreadLocal%E9%87%8C%E9%9D%A2%EF%BC%9F"><span class="nav-number">1.4.</span> <span class="nav-text">4 ThreadLocalMap为什么不定义在Thread里面，而是定义在ThreadLocal里面？</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E3%80%81ThreadLocalRandom"><span class="nav-number">2.</span> <span class="nav-text">二、ThreadLocalRandom</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E3%80%81Redis%E4%B8%BB%E4%BB%8E%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">一、Redis主从概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89%E9%9B%86%E7%BE%A4%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">二、为什么要有集群？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83%E7%AE%97%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">三、数据分布算法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#3-1-hash%E7%AE%97%E6%B3%95"><span class="nav-number">3.1.</span> <span class="nav-text">3.1  hash算法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-2-%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 一致性hash算法</span></a></li></ol></li></ol>
     
     </div>
   </aside>
