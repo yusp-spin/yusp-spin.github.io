@@ -268,6 +268,59 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-Kafka介绍（二）"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/">Kafka介绍（二）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/" class="article-date">
+	  <time datetime="2021-01-10T06:59:23.000Z" itemprop="datePublished">2021-01-10</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a>
+
+      
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          一、Kafka架构介绍​     一个典型的Kafka集群中包含若干Producer，若干broker（Kafka支持水平扩展，一般broker数量越多，集群吞吐率越高），若干Consumer Group，以及一个Zookeeper集群。Kafka通过Zookeeper管理集群配置，选举leader，以及在Consumer Group发生变化时进行rebalance。Producer使用push模式将消息发布到broker，Consumer使用pull模式从broker订阅并消费消息。 
+...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Kafka入门"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -754,65 +807,6 @@ pagehelper，原理如下
         </p>
         <p class="article-more-link">
           <a href="/2020/11/16/%E5%B8%B8%E8%A7%81%E6%8E%92%E5%BA%8F%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-了解ConcurrentHashMap"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/11/15/%E4%BA%86%E8%A7%A3ConcurrentHashMap/">了解ConcurrentHashMap</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2020/11/15/%E4%BA%86%E8%A7%A3ConcurrentHashMap/" class="article-date">
-	  <time datetime="2020-11-15T02:09:01.000Z" itemprop="datePublished">2020-11-15</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
-
-      
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          
-ConcurrentHashMap中没有负载因子和阈值吗 是没有，改用了sizeCtl控制，0表示默认值，-1表示正在扩容，&gt;0表示下一次扩容的门槛，-（1+nThreads）n个线程正在扩容，sizeCtl的变化都是CAS操作
- sizeCtl：
- （1）-1，表示有线程正在进行初始化操作
- （2）-(1 + nThreads)，表示有n个线程正在一起扩容
- （3）0，默认值，后续在真正初始化的时候使用默认容量
- （4）&gt; 0，初始化或扩容完成后下一次的扩容门槛
- 1234...
-        </p>
-        <p class="article-more-link">
-          <a href="/2020/11/15/%E4%BA%86%E8%A7%A3ConcurrentHashMap/#more">Read More</a>
         </p>
       
     </div>

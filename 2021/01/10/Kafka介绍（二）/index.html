@@ -3,23 +3,25 @@
 <head>
   <meta charset="utf-8">
   
-  <title>git常用命令 | 如果方向错误，停止前进就是一种进步</title>
+  <title>kafka介绍（二） | 如果方向错误，停止前进就是一种进步</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   
   
   
-  <meta name="description" content="git常用操作总结一下，也相当于做个笔记 1、git 配置git config user.name  查看 用户名 git config user.email   查看 邮箱 git config –global user.name   修改 用户名 git config –global user.email   修改 邮箱 ssh-keygen -t rsa -C “ &amp;#x79;&amp;#x6f;&amp;">
+  <meta name="description" content="一、Kafka架构介绍​     一个典型的Kafka集群中包含若干Producer，若干broker（Kafka支持水平扩展，一般broker数量越多，集群吞吐率越高），若干Consumer Group，以及一个Zookeeper集群。Kafka通过Zookeeper管理集群配置，选举leader，以及在Consumer Group发生变化时进行rebalance。Producer使用push模">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git常用命令">
-<meta property="og:url" content="https://www.yusp-spin.github.io/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:title" content="Kafka介绍（二）">
+<meta property="og:url" content="https://www.yusp-spin.github.io/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/index.html">
 <meta property="og:site_name" content="如果方向错误，停止前进就是一种进步">
-<meta property="og:description" content="git常用操作总结一下，也相当于做个笔记 1、git 配置git config user.name  查看 用户名 git config user.email   查看 邮箱 git config –global user.name   修改 用户名 git config –global user.email   修改 邮箱 ssh-keygen -t rsa -C “ &amp;#x79;&amp;#x6f;&amp;">
+<meta property="og:description" content="一、Kafka架构介绍​     一个典型的Kafka集群中包含若干Producer，若干broker（Kafka支持水平扩展，一般broker数量越多，集群吞吐率越高），若干Consumer Group，以及一个Zookeeper集群。Kafka通过Zookeeper管理集群配置，选举leader，以及在Consumer Group发生变化时进行rebalance。Producer使用push模">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-11-12T13:58:13.000Z">
-<meta property="article:modified_time" content="2020-11-12T14:01:50.753Z">
+<meta property="og:image" content="https://www.yusp-spin.github.io/photo/kafka.png">
+<meta property="article:published_time" content="2021-01-10T06:59:23.000Z">
+<meta property="article:modified_time" content="2021-01-10T07:42:39.431Z">
 <meta property="article:author" content="spin">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.yusp-spin.github.io/photo/kafka.png">
   
     <link rel="alternate" href="/atom.xml" title="如果方向错误，停止前进就是一种进步" type="application/atom+xml">
   
@@ -171,7 +173,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-git常用命令" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-Kafka介绍（二）" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -179,7 +181,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      Git常用命令
+      Kafka介绍（二）
     </h1>
   
 
@@ -187,12 +189,12 @@
     
     <div class="article-meta">
       
-	<a href="/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="article-date">
-	  <time datetime="2020-11-12T13:58:13.000Z" itemprop="datePublished">2020-11-12</time>
+	<a href="/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/" class="article-date">
+	  <time datetime="2021-01-10T06:59:23.000Z" itemprop="datePublished">2021-01-10</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Git/">Git</a>
+    <a class="article-category-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a>
 
       
 	<a class="article-views">
@@ -206,68 +208,40 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>git常用操作总结一下，也相当于做个笔记</p>
-<h5 id="1、git-配置"><a href="#1、git-配置" class="headerlink" title="1、git 配置"></a>1、git 配置</h5><p>git config user.name  查看 用户名</p>
-<p>git config user.email   查看 邮箱</p>
-<p>git config –global user.name <name>  修改 用户名</name></p>
-<p>git config –global user.email <email>  修改 邮箱</email></p>
-<p>ssh-keygen -t rsa -C “ <a href="mailto:&#x79;&#x6f;&#117;&#114;&#95;&#101;&#x6d;&#97;&#x69;&#108;&#64;&#101;&#x78;&#x61;&#x6d;&#x70;&#108;&#101;&#46;&#x63;&#x6f;&#x6d;">&#x79;&#x6f;&#117;&#114;&#95;&#101;&#x6d;&#97;&#x69;&#108;&#64;&#101;&#x78;&#x61;&#x6d;&#x70;&#108;&#101;&#46;&#x63;&#x6f;&#x6d;</a>“ 创建SSH key 【可以填写任意值作为注释key，例如邮箱】</p>
-<p>ssh -T <a href="mailto:&#103;&#105;&#x74;&#x40;&#103;&#105;&#116;&#101;&#x65;&#46;&#x63;&#111;&#109;">&#103;&#105;&#x74;&#x40;&#103;&#105;&#116;&#101;&#x65;&#46;&#x63;&#111;&#109;</a> 测试该SHH key 已添加到 gitee.com【码云】</p>
-<h5 id="2、创建版本库"><a href="#2、创建版本库" class="headerlink" title="2、创建版本库"></a>2、创建版本库</h5><p>git init  初始化本地版本库【创建一个 .git的子目录】</p>
-<p>git init [project-name]  新建一个目录，并将其初始化为 git 代码库；</p>
-<p>git clone <url>  克隆远程版本库；</url></p>
-<h5 id="3、修改和提交"><a href="#3、修改和提交" class="headerlink" title="3、修改和提交"></a>3、修改和提交</h5><p>git status  显示文件的状态 【红色表示被修改没提交到暂存区，绿色代表已提交到暂存区；】</p>
-<p>git status -s  以极简的方式显示文件的状态【红色的M 表示被修改没提交到暂存区，绿色的M代表已提交到暂存区；】</p>
-<p><strong>git add</strong>  将文件从工作目录添加至暂存区；</p>
-<p>　　git add -u | –update  仅将被修改的文件添加至暂存区（不包含新添加的文件）；</p>
-<p>　　git add .  将被修改的文件 和 新添加的文件提交到暂存区（不包含已经删除的文件）；</p>
-<p>　　git add -a  将本地所有修改的内容添加至暂存区（包含新添加的 和 已经删除的）；</p>
-<p><strong>git commit</strong>  将暂存区的修改提交到本地仓库，同时生成一个commit-id；</p>
-<p>　　git commit -m <message>  将暂存区修改提交到本地仓库</message></p>
-<p>　　git commit -a -m <message>  将工作区的修改提交到本地仓库 【相当于 <strong>git add + git commit</strong> 】</message></p>
-<p>　　git commit -amend  修改上一次提交【代码没有任何变化，则修改提交信息】</p>
-<h5 id="4、分支操作"><a href="#4、分支操作" class="headerlink" title="4、分支操作"></a>4、分支操作</h5><p><strong>git branch</strong></p>
-<p>　　git branch  列出所有本地分支</p>
-<p>　　git branch -r  列出所有远程分支</p>
-<p>　　git branch -a 列出所有本地和远程分支</p>
-<p>　　git branch [branch-name]  新建一个分支，仍停留在当前分支</p>
-<p>　　git branch -m <nameA> <nameB>  将分支nameA 改名为 nameB</nameB></nameA></p>
-<p>　　git branch -d [branch-name] 删除分支</p>
-<p><strong>git checkout</strong></p>
-<p>　　git checkout [branch-name]  切换到指定分支</p>
-<p>　　git checkout -b [branch-name]  新建一个分支，并切换到该分支</p>
-<p>　　git checkout - 切换到上一个分支</p>
-<p><strong>git merge</strong></p>
-<p>　　git merge [branch-name] 合并指定分支到当前分支</p>
-<h5 id="5、远程操作"><a href="#5、远程操作" class="headerlink" title="5、远程操作"></a>5、远程操作</h5><p>git fetch 将远程主机上所有分支的更新取回本地，并记录在 .git/FETCH_HEAD 中；</p>
-<p>　　git fetch <remote-name> 下载远程仓库的所有变动；</remote-name></p>
-<p>　　git fetch <remote-name> master:test 在本地新建test 分支，并将主机上master分支代码下载到本地 test 分支；</remote-name></p>
-<p><strong>git remote</strong></p>
-<p>　　git remote -v  显示所有远程仓库</p>
-<p>　　git remote show <remote-name> 显示某个远程仓库的信息</remote-name></p>
-<p>　　git remote add <remote-name> [ url ] 增加一个新的远程仓库 并命名</remote-name></p>
-<p><strong>git pull</strong></p>
-<p>　　git pull &lt;远程主机名&gt; &lt;远程分支名&gt; : &lt;本地分支名&gt;  取回远程仓库某个分支的更新，并与本地分支合并</p>
-<p>　　git pull origin dev: master 取回远程主机的 dev 分支，与本地的master分支合并</p>
-<p>　　git pull origin dev 相当于以下两个命令：</p>
-<p>　　　　git fetch origin 获取远程主机上所有分支的更新</p>
-<p>　　　　git merge origin/dev 与当前分支合并</p>
-<p><strong>git push</strong></p>
-<p>　　git push &lt;远程主机名&gt; &lt;本地分支名&gt; : &lt;远程分支&gt; 上传本地指定分支到远程仓库的指定分支</p>
-<p>　　　　省略远程分支名，表示将本地分支推送到与之存在“追踪关系”的远程分支，通常两者同名，后者不存在，将会被创建；</p>
-<p>　　　　省略本地分支名，表示删除指定的远程分支【这相当推送一个空的本地分支到远程分支】；</p>
-<p>　　git push origin master 将本地的master 分支推送到 origin 主机的master 分支【后者不存在，将会被创建】</p>
-<p>　　git push origin : master 删除 origin 主机的master 分支；【相当于 git push origin –delete master】</p>
-<h5 id="6、撤销修改"><a href="#6、撤销修改" class="headerlink" title="6、撤销修改"></a>6、撤销修改</h5><p>撤销工作区的修改： 【文件修改之后撤销】</p>
-<p>　　git checkout – file 恢复暂存区的指定文件到工作区</p>
-<p>　　git checkout . 恢复暂存区的所有文件到工作区</p>
-<p>撤销暂存区的修改： 【git add 之后】</p>
-<p>　　git reste HEAD <file></file></p>
-<p>版本回退 ：</p>
-<p>　　 git reset –hard <commit_id> </commit_id></p>
-<p>git log 查看提交历史，确定回退到那个版本；</p>
-<p>git reflog 查看历史命令，确定回到未来的版本；</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/james23dong/p/12375970.html">https://www.cnblogs.com/james23dong/p/12375970.html</a></p>
+        <h5 id="一、Kafka架构介绍"><a href="#一、Kafka架构介绍" class="headerlink" title="一、Kafka架构介绍"></a>一、Kafka架构介绍</h5><p>​     一个典型的Kafka集群中包含若干Producer，若干broker（Kafka支持水平扩展，一般broker数量越多，集群吞吐率越高），若干Consumer Group，以及一个Zookeeper集群。Kafka通过Zookeeper管理集群配置，选举leader，以及在Consumer Group发生变化时进行rebalance。Producer使用push模式将消息发布到broker，Consumer使用pull模式从broker订阅并消费消息。 </p>
+<p><img src="/photo/kafka.png" alt="kafka架构"></p>
+<h5 id="二、Topics和Partition的关系"><a href="#二、Topics和Partition的关系" class="headerlink" title="二、Topics和Partition的关系"></a>二、Topics和Partition的关系</h5><p>​     主题（topic）：一个 topic 里保存的是同一类消息，相当于对消息的分类，每个 producer 将消息发送到 kafka 中，都需要指明要存的 topic 是哪个，也就是指明这个消息属于哪一类。</p>
+<p> 分区（partition）：每个 topic 都可以分成多个 partition，每个 partition 在存储层面是 append log 文件。任何发布到此 partition 的消息都会被直接追加到 log 文件的尾部。为什么要进行分区呢？最根本的原因就是：kafka基于文件进行存储，当文件内容大到一定程度时，很容易达到单个磁盘的上限，因此，采用分区的办法，一个分区对应一个文件，这样就可以将数据分别存储到不同的server上去，另外这样做也可以负载均衡，容纳更多的消费者。</p>
+<p>​    Topic在逻辑上可以被认为是一个queue，每条消费都必须指定它的Topic，可以简单理解为必须指明把这条消息放进哪个queue里。为了使得Kafka的吞吐率可以线性提高，物理上把Topic分成一个或多个Partition，每个Partition在物理上对应一个文件夹，该文件夹下存储这个Partition的所有消息和索引文件。创建一个topic时，同时可以指定分区数目，分区数越多，其吞吐量也越大，但是需要的资源也越多，同时也会导致更高的不可用性，kafka在接收到生产者发送的消息之后，会根据均衡策略将消息存储到不同的分区中。因为每条消息都被append到该Partition中，属于顺序写磁盘，因此效率非常高 </p>
+<h5 id="三、Consumer-Group"><a href="#三、Consumer-Group" class="headerlink" title="三、Consumer Group"></a>三、Consumer Group</h5><p>​    每一个consumer实例都属于一个consumer group，每一条消息只会被同一个consumer group里的一个consumer实例消费。（不同consumer group可以同时消费同一条消息）</p>
+<p>　　很多传统的message queue都会在消息被消费完后将消息删除，一方面避免重复消费，另一方面可以保证queue的长度比较少，提高效率。而如上文所将，Kafka并不删除 已消费的消息，为了实现传统message queue消息只被消费一次的语义，Kafka保证保证同一个consumer group里只有一个consumer会消费一条消息。与传统message queue不同的是，Kafka还允许不同consumer group同时消费同一条消息，这一特性可以为消息的多元化处理提供了支持。实际上，Kafka的设计理念之一就是同时提供离线处理和实时处理。
+　　 </p>
+<h5 id="四、push-vs-pull"><a href="#四、push-vs-pull" class="headerlink" title="四、push vs pull"></a>四、push vs pull</h5><p>　　kafka采用的是传统的数据由producer推送给broker，然后由consumer从broker拉去的机制</p>
+<h5 id="五、基本操作"><a href="#五、基本操作" class="headerlink" title="五、基本操作"></a>五、基本操作</h5><ol>
+<li><p>启动ZooKeeper</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/zookeeper-server-start.sh config/zookeeper.properties</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动Kafka</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-server-start.sh config/server.properties</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建主题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin&#x2F;kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 </span><br><span class="line">--partitions 1 --topic Hello-World</span><br></pre></td></tr></table></figure>
+
+<p> 刚刚创建了一个名为 `Hello-World的主题，其中包含一个分区和一个副本因子 </p>
+</li>
+<li><p>获取主题列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin&#x2F;kafka-topics.sh --list --zookeeper localhost:2181</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生产者发送消息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin&#x2F;kafka-console-producer.sh --broker-list localhost:9092 --topic Hello-World</span><br></pre></td></tr></table></figure>
+
+<p>然后就可以在终端键入消息</p>
+</li>
+<li><p>消费者消费消息.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin&#x2F;kafka-console-consumer.sh --zookeeper localhost:2181 —topic Hello-World</span><br><span class="line">--from-beginning</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
 
       
     </div>
@@ -281,7 +255,7 @@
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2020/11/12/git常用命令/" target="_blank" title="Git常用命令">https://www.yusp-spin.github.io/2020/11/12/git常用命令/</a>
+          <a href="/2021/01/10/Kafka介绍（二）/" target="_blank" title="Kafka介绍（二）">https://www.yusp-spin.github.io/2021/01/10/Kafka介绍（二）/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -329,19 +303,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/11/14/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          操作系统-存储器管理
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/11/09/Netty%E4%BB%8B%E7%BB%8D/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/01/08/Kafka%E5%85%A5%E9%97%A8/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Netty介绍</div>
+      <div class="article-nav-title">kafka入门介绍</div>
     </a>
   
 </nav>
@@ -355,7 +320,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#1%E3%80%81git-%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">1、git 配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2%E3%80%81%E5%88%9B%E5%BB%BA%E7%89%88%E6%9C%AC%E5%BA%93"><span class="nav-number">2.</span> <span class="nav-text">2、创建版本库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3%E3%80%81%E4%BF%AE%E6%94%B9%E5%92%8C%E6%8F%90%E4%BA%A4"><span class="nav-number">3.</span> <span class="nav-text">3、修改和提交</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4%E3%80%81%E5%88%86%E6%94%AF%E6%93%8D%E4%BD%9C"><span class="nav-number">4.</span> <span class="nav-text">4、分支操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5%E3%80%81%E8%BF%9C%E7%A8%8B%E6%93%8D%E4%BD%9C"><span class="nav-number">5.</span> <span class="nav-text">5、远程操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6%E3%80%81%E6%92%A4%E9%94%80%E4%BF%AE%E6%94%B9"><span class="nav-number">6.</span> <span class="nav-text">6、撤销修改</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E3%80%81Kafka%E6%9E%B6%E6%9E%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">一、Kafka架构介绍</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8C%E3%80%81Topics%E5%92%8CPartition%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">2.</span> <span class="nav-text">二、Topics和Partition的关系</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%89%E3%80%81Consumer-Group"><span class="nav-number">3.</span> <span class="nav-text">三、Consumer Group</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%9B%E3%80%81push-vs-pull"><span class="nav-number">4.</span> <span class="nav-text">四、push vs pull</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-number">5.</span> <span class="nav-text">五、基本操作</span></a></li></ol>
     
     </div>
   </aside>
