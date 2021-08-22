@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>操作系统-存储器管理 | 如果方向错误，停止前进就是一种进步</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">如果方向错误，停止前进就是一种进步</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-操作系统-存储器管理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/14/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2020-11-14T14:25:43.000Z" itemprop="datePublished">2020-11-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      操作系统-存储器管理
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h5><p>​    存储器管理涉及一下五个功能：</p>
+<p>​    1. 存储器分配，主要解决多道程序和多程序如何共享主存的问题</p>
+<p>​    2. 地址转换和重定位，研究各种地址变换方法及相应的地址变换机构</p>
+<p>​    3. 存储器保护</p>
+<p>​    4. 存储器扩充</p>
+<p>​    5. 存储器共享</p>
+<p><strong>地址空间</strong>：程序限定的空间叫逻辑地址空间，其中的地址叫做相对地址或逻辑地址</p>
+<p><strong>存储空间</strong>：存储空间是物理存储器中全部物理单元的集合所限定的空间，由字或字节组成的大大的阵列，每个字和字节有自己的编号。</p>
+<p><strong>地址重定位</strong>：</p>
+<ol>
+<li><p>链接</p>
+<p>链接就是将汇编/编译产生的一个或多个目标代码与所需要的库函数装配成一个可执行程序；链接有两种方式：静态和动态。采用静态链接时，在程序装入内存运行前，就将目标模块和库事先连接成可执行程序；动态链接分为装入和运行时两种，装入就是指将目标模块装入主存时，边装入边链接，运行就是指运行时才链接。运行时链接的效率更高</p>
+</li>
+<li><p>静态重定位</p>
+<p>在逻辑地址转换为物理地址的过程中，地址变换是在进程装入时一次完成的，以后不再改变。</p>
+<p><strong>优点</strong>：是无需增加硬件地址转换机构，便于实现程序的静态连接。在早期计算机系统中大多采用这种方案。 </p>
+<p><strong>缺点</strong>：内存空间不能移动；各个用户进程很难共享内存中同一程序的副本</p>
+</li>
+<li><p>动态重定位</p>
+<p>动态运行的装入程序把转入模块装入内存之后，并不立即把装入模块的逻辑地址进行转换，而是把这</p>
+<p>种地址转换推迟到程序执行时才进行，装入内存后的所有地址都仍是逻辑地址。这种方式需要寄存器的支持，其中</p>
+<p>放有当前正在执行的程序在内存空间中的起始地址。</p>
+<p><strong>优点：</strong>内存空间可以移动；各个用户进程可以共享内存中同一程序的副本。</p>
+<p><strong>缺点</strong>：增加了机器成本，而且实现存储管理的软件算法比较复杂。</p>
+<ol start="4">
+<li>存储器保护</li>
+</ol>
+<p>存储器分为两部分，一是操作系统占用区，另一部分是多用户进程分享的用户占用区。保护涉及两个方面：地址越界和存取方式的保护</p>
+<ol start="5">
+<li>存储器共享</li>
+</ol>
+</li>
+</ol>
+<h5 id="2-单用户单道程序的存储器分配"><a href="#2-单用户单道程序的存储器分配" class="headerlink" title="2.单用户单道程序的存储器分配"></a>2.单用户单道程序的存储器分配</h5><p>​    单一连续区分配，整个系统资源利用率低</p>
+<h5 id="3-多用户多道程序存储器分配——分区分配"><a href="#3-多用户多道程序存储器分配——分区分配" class="headerlink" title="3.多用户多道程序存储器分配——分区分配"></a>3.多用户多道程序存储器分配——分区分配</h5><p>​    固定式分区、可变式分区</p>
+<h6 id="固定式分区"><a href="#固定式分区" class="headerlink" title="固定式分区"></a>固定式分区</h6><p>​    固定式分区是适合多到程序运行的最简单的存储器管理，把主存用户区预先划分为几个大小不等的区域，当进程到达时，选择一个合适进程要求最小的，空闲分区分给进程；没有合适的空闲分区的时候，让其等待。为了充分利用存储器，将进程按照请求空间的大小在不同分区排队等待。</p>
+<p>​    这种方法管理简单，但有可能出现大分区队列空闲，小分区队列拥挤的现象。当这情况出现时，会使存储器造成更大的浪费，为了充分利用存储器，系统只维护一个存储器等待队列，任何时候，只要有一个分区变为空闲，队列中的一个进程就可装入运行</p>
+<h6 id="可变式分区"><a href="#可变式分区" class="headerlink" title="可变式分区"></a>可变式分区</h6><p>​    为了提高存储器的利用率，存储空间的划分推迟到装入进程时进行，当进程要求运行时，系统从空闲的存储空间划分出大小正好等于进程大小的一个存储区分配给进程，这叫做可变式分区或者动态分区，使用这种技术时，分区的大小和个数不断变化。</p>
+<p>​    可变式分区能改进存储器的使用效率，但是却使存储的分配和释放工作复杂了</p>
+<h6 id="可变式分区管理使用的数据结构"><a href="#可变式分区管理使用的数据结构" class="headerlink" title="可变式分区管理使用的数据结构"></a>可变式分区管理使用的数据结构</h6><p>​    1.分区说明表：由两张表格组成，一张是已分配区表，记录已分配给进程的分区情况；另一张是未分区表，记录主存空闲区的情况。</p>
+<p>​    2.空闲区链：记录存储空间的一个较好方法就是表格信息附加在每个已分配取和未分配区中，通常将表格信息放在每个分区的首字或尾字中。已分配的信息放在各个进程的PCB表中，空闲区的信息用空闲链表管理</p>
+<h6 id="分区管理的地址重定位和存储器保护"><a href="#分区管理的地址重定位和存储器保护" class="headerlink" title="分区管理的地址重定位和存储器保护"></a>分区管理的地址重定位和存储器保护</h6><p>​    固定式分区采用静态重定位，在装入的时候，上下界限两个寄存器来保护存储器，方式地址越界错误</p>
+<p>​    可变式分区采用动态重定位，系统会设置一个基址（重定位）寄存器，存放运行进程分配的主存区起始地址，再增设一个限长寄存器，用来存放运行程序的大小，也是起到保护作用。</p>
+<h6 id="分区管理的优缺点"><a href="#分区管理的优缺点" class="headerlink" title="分区管理的优缺点"></a>分区管理的优缺点</h6><p>​    优点：实现了多道程序共享主存、实现分区管理的系统设计相对简单、实现存储器保护的手段也比较简单</p>
+<p>​    缺点：主存利用不够充分、没有实现主存的扩充问题</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/11/14/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/" data-id="cksmslcq1002bmsu95q3q846m" data-title="操作系统-存储器管理" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/11/15/%E4%BA%86%E8%A7%A3ConcurrentHashMap/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          了解ConcurrentHashMap
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Git常用命令</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Goroutine/" rel="tag">Goroutine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/" rel="tag">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netty/" rel="tag">Netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TopK/" rel="tag">TopK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%B0%81%E9%97%AD/" rel="tag">线程封闭</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%83%8C%E5%8C%85/" rel="tag">背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" rel="tag">零拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/29/AQS%E5%85%A5%E9%97%A8/">AQS介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/">Kafka介绍（二）</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/08/Kafka%E5%85%A5%E9%97%A8/">kafka入门介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/">Redis cluster集群模式介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/21/TopK%E9%97%AE%E9%A2%98%E7%94%A8%E5%BF%AB%E6%8E%92%E5%92%8C%E5%A0%86%E6%8E%92%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E5%88%AB%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F/">TopK问题用快排和堆排的复杂度分别是多少？</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Gin%E6%A1%86%E6%9E%B6/">Gin框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go%E5%9F%BA%E7%A1%80/">Go基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Netty/">Netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot-%E6%A1%86%E6%9E%B6/">SpringBoot 框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8C%E6%AD%A5/">同步</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88java%EF%BC%89/">并发编程（java）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%B8%B8/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 By Autoload<br>
+      Driven - <a href="https://hexo.io/" target="_blank">Hexo</a>|Theme - <a href="https://github.com/autoload/hexo-theme-auto" target="_blank">Auto</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>如果方向错误，停止前进就是一种进步</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">如果方向错误，停止前进就是一种进步</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-常见排序介绍及优化手段" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/16/%E5%B8%B8%E8%A7%81%E6%8E%92%E5%BA%8F%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/" class="article-date">
+  <time class="dt-published" datetime="2020-11-16T05:42:47.000Z" itemprop="datePublished">2020-11-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/11/16/%E5%B8%B8%E8%A7%81%E6%8E%92%E5%BA%8F%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/">常见排序介绍及优化手段</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="1-插入排序"><a href="#1-插入排序" class="headerlink" title="1.插入排序"></a>1.插入排序</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span>[] arr=&#123;<span class="number">7</span>,<span class="number">4</span>,<span class="number">87</span>,<span class="number">23</span>,<span class="number">2324</span>,<span class="number">57</span>,<span class="number">34</span>,<span class="number">87</span>,<span class="number">345</span>,<span class="number">68</span>,<span class="number">23</span>,<span class="number">1</span>,<span class="number">567</span>,<span class="number">345</span>,<span class="number">77</span>,<span class="number">33</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">76</span>&#125;;</span><br><span class="line">    <span class="comment">//插入排序：每次将当前元素插入到左侧已经排好的数组中</span></span><br><span class="line">    <span class="keyword">int</span> len=arr.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &gt;<span class="number">0</span>; j--) &#123;</span><br><span class="line">            <span class="keyword">if</span>(arr[j]&lt;arr[j-<span class="number">1</span>])&#123;</span><br><span class="line">                <span class="keyword">int</span> tmp=arr[j];</span><br><span class="line">                arr[j]=arr[j-<span class="number">1</span>];</span><br><span class="line">                arr[j-<span class="number">1</span>]=tmp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(Arrays.toString(arr));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-堆排序"><a href="#2-堆排序" class="headerlink" title="2. 堆排序"></a>2. 堆排序</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">duipaixu</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] arr=&#123;<span class="number">7</span>,<span class="number">4</span>,<span class="number">87</span>,<span class="number">23</span>,<span class="number">2324</span>,<span class="number">57</span>,<span class="number">34</span>,<span class="number">87</span>,<span class="number">345</span>,<span class="number">68</span>,<span class="number">23</span>,<span class="number">1</span>,<span class="number">567</span>,<span class="number">345</span>,<span class="number">77</span>,<span class="number">33</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">76</span>&#125;;</span><br><span class="line">        <span class="comment">//插入排序：每次将当前元素插入到左侧已经拍好的数组中</span></span><br><span class="line">        <span class="keyword">int</span> len=arr.length;</span><br><span class="line">        heap_sort(arr,len-<span class="number">1</span>);</span><br><span class="line">        System.out.println(Arrays.toString(arr));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">heap_sort</span><span class="params">(<span class="keyword">int</span>[] arr,<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">        <span class="comment">//形成二叉堆</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = (len-<span class="number">2</span>)/<span class="number">2</span>; i &gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">            downadjust(arr,i,len+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=len;i&gt;<span class="number">0</span>;i--)&#123;</span><br><span class="line">            <span class="keyword">int</span> tmp=arr[i];</span><br><span class="line">            arr[i]=arr[<span class="number">0</span>];</span><br><span class="line">            arr[<span class="number">0</span>]=tmp;</span><br><span class="line">            downadjust(arr,<span class="number">0</span>,i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">downadjust</span><span class="params">(<span class="keyword">int</span>[] arr,<span class="keyword">int</span> parent,<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> tmp=arr[parent];</span><br><span class="line">        <span class="keyword">int</span> child=<span class="number">2</span>*parent+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(child&lt;len)&#123;</span><br><span class="line">            <span class="keyword">if</span>(child+<span class="number">1</span>&lt;len&amp;&amp;arr[child]&gt;=arr[child+<span class="number">1</span>])&#123;</span><br><span class="line">                child++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(tmp&lt;=arr[child])&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            arr[parent]=arr[child];</span><br><span class="line">            parent=child;</span><br><span class="line">            child=<span class="number">2</span>*parent+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        arr[parent]=tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-归并排序"><a href="#3-归并排序" class="headerlink" title="3. 归并排序"></a>3. 归并排序</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">guibinpaixu</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] arr=&#123;<span class="number">7</span>,<span class="number">4</span>,<span class="number">87</span>,<span class="number">23</span>,<span class="number">2324</span>,<span class="number">57</span>,<span class="number">34</span>,<span class="number">87</span>,<span class="number">345</span>,<span class="number">68</span>,<span class="number">23</span>,<span class="number">1</span>,<span class="number">567</span>,<span class="number">345</span>,<span class="number">77</span>,<span class="number">33</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">76</span>&#125;;</span><br><span class="line">        <span class="comment">//插入排序：每次将当前元素插入到左侧已经拍好的数组中</span></span><br><span class="line">        <span class="keyword">int</span> len=arr.length;</span><br><span class="line">        gbsort(arr,<span class="number">0</span>,len-<span class="number">1</span>);</span><br><span class="line">        System.out.println(Arrays.toString(arr));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">gbsort</span><span class="params">(<span class="keyword">int</span>[] arr,<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(l&gt;=r)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> mid=l+(r-l)/<span class="number">2</span>;</span><br><span class="line">        gbsort(arr,l,mid);</span><br><span class="line">        gbsort(arr,mid+<span class="number">1</span>,r);</span><br><span class="line">        help(arr,l,mid,r);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">help</span><span class="params">(<span class="keyword">int</span>[] arr,<span class="keyword">int</span> l,<span class="keyword">int</span> mid,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] help=<span class="keyword">new</span> <span class="keyword">int</span>[r-l+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">int</span> p=l;</span><br><span class="line">        <span class="keyword">int</span> q=mid+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> index=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(p&lt;=mid&amp;&amp;q&lt;=r)&#123;</span><br><span class="line">            help[index++]=arr[p]&lt;arr[q]?arr[p++]:arr[q++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(p&lt;=mid)&#123;</span><br><span class="line">            help[index++]=arr[p++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(q&lt;=mid)&#123;</span><br><span class="line">            help[index++]=arr[q++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;index;i++)&#123;</span><br><span class="line">            arr[i+l]=help[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-快速排序"><a href="#4-快速排序" class="headerlink" title="4. 快速排序"></a>4. 快速排序</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">kuaipai</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] arr=&#123;<span class="number">7</span>,<span class="number">4</span>,<span class="number">87</span>,<span class="number">23</span>,<span class="number">2324</span>,<span class="number">57</span>,<span class="number">34</span>,<span class="number">87</span>,<span class="number">345</span>,<span class="number">68</span>,<span class="number">23</span>,<span class="number">1</span>,<span class="number">567</span>,<span class="number">345</span>,<span class="number">77</span>,<span class="number">33</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">76</span>&#125;;</span><br><span class="line">        <span class="comment">//插入排序：每次将当前元素插入到左侧已经拍好的数组中</span></span><br><span class="line">        <span class="keyword">int</span> len=arr.length;</span><br><span class="line">        quick_sort(arr,<span class="number">0</span>,len-<span class="number">1</span>);</span><br><span class="line">        System.out.println(Arrays.toString(arr));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">quick_sort</span><span class="params">(<span class="keyword">int</span>[] arr,<span class="keyword">int</span> l ,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(l&gt;=r)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> index=partition(arr,l,r);</span><br><span class="line">        quick_sort(arr,l,index-<span class="number">1</span>);</span><br><span class="line">        quick_sort(arr,index+<span class="number">1</span>,r);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span>[] arr,<span class="keyword">int</span> l ,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> tmp=arr[l];</span><br><span class="line">        <span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">            <span class="keyword">while</span>(l&lt;r&amp;&amp;arr[r]&gt;=tmp)&#123;</span><br><span class="line">                r--;</span><br><span class="line">            &#125;</span><br><span class="line">            arr[l]=arr[r];</span><br><span class="line">            <span class="keyword">while</span> (l&lt;r&amp;&amp;arr[l]&lt;=tmp)&#123;</span><br><span class="line">                l++;</span><br><span class="line">            &#125;</span><br><span class="line">            arr[r]=arr[l];</span><br><span class="line">        &#125;</span><br><span class="line">        arr[l]=tmp;</span><br><span class="line">        <span class="keyword">return</span> l;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">``````</span><br><span class="line"></span><br><span class="line">##### <span class="number">5.</span> 冒泡排序</span><br><span class="line"></span><br><span class="line">```<span class="function">java</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span>[] arr=&#123;<span class="number">7</span>,<span class="number">4</span>,<span class="number">87</span>,<span class="number">23</span>,<span class="number">2324</span>,<span class="number">57</span>,<span class="number">34</span>,<span class="number">87</span>,<span class="number">345</span>,<span class="number">68</span>,<span class="number">23</span>,<span class="number">1</span>,<span class="number">567</span>,<span class="number">345</span>,<span class="number">77</span>,<span class="number">33</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">76</span>&#125;;</span><br><span class="line">    <span class="comment">//每次冒泡出一个结果到最后</span></span><br><span class="line">    <span class="keyword">int</span> len=arr.length;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=len-<span class="number">2</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=i;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(arr[j]&gt;arr[j+<span class="number">1</span>])&#123;</span><br><span class="line">                <span class="keyword">int</span> tmp=arr[j];</span><br><span class="line">                arr[j]=arr[j+<span class="number">1</span>];</span><br><span class="line">                arr[j+<span class="number">1</span>]=tmp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(Arrays.toString(arr));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="6-希尔排序"><a href="#6-希尔排序" class="headerlink" title="6. 希尔排序"></a>6. 希尔排序</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span>[] arr=&#123;<span class="number">7</span>,<span class="number">4</span>,<span class="number">87</span>,<span class="number">23</span>,<span class="number">2324</span>,<span class="number">57</span>,<span class="number">34</span>,<span class="number">87</span>,<span class="number">345</span>,<span class="number">68</span>,<span class="number">23</span>,<span class="number">1</span>,<span class="number">567</span>,<span class="number">345</span>,<span class="number">77</span>,<span class="number">33</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">76</span>&#125;;</span><br><span class="line">    <span class="comment">//插入排序：每次将当前元素插入到左侧已经拍好的数组中</span></span><br><span class="line">    <span class="keyword">int</span> len=arr.length;</span><br><span class="line">    <span class="keyword">int</span> h=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(h&lt;len/<span class="number">3</span>)&#123;</span><br><span class="line">        h=h*<span class="number">3</span>+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(h&gt;=<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=h;i&lt;len;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=i;j&gt;=h;j-=h)&#123;</span><br><span class="line">                <span class="keyword">if</span>(arr[j]&lt;arr[j-h])&#123;</span><br><span class="line">                    <span class="keyword">int</span> tmp=arr[j];</span><br><span class="line">                    arr[j]=arr[j-h];</span><br><span class="line">                    arr[j-h]=tmp;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        h/=<span class="number">3</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(Arrays.toString(arr));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="7-选择排序"><a href="#7-选择排序" class="headerlink" title="7. 选择排序"></a>7. 选择排序</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] arr=&#123;<span class="number">7</span>,<span class="number">4</span>,<span class="number">87</span>,<span class="number">23</span>,<span class="number">2324</span>,<span class="number">57</span>,<span class="number">34</span>,<span class="number">87</span>,<span class="number">345</span>,<span class="number">68</span>,<span class="number">23</span>,<span class="number">1</span>,<span class="number">567</span>,<span class="number">345</span>,<span class="number">77</span>,<span class="number">33</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">76</span>&#125;;</span><br><span class="line">        <span class="comment">//选择排序，每次选择一个最小的与前面的交换</span></span><br><span class="line">        <span class="keyword">int</span> len=arr.length;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len-<span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> min=i;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i+<span class="number">1</span>; j &lt;len ; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(arr[min]&gt;arr[j])&#123;</span><br><span class="line">                    min=j;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> tmp=arr[min];</span><br><span class="line">            arr[min]=arr[i];</span><br><span class="line">            arr[i]=tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(Arrays.toString(arr));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.io//photo/paixu.png" alt="image.png"></p>
+<p><strong>各大排序优化：</strong><br>冒泡：加入一个flag，如果有一轮flag没变说明没排序，说明已经排序好，可以直接退出<br>快排：小数组切换到插入排序，三数取中，三向切分<br>   三向切分：类似于荷兰国旗改进，荷兰国旗问题和经典快排不同的就只是将&lt;=num改为了&lt; num和=num两部分，借用这个思想使得原来每次只可以让一个数找到正确的位置改进为了每次至少让一个数找到位置 在topk问题中，快排每次可以排除一半元素<br>  随机快排 1. 选取最后一个数：如果是一个已经排好序的数组，每次找到位置之后，左边是要进行排序的部分，数组长度是原长度-1，它的时间复杂度就是O(N^2)；如果每次找到的数都是中间的位置，它的时间复杂度就只有O(logN) 2. 然而以随机数作为选取的标准num的时候，因为是随机的，就只能通过数学期望去计算它的时间复杂度，时间复杂度是O(logN)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/11/16/%E5%B8%B8%E8%A7%81%E6%8E%92%E5%BA%8F%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/" data-id="cksmslcq1001ymsu96nwx76bd" data-title="常见排序介绍及优化手段" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-了解ConcurrentHashMap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/15/%E4%BA%86%E8%A7%A3ConcurrentHashMap/" class="article-date">
+  <time class="dt-published" datetime="2020-11-15T02:09:01.000Z" itemprop="datePublished">2020-11-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/11/15/%E4%BA%86%E8%A7%A3ConcurrentHashMap/">了解ConcurrentHashMap</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><h5 id="ConcurrentHashMap中没有负载因子和阈值吗"><a href="#ConcurrentHashMap中没有负载因子和阈值吗" class="headerlink" title="ConcurrentHashMap中没有负载因子和阈值吗"></a>ConcurrentHashMap中没有负载因子和阈值吗</h5><p> 是没有，改用了sizeCtl控制，0表示默认值，-1表示正在扩容，&gt;0表示下一次扩容的门槛，-（1+nThreads）n个线程正在扩容，sizeCtl的变化都是CAS操作</p>
+<p> sizeCtl：</p>
+<p> （1）-1，表示有线程正在进行初始化操作</p>
+<p> （2）-(1 + nThreads)，表示有n个线程正在一起扩容</p>
+<p> （3）0，默认值，后续在真正初始化的时候使用默认容量</p>
+<p> （4）&gt; 0，初始化或扩容完成后下一次的扩容门槛</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ConcurrentHashMap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ConcurrentHashMap</span><span class="params">(<span class="keyword">int</span> initialCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (initialCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</span><br><span class="line">    <span class="keyword">int</span> cap = ((initialCapacity &gt;= (MAXIMUM_CAPACITY &gt;&gt;&gt; <span class="number">1</span>)) ?</span><br><span class="line">            MAXIMUM_CAPACITY :</span><br><span class="line">            tableSizeFor(initialCapacity + (initialCapacity &gt;&gt;&gt; <span class="number">1</span>) + <span class="number">1</span>));</span><br><span class="line">    <span class="keyword">this</span>.sizeCtl = cap;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ConcurrentHashMap</span><span class="params">(Map&lt;? extends K, ? extends V&gt; m)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.sizeCtl = DEFAULT_CAPACITY;</span><br><span class="line">    putAll(m);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ConcurrentHashMap</span><span class="params">(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(initialCapacity, loadFactor, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ConcurrentHashMap</span><span class="params">(<span class="keyword">int</span> initialCapacity,</span></span></span><br><span class="line"><span class="params"><span class="function">                         <span class="keyword">float</span> loadFactor, <span class="keyword">int</span> concurrencyLevel)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!(loadFactor &gt; <span class="number">0.0f</span>) || initialCapacity &lt; <span class="number">0</span> || concurrencyLevel &lt;= <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</span><br><span class="line">    <span class="keyword">if</span> (initialCapacity &lt; concurrencyLevel)   <span class="comment">// Use at least as many bins</span></span><br><span class="line">        initialCapacity = concurrencyLevel;   <span class="comment">// as estimated threads</span></span><br><span class="line">    <span class="keyword">long</span> size = (<span class="keyword">long</span>)(<span class="number">1.0</span> + (<span class="keyword">long</span>)initialCapacity / loadFactor);</span><br><span class="line">    <span class="keyword">int</span> cap = (size &gt;= (<span class="keyword">long</span>)MAXIMUM_CAPACITY) ?</span><br><span class="line">            MAXIMUM_CAPACITY : tableSizeFor((<span class="keyword">int</span>)size);</span><br><span class="line">    <span class="keyword">this</span>.sizeCtl = cap;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><h5 id="请讲讲ConcurrentHashMap的put操作？"><a href="#请讲讲ConcurrentHashMap的put操作？" class="headerlink" title="请讲讲ConcurrentHashMap的put操作？"></a>请讲讲ConcurrentHashMap的put操作？</h5><p> a. 控制key和value都不能为null<br> b. 再用自旋+cas实现put过程，下面是具体的put<br> c. 如果桶未初始化就初始化桶<br> d. 如果桶中还没有元素就把这个元素插进去，插入这一步就是采用的CAS<br> e. 如果要插入的桶正在扩容迁移元素，就当前线程一起帮忙协助扩容<br> f. 如果桶已经存在且没有迁移元素<br> g. 就锁住这个桶，是采用分段锁的思想（锁住后里面不需要cas）<br> h. 如果元素存在就替换，不存在size+1，插到链表或者树的尾部<br> i. 如果桶的元素个数达到了8就尝试树化<br> j. 元素个数+1（分段锁思想），同时检查是否需要扩容<br>k. 返回</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Maps the specified key to the specified value in this table.</span></span><br><span class="line"><span class="comment">    * Neither the key nor the value can be null.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * &lt;p&gt;The value can be retrieved by calling the &#123;<span class="doctag">@code</span> get&#125; method</span></span><br><span class="line"><span class="comment">    * with a key that is equal to the original key.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> key key with which the specified value is to be associated</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> value value to be associated with the specified key</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> the previous value associated with &#123;<span class="doctag">@code</span> key&#125;, or</span></span><br><span class="line"><span class="comment">    *         &#123;<span class="doctag">@code</span> null&#125; if there was no mapping for &#123;<span class="doctag">@code</span> key&#125;</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@throws</span> NullPointerException if the specified key or value is null</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> V <span class="title">put</span><span class="params">(K key, V value)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> putVal(key, value, <span class="keyword">false</span>);</span><br><span class="line">   &#125;</span><br><span class="line">	</span><br><span class="line">   <span class="comment">/** Implementation for put and putIfAbsent */</span></span><br><span class="line">   <span class="function"><span class="keyword">final</span> V <span class="title">putVal</span><span class="params">(K key, V value, <span class="keyword">boolean</span> onlyIfAbsent)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (key == <span class="keyword">null</span> || value == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">       <span class="keyword">int</span> hash = spread(key.hashCode());</span><br><span class="line">       <span class="keyword">int</span> binCount = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span> (Node&lt;K,V&gt;[] tab = table;;) &#123;</span><br><span class="line">           Node&lt;K,V&gt; f; <span class="keyword">int</span> n, i, fh;</span><br><span class="line">           <span class="keyword">if</span> (tab == <span class="keyword">null</span> || (n = tab.length) == <span class="number">0</span>)</span><br><span class="line">               tab = initTable();</span><br><span class="line">           <span class="keyword">else</span> <span class="keyword">if</span> ((f = tabAt(tab, i = (n - <span class="number">1</span>) &amp; hash)) == <span class="keyword">null</span>) &#123;</span><br><span class="line">               <span class="keyword">if</span> (casTabAt(tab, i, <span class="keyword">null</span>,</span><br><span class="line">                            <span class="keyword">new</span> Node&lt;K,V&gt;(hash, key, value, <span class="keyword">null</span>)))</span><br><span class="line">                   <span class="keyword">break</span>;                   <span class="comment">// no lock when adding to empty bin</span></span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">else</span> <span class="keyword">if</span> ((fh = f.hash) == MOVED)</span><br><span class="line">               tab = helpTransfer(tab, f);</span><br><span class="line">           <span class="keyword">else</span> &#123;</span><br><span class="line">               V oldVal = <span class="keyword">null</span>;</span><br><span class="line">               <span class="keyword">synchronized</span> (f) &#123;</span><br><span class="line">                   <span class="keyword">if</span> (tabAt(tab, i) == f) &#123;</span><br><span class="line">                       <span class="keyword">if</span> (fh &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                           binCount = <span class="number">1</span>;</span><br><span class="line">                           <span class="keyword">for</span> (Node&lt;K,V&gt; e = f;; ++binCount) &#123;</span><br><span class="line">                               K ek;</span><br><span class="line">                               <span class="keyword">if</span> (e.hash == hash &amp;&amp;</span><br><span class="line">                                   ((ek = e.key) == key ||</span><br><span class="line">                                    (ek != <span class="keyword">null</span> &amp;&amp; key.equals(ek)))) &#123;</span><br><span class="line">                                   oldVal = e.val;</span><br><span class="line">                                   <span class="keyword">if</span> (!onlyIfAbsent)</span><br><span class="line">                                       e.val = value;</span><br><span class="line">                                   <span class="keyword">break</span>;</span><br><span class="line">                               &#125;</span><br><span class="line">                               Node&lt;K,V&gt; pred = e;</span><br><span class="line">                               <span class="keyword">if</span> ((e = e.next) == <span class="keyword">null</span>) &#123;</span><br><span class="line">                                   pred.next = <span class="keyword">new</span> Node&lt;K,V&gt;(hash, key,</span><br><span class="line">                                                             value, <span class="keyword">null</span>);</span><br><span class="line">                                   <span class="keyword">break</span>;</span><br><span class="line">                               &#125;</span><br><span class="line">                           &#125;</span><br><span class="line">                       &#125;</span><br><span class="line">                       <span class="keyword">else</span> <span class="keyword">if</span> (f <span class="keyword">instanceof</span> TreeBin) &#123;</span><br><span class="line">                           Node&lt;K,V&gt; p;</span><br><span class="line">                           binCount = <span class="number">2</span>;</span><br><span class="line">                           <span class="keyword">if</span> ((p = ((TreeBin&lt;K,V&gt;)f).putTreeVal(hash, key,</span><br><span class="line">                                                          value)) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                               oldVal = p.val;</span><br><span class="line">                               <span class="keyword">if</span> (!onlyIfAbsent)</span><br><span class="line">                                   p.val = value;</span><br><span class="line">                           &#125;</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">if</span> (binCount != <span class="number">0</span>) &#123;</span><br><span class="line">                   <span class="keyword">if</span> (binCount &gt;= TREEIFY_THRESHOLD)</span><br><span class="line">                       treeifyBin(tab, i);</span><br><span class="line">                   <span class="keyword">if</span> (oldVal != <span class="keyword">null</span>)</span><br><span class="line">                       <span class="keyword">return</span> oldVal;</span><br><span class="line">                   <span class="keyword">break</span>;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       addCount(<span class="number">1L</span>, binCount);</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><h5 id="请讲讲ConcurrentHashMap的扩容操作？"><a href="#请讲讲ConcurrentHashMap的扩容操作？" class="headerlink" title="请讲讲ConcurrentHashMap的扩容操作？"></a>请讲讲ConcurrentHashMap的扩容操作？</h5><p> 初始化桶操作：判断是否正在扩容，正在的话就让出cpu。否则就用CAS更新sizeCtl（CAS控制只有一个线程初始化桶数组），设置容量，并设置扩容门槛（写死的）赋值给sizeCtl</p>
+<p> addCount操作，元素数量+1，并会判断是否需要扩容，这里是数组数量采用分段锁的思想，根据不同线程存储到不同段上, 先尝试把数量加到baseCount上，如果失败再加到分段的CounterCell上（采用CAS添加）,如果不同线程对应的分段都添加失败，就要扩容段</p>
+<p> 扩容：sizeCtl存储着扩容门槛，高位存储扩容邮戳，低位存储存储着扩容线程数加1，即1+nThreads),sc小于0，说明正在扩容，就当前线程加入到迁移元素中去，扩容线程+1；如果没有线程在扩容，自己就扩容，加入迁移元素，sizeCtl低位为2（1+nThreads）</p>
+<p> 协助扩容：线程添加元素时发现正在扩容且当前元素所在的桶元素已经迁移完成了，则协助迁移其它桶的元素。迁移完成的标志：如果桶数组不为空，并且当前桶第一个元素为ForwardingNode类型，并且nextTab不为空</p>
+<p> 迁移元素：扩容时容量变为两倍，并把部分元素迁移到其它桶中。迁移元素先从靠后的桶开始；迁移完成的桶在里面放置一ForwardingNode类型的元素，标记该桶迁移完成；</p>
+<p> 过程：迁移元素是用sychronized锁住该桶，迁移的时候，根据迁移时根据hash&amp;n是否等于0把桶中元素分化成两个链表或树；等于0的在原来的位置，不等于0 就在原来的位置+n,(n的扩大的大小)</p>
+<p> 添加元素：</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Adds to count, and if table is too small and not already</span></span><br><span class="line"><span class="comment">    * resizing, initiates transfer. If already resizing, helps</span></span><br><span class="line"><span class="comment">    * perform transfer if work is available.  Rechecks occupancy</span></span><br><span class="line"><span class="comment">    * after a transfer to see if another resize is already needed</span></span><br><span class="line"><span class="comment">    * because resizings are lagging additions.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> x the count to add</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> check if &lt;0, don&#x27;t check resize, if &lt;= 1 only check if uncontended</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">addCount</span><span class="params">(<span class="keyword">long</span> x, <span class="keyword">int</span> check)</span> </span>&#123;</span><br><span class="line">       CounterCell[] as; <span class="keyword">long</span> b, s;</span><br><span class="line">       <span class="keyword">if</span> ((as = counterCells) != <span class="keyword">null</span> ||</span><br><span class="line">           !U.compareAndSwapLong(<span class="keyword">this</span>, BASECOUNT, b = baseCount, s = b + x)) &#123;</span><br><span class="line">           CounterCell a; <span class="keyword">long</span> v; <span class="keyword">int</span> m;</span><br><span class="line">           <span class="keyword">boolean</span> uncontended = <span class="keyword">true</span>;</span><br><span class="line">           <span class="keyword">if</span> (as == <span class="keyword">null</span> || (m = as.length - <span class="number">1</span>) &lt; <span class="number">0</span> ||</span><br><span class="line">               (a = as[ThreadLocalRandom.getProbe() &amp; m]) == <span class="keyword">null</span> ||</span><br><span class="line">               !(uncontended =</span><br><span class="line">                 U.compareAndSwapLong(a, CELLVALUE, v = a.value, v + x))) &#123;</span><br><span class="line">               fullAddCount(x, uncontended);</span><br><span class="line">               <span class="keyword">return</span>;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">if</span> (check &lt;= <span class="number">1</span>)</span><br><span class="line">               <span class="keyword">return</span>;</span><br><span class="line">           s = sumCount();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">if</span> (check &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">           Node&lt;K,V&gt;[] tab, nt; <span class="keyword">int</span> n, sc;</span><br><span class="line">           <span class="keyword">while</span> (s &gt;= (<span class="keyword">long</span>)(sc = sizeCtl) &amp;&amp; (tab = table) != <span class="keyword">null</span> &amp;&amp;</span><br><span class="line">                  (n = tab.length) &lt; MAXIMUM_CAPACITY) &#123;</span><br><span class="line">               <span class="keyword">int</span> rs = resizeStamp(n);</span><br><span class="line">               <span class="keyword">if</span> (sc &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                   <span class="keyword">if</span> ((sc &gt;&gt;&gt; RESIZE_STAMP_SHIFT) != rs || sc == rs + <span class="number">1</span> ||</span><br><span class="line">                       sc == rs + MAX_RESIZERS || (nt = nextTable) == <span class="keyword">null</span> ||</span><br><span class="line">                       transferIndex &lt;= <span class="number">0</span>)</span><br><span class="line">                       <span class="keyword">break</span>;</span><br><span class="line">                   <span class="keyword">if</span> (U.compareAndSwapInt(<span class="keyword">this</span>, SIZECTL, sc, sc + <span class="number">1</span>))</span><br><span class="line">                       transfer(tab, nt);</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">else</span> <span class="keyword">if</span> (U.compareAndSwapInt(<span class="keyword">this</span>, SIZECTL, sc,</span><br><span class="line">                                            (rs &lt;&lt; RESIZE_STAMP_SHIFT) + <span class="number">2</span>))</span><br><span class="line">                   transfer(tab, <span class="keyword">null</span>);</span><br><span class="line">               s = sumCount();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">	</span><br></pre></td></tr></table></figure>
+<p> 协助扩容：</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Helps transfer if a resize is in progress.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">final</span> Node&lt;K,V&gt;[] helpTransfer(Node&lt;K,V&gt;[] tab, Node&lt;K,V&gt; f) &#123;</span><br><span class="line">        Node&lt;K,V&gt;[] nextTab; <span class="keyword">int</span> sc;</span><br><span class="line">        <span class="keyword">if</span> (tab != <span class="keyword">null</span> &amp;&amp; (f <span class="keyword">instanceof</span> ForwardingNode) &amp;&amp;</span><br><span class="line">            (nextTab = ((ForwardingNode&lt;K,V&gt;)f).nextTable) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> rs = resizeStamp(tab.length);</span><br><span class="line">            <span class="keyword">while</span> (nextTab == nextTable &amp;&amp; table == tab &amp;&amp;</span><br><span class="line">                   (sc = sizeCtl) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> ((sc &gt;&gt;&gt; RESIZE_STAMP_SHIFT) != rs || sc == rs + <span class="number">1</span> ||</span><br><span class="line">                    sc == rs + MAX_RESIZERS || transferIndex &lt;= <span class="number">0</span>)</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">if</span> (U.compareAndSwapInt(<span class="keyword">this</span>, SIZECTL, sc, sc + <span class="number">1</span>)) &#123;</span><br><span class="line">                    transfer(tab, nextTab);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> nextTab;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> table;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p> 迁移元素：</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Moves and/or copies the nodes in each bin to new table. See</span></span><br><span class="line"><span class="comment">     * above for explanation.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">transfer</span><span class="params">(Node&lt;K,V&gt;[] tab, Node&lt;K,V&gt;[] nextTab)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = tab.length, stride;</span><br><span class="line">        <span class="keyword">if</span> ((stride = (NCPU &gt; <span class="number">1</span>) ? (n &gt;&gt;&gt; <span class="number">3</span>) / NCPU : n) &lt; MIN_TRANSFER_STRIDE)</span><br><span class="line">            stride = MIN_TRANSFER_STRIDE; <span class="comment">// subdivide range</span></span><br><span class="line">        <span class="keyword">if</span> (nextTab == <span class="keyword">null</span>) &#123;            <span class="comment">// initiating</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">                Node&lt;K,V&gt;[] nt = (Node&lt;K,V&gt;[])<span class="keyword">new</span> Node&lt;?,?&gt;[n &lt;&lt; <span class="number">1</span>];</span><br><span class="line">                nextTab = nt;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Throwable ex) &#123;      <span class="comment">// try to cope with OOME</span></span><br><span class="line">                sizeCtl = Integer.MAX_VALUE;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            nextTable = nextTab;</span><br><span class="line">            transferIndex = n;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> nextn = nextTab.length;</span><br><span class="line">        ForwardingNode&lt;K,V&gt; fwd = <span class="keyword">new</span> ForwardingNode&lt;K,V&gt;(nextTab);</span><br><span class="line">        <span class="keyword">boolean</span> advance = <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">boolean</span> finishing = <span class="keyword">false</span>; <span class="comment">// to ensure sweep before committing nextTab</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, bound = <span class="number">0</span>;;) &#123;</span><br><span class="line">            Node&lt;K,V&gt; f; <span class="keyword">int</span> fh;</span><br><span class="line">            <span class="keyword">while</span> (advance) &#123;</span><br><span class="line">                <span class="keyword">int</span> nextIndex, nextBound;</span><br><span class="line">                <span class="keyword">if</span> (--i &gt;= bound || finishing)</span><br><span class="line">                    advance = <span class="keyword">false</span>;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> ((nextIndex = transferIndex) &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                    i = -<span class="number">1</span>;</span><br><span class="line">                    advance = <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (U.compareAndSwapInt</span><br><span class="line">                         (<span class="keyword">this</span>, TRANSFERINDEX, nextIndex,</span><br><span class="line">                          nextBound = (nextIndex &gt; stride ?</span><br><span class="line">                                       nextIndex - stride : <span class="number">0</span>))) &#123;</span><br><span class="line">                    bound = nextBound;</span><br><span class="line">                    i = nextIndex - <span class="number">1</span>;</span><br><span class="line">                    advance = <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (i &lt; <span class="number">0</span> || i &gt;= n || i + n &gt;= nextn) &#123;</span><br><span class="line">                <span class="keyword">int</span> sc;</span><br><span class="line">                <span class="keyword">if</span> (finishing) &#123;</span><br><span class="line">                    nextTable = <span class="keyword">null</span>;</span><br><span class="line">                    table = nextTab;</span><br><span class="line">                    sizeCtl = (n &lt;&lt; <span class="number">1</span>) - (n &gt;&gt;&gt; <span class="number">1</span>);</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (U.compareAndSwapInt(<span class="keyword">this</span>, SIZECTL, sc = sizeCtl, sc - <span class="number">1</span>)) &#123;</span><br><span class="line">                    <span class="keyword">if</span> ((sc - <span class="number">2</span>) != resizeStamp(n) &lt;&lt; RESIZE_STAMP_SHIFT)</span><br><span class="line">                        <span class="keyword">return</span>;</span><br><span class="line">                    finishing = advance = <span class="keyword">true</span>;</span><br><span class="line">                    i = n; <span class="comment">// recheck before commit</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> ((f = tabAt(tab, i)) == <span class="keyword">null</span>)</span><br><span class="line">                advance = casTabAt(tab, i, <span class="keyword">null</span>, fwd);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> ((fh = f.hash) == MOVED)</span><br><span class="line">                advance = <span class="keyword">true</span>; <span class="comment">// already processed</span></span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">synchronized</span> (f) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (tabAt(tab, i) == f) &#123;</span><br><span class="line">                        Node&lt;K,V&gt; ln, hn;</span><br><span class="line">                        <span class="keyword">if</span> (fh &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                            <span class="keyword">int</span> runBit = fh &amp; n;</span><br><span class="line">                            Node&lt;K,V&gt; lastRun = f;</span><br><span class="line">                            <span class="keyword">for</span> (Node&lt;K,V&gt; p = f.next; p != <span class="keyword">null</span>; p = p.next) &#123;</span><br><span class="line">                                <span class="keyword">int</span> b = p.hash &amp; n;</span><br><span class="line">                                <span class="keyword">if</span> (b != runBit) &#123;</span><br><span class="line">                                    runBit = b;</span><br><span class="line">                                    lastRun = p;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="keyword">if</span> (runBit == <span class="number">0</span>) &#123;</span><br><span class="line">                                ln = lastRun;</span><br><span class="line">                                hn = <span class="keyword">null</span>;</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="keyword">else</span> &#123;</span><br><span class="line">                                hn = lastRun;</span><br><span class="line">                                ln = <span class="keyword">null</span>;</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="keyword">for</span> (Node&lt;K,V&gt; p = f; p != lastRun; p = p.next) &#123;</span><br><span class="line">                                <span class="keyword">int</span> ph = p.hash; K pk = p.key; V pv = p.val;</span><br><span class="line">                                <span class="keyword">if</span> ((ph &amp; n) == <span class="number">0</span>)</span><br><span class="line">                                    ln = <span class="keyword">new</span> Node&lt;K,V&gt;(ph, pk, pv, ln);</span><br><span class="line">                                <span class="keyword">else</span></span><br><span class="line">                                    hn = <span class="keyword">new</span> Node&lt;K,V&gt;(ph, pk, pv, hn);</span><br><span class="line">                            &#125;</span><br><span class="line">                            setTabAt(nextTab, i, ln);</span><br><span class="line">                            setTabAt(nextTab, i + n, hn);</span><br><span class="line">                            setTabAt(tab, i, fwd);</span><br><span class="line">                            advance = <span class="keyword">true</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">else</span> <span class="keyword">if</span> (f <span class="keyword">instanceof</span> TreeBin) &#123;</span><br><span class="line">                            TreeBin&lt;K,V&gt; t = (TreeBin&lt;K,V&gt;)f;</span><br><span class="line">                            TreeNode&lt;K,V&gt; lo = <span class="keyword">null</span>, loTail = <span class="keyword">null</span>;</span><br><span class="line">                            TreeNode&lt;K,V&gt; hi = <span class="keyword">null</span>, hiTail = <span class="keyword">null</span>;</span><br><span class="line">                            <span class="keyword">int</span> lc = <span class="number">0</span>, hc = <span class="number">0</span>;</span><br><span class="line">                            <span class="keyword">for</span> (Node&lt;K,V&gt; e = t.first; e != <span class="keyword">null</span>; e = e.next) &#123;</span><br><span class="line">                                <span class="keyword">int</span> h = e.hash;</span><br><span class="line">                                TreeNode&lt;K,V&gt; p = <span class="keyword">new</span> TreeNode&lt;K,V&gt;</span><br><span class="line">                                    (h, e.key, e.val, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">                                <span class="keyword">if</span> ((h &amp; n) == <span class="number">0</span>) &#123;</span><br><span class="line">                                    <span class="keyword">if</span> ((p.prev = loTail) == <span class="keyword">null</span>)</span><br><span class="line">                                        lo = p;</span><br><span class="line">                                    <span class="keyword">else</span></span><br><span class="line">                                        loTail.next = p;</span><br><span class="line">                                    loTail = p;</span><br><span class="line">                                    ++lc;</span><br><span class="line">                                &#125;</span><br><span class="line">                                <span class="keyword">else</span> &#123;</span><br><span class="line">                                    <span class="keyword">if</span> ((p.prev = hiTail) == <span class="keyword">null</span>)</span><br><span class="line">                                        hi = p;</span><br><span class="line">                                    <span class="keyword">else</span></span><br><span class="line">                                        hiTail.next = p;</span><br><span class="line">                                    hiTail = p;</span><br><span class="line">                                    ++hc;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                            ln = (lc &lt;= UNTREEIFY_THRESHOLD) ? untreeify(lo) :</span><br><span class="line">                                (hc != <span class="number">0</span>) ? <span class="keyword">new</span> TreeBin&lt;K,V&gt;(lo) : t;</span><br><span class="line">                            hn = (hc &lt;= UNTREEIFY_THRESHOLD) ? untreeify(hi) :</span><br><span class="line">                                (lc != <span class="number">0</span>) ? <span class="keyword">new</span> TreeBin&lt;K,V&gt;(hi) : t;</span><br><span class="line">                            setTabAt(nextTab, i, ln);</span><br><span class="line">                            setTabAt(nextTab, i + n, hn);</span><br><span class="line">                            setTabAt(tab, i, fwd);</span><br><span class="line">                            advance = <span class="keyword">true</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><h5 id="删除流程："><a href="#删除流程：" class="headerlink" title="删除流程："></a>删除流程：</h5><p>a. 删除元素跟添加元素一样，都是先找到元素所在的桶，然后采用分段锁的思想锁住整个桶，再进行操作。<br>b. 流程：进入自旋，如果正在扩容，协助扩容，如果没有，对桶加锁，找到元素，删除，如果是树退化成链表，还要进行退化操作，删除了元素，就元素个数-1；返回旧值，没有删除元素就返回null</p>
+</li>
+<li><h5 id="获取元素："><a href="#获取元素：" class="headerlink" title="获取元素："></a>获取元素：</h5><p>a. 不加锁，<br>b. 所以ConcurrentHashMap不是强一致性的‘</p>
+</li>
+<li><h5 id="Jdk1-7和1-8的区别，底层数据结构有什么不同，put和get操作的不同"><a href="#Jdk1-7和1-8的区别，底层数据结构有什么不同，put和get操作的不同" class="headerlink" title="Jdk1.7和1.8的区别，底层数据结构有什么不同，put和get操作的不同"></a>Jdk1.7和1.8的区别，底层数据结构有什么不同，put和get操作的不同</h5><p>a. 数据结构差别：JDK1.7中ConcurrentHashMap采用了数组+Segment+分段锁，segment继承自ReentrantLock，缺点：需要两次hash，hash时间长。优点：并发能力高，segment之间相互不影响；JDK1.8中，数组+链表+红黑树的实现方式来设计，内部大量采用CAS操作<br>b. 数据结构：取消了Segment分段锁的数据结构，取而代之的是数组+链表+红黑树的结构。<br>c. 保证线程安全机制：JDK1.7采用segment的分段锁机制实现线程安全，其中segment继承自ReentrantLock。JDK1.8采用CAS+Synchronized保证线程安全。<br>d. 锁的粒度：原来是对需要进行数据操作的Segment加锁，现调整为对每个数组元素加锁（Node）。<br>e. 链表转化为红黑树:定位结点的hash算法简化会带来弊端,Hash冲突加剧,因此在链表节点数量大于8时，会将链表转化为红黑树进行存储。<br>f. 查询时间复杂度：从原来的遍历链表O(n)，变成遍历红黑树O(logN)。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/11/15/%E4%BA%86%E8%A7%A3ConcurrentHashMap/" data-id="cksmslcrc004amsu9a1wa7y4k" data-title="了解ConcurrentHashMap" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-操作系统-存储器管理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/14/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2020-11-14T14:25:43.000Z" itemprop="datePublished">2020-11-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/11/14/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/">操作系统-存储器管理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h5><p>​    存储器管理涉及一下五个功能：</p>
+<p>​    1. 存储器分配，主要解决多道程序和多程序如何共享主存的问题</p>
+<p>​    2. 地址转换和重定位，研究各种地址变换方法及相应的地址变换机构</p>
+<p>​    3. 存储器保护</p>
+<p>​    4. 存储器扩充</p>
+<p>​    5. 存储器共享</p>
+<p><strong>地址空间</strong>：程序限定的空间叫逻辑地址空间，其中的地址叫做相对地址或逻辑地址</p>
+<p><strong>存储空间</strong>：存储空间是物理存储器中全部物理单元的集合所限定的空间，由字或字节组成的大大的阵列，每个字和字节有自己的编号。</p>
+<p><strong>地址重定位</strong>：</p>
+<ol>
+<li><p>链接</p>
+<p>链接就是将汇编/编译产生的一个或多个目标代码与所需要的库函数装配成一个可执行程序；链接有两种方式：静态和动态。采用静态链接时，在程序装入内存运行前，就将目标模块和库事先连接成可执行程序；动态链接分为装入和运行时两种，装入就是指将目标模块装入主存时，边装入边链接，运行就是指运行时才链接。运行时链接的效率更高</p>
+</li>
+<li><p>静态重定位</p>
+<p>在逻辑地址转换为物理地址的过程中，地址变换是在进程装入时一次完成的，以后不再改变。</p>
+<p><strong>优点</strong>：是无需增加硬件地址转换机构，便于实现程序的静态连接。在早期计算机系统中大多采用这种方案。 </p>
+<p><strong>缺点</strong>：内存空间不能移动；各个用户进程很难共享内存中同一程序的副本</p>
+</li>
+<li><p>动态重定位</p>
+<p>动态运行的装入程序把转入模块装入内存之后，并不立即把装入模块的逻辑地址进行转换，而是把这</p>
+<p>种地址转换推迟到程序执行时才进行，装入内存后的所有地址都仍是逻辑地址。这种方式需要寄存器的支持，其中</p>
+<p>放有当前正在执行的程序在内存空间中的起始地址。</p>
+<p><strong>优点：</strong>内存空间可以移动；各个用户进程可以共享内存中同一程序的副本。</p>
+<p><strong>缺点</strong>：增加了机器成本，而且实现存储管理的软件算法比较复杂。</p>
+<ol start="4">
+<li>存储器保护</li>
+</ol>
+<p>存储器分为两部分，一是操作系统占用区，另一部分是多用户进程分享的用户占用区。保护涉及两个方面：地址越界和存取方式的保护</p>
+<ol start="5">
+<li>存储器共享</li>
+</ol>
+</li>
+</ol>
+<h5 id="2-单用户单道程序的存储器分配"><a href="#2-单用户单道程序的存储器分配" class="headerlink" title="2.单用户单道程序的存储器分配"></a>2.单用户单道程序的存储器分配</h5><p>​    单一连续区分配，整个系统资源利用率低</p>
+<h5 id="3-多用户多道程序存储器分配——分区分配"><a href="#3-多用户多道程序存储器分配——分区分配" class="headerlink" title="3.多用户多道程序存储器分配——分区分配"></a>3.多用户多道程序存储器分配——分区分配</h5><p>​    固定式分区、可变式分区</p>
+<h6 id="固定式分区"><a href="#固定式分区" class="headerlink" title="固定式分区"></a>固定式分区</h6><p>​    固定式分区是适合多到程序运行的最简单的存储器管理，把主存用户区预先划分为几个大小不等的区域，当进程到达时，选择一个合适进程要求最小的，空闲分区分给进程；没有合适的空闲分区的时候，让其等待。为了充分利用存储器，将进程按照请求空间的大小在不同分区排队等待。</p>
+<p>​    这种方法管理简单，但有可能出现大分区队列空闲，小分区队列拥挤的现象。当这情况出现时，会使存储器造成更大的浪费，为了充分利用存储器，系统只维护一个存储器等待队列，任何时候，只要有一个分区变为空闲，队列中的一个进程就可装入运行</p>
+<h6 id="可变式分区"><a href="#可变式分区" class="headerlink" title="可变式分区"></a>可变式分区</h6><p>​    为了提高存储器的利用率，存储空间的划分推迟到装入进程时进行，当进程要求运行时，系统从空闲的存储空间划分出大小正好等于进程大小的一个存储区分配给进程，这叫做可变式分区或者动态分区，使用这种技术时，分区的大小和个数不断变化。</p>
+<p>​    可变式分区能改进存储器的使用效率，但是却使存储的分配和释放工作复杂了</p>
+<h6 id="可变式分区管理使用的数据结构"><a href="#可变式分区管理使用的数据结构" class="headerlink" title="可变式分区管理使用的数据结构"></a>可变式分区管理使用的数据结构</h6><p>​    1.分区说明表：由两张表格组成，一张是已分配区表，记录已分配给进程的分区情况；另一张是未分区表，记录主存空闲区的情况。</p>
+<p>​    2.空闲区链：记录存储空间的一个较好方法就是表格信息附加在每个已分配取和未分配区中，通常将表格信息放在每个分区的首字或尾字中。已分配的信息放在各个进程的PCB表中，空闲区的信息用空闲链表管理</p>
+<h6 id="分区管理的地址重定位和存储器保护"><a href="#分区管理的地址重定位和存储器保护" class="headerlink" title="分区管理的地址重定位和存储器保护"></a>分区管理的地址重定位和存储器保护</h6><p>​    固定式分区采用静态重定位，在装入的时候，上下界限两个寄存器来保护存储器，方式地址越界错误</p>
+<p>​    可变式分区采用动态重定位，系统会设置一个基址（重定位）寄存器，存放运行进程分配的主存区起始地址，再增设一个限长寄存器，用来存放运行程序的大小，也是起到保护作用。</p>
+<h6 id="分区管理的优缺点"><a href="#分区管理的优缺点" class="headerlink" title="分区管理的优缺点"></a>分区管理的优缺点</h6><p>​    优点：实现了多道程序共享主存、实现分区管理的系统设计相对简单、实现存储器保护的手段也比较简单</p>
+<p>​    缺点：主存利用不够充分、没有实现主存的扩充问题</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/11/14/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/" data-id="cksmslcq1002bmsu95q3q846m" data-title="操作系统-存储器管理" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-git常用命令" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="article-date">
+  <time class="dt-published" datetime="2020-11-12T13:58:13.000Z" itemprop="datePublished">2020-11-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Git/">Git</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Git常用命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>git常用操作总结一下，也相当于做个笔记</p>
+<h5 id="1、git-配置"><a href="#1、git-配置" class="headerlink" title="1、git 配置"></a>1、git 配置</h5><p>git config user.name  查看 用户名</p>
+<p>git config user.email   查看 邮箱</p>
+<p>git config –global user.name <name>  修改 用户名</name></p>
+<p>git config –global user.email <email>  修改 邮箱</email></p>
+<p>ssh-keygen -t rsa -C “ <a href="mailto:&#121;&#111;&#x75;&#x72;&#x5f;&#x65;&#109;&#x61;&#105;&#108;&#x40;&#101;&#x78;&#97;&#109;&#112;&#108;&#101;&#x2e;&#99;&#111;&#109;">&#121;&#111;&#x75;&#x72;&#x5f;&#x65;&#109;&#x61;&#105;&#108;&#x40;&#101;&#x78;&#97;&#109;&#112;&#108;&#101;&#x2e;&#99;&#111;&#109;</a>“ 创建SSH key 【可以填写任意值作为注释key，例如邮箱】</p>
+<p>ssh -T <a href="mailto:&#103;&#105;&#116;&#x40;&#x67;&#x69;&#x74;&#101;&#101;&#x2e;&#99;&#x6f;&#109;">&#103;&#105;&#116;&#x40;&#x67;&#x69;&#x74;&#101;&#101;&#x2e;&#99;&#x6f;&#109;</a> 测试该SHH key 已添加到 gitee.com【码云】</p>
+<h5 id="2、创建版本库"><a href="#2、创建版本库" class="headerlink" title="2、创建版本库"></a>2、创建版本库</h5><p>git init  初始化本地版本库【创建一个 .git的子目录】</p>
+<p>git init [project-name]  新建一个目录，并将其初始化为 git 代码库；</p>
+<p>git clone <url>  克隆远程版本库；</url></p>
+<h5 id="3、修改和提交"><a href="#3、修改和提交" class="headerlink" title="3、修改和提交"></a>3、修改和提交</h5><p>git status  显示文件的状态 【红色表示被修改没提交到暂存区，绿色代表已提交到暂存区；】</p>
+<p>git status -s  以极简的方式显示文件的状态【红色的M 表示被修改没提交到暂存区，绿色的M代表已提交到暂存区；】</p>
+<p><strong>git add</strong>  将文件从工作目录添加至暂存区；</p>
+<p>　　git add -u | –update  仅将被修改的文件添加至暂存区（不包含新添加的文件）；</p>
+<p>　　git add .  将被修改的文件 和 新添加的文件提交到暂存区（不包含已经删除的文件）；</p>
+<p>　　git add -a  将本地所有修改的内容添加至暂存区（包含新添加的 和 已经删除的）；</p>
+<p><strong>git commit</strong>  将暂存区的修改提交到本地仓库，同时生成一个commit-id；</p>
+<p>　　git commit -m <message>  将暂存区修改提交到本地仓库</message></p>
+<p>　　git commit -a -m <message>  将工作区的修改提交到本地仓库 【相当于 <strong>git add + git commit</strong> 】</message></p>
+<p>　　git commit -amend  修改上一次提交【代码没有任何变化，则修改提交信息】</p>
+<h5 id="4、分支操作"><a href="#4、分支操作" class="headerlink" title="4、分支操作"></a>4、分支操作</h5><p><strong>git branch</strong></p>
+<p>　　git branch  列出所有本地分支</p>
+<p>　　git branch -r  列出所有远程分支</p>
+<p>　　git branch -a 列出所有本地和远程分支</p>
+<p>　　git branch [branch-name]  新建一个分支，仍停留在当前分支</p>
+<p>　　git branch -m <nameA> <nameB>  将分支nameA 改名为 nameB</nameB></nameA></p>
+<p>　　git branch -d [branch-name] 删除分支</p>
+<p><strong>git checkout</strong></p>
+<p>　　git checkout [branch-name]  切换到指定分支</p>
+<p>　　git checkout -b [branch-name]  新建一个分支，并切换到该分支</p>
+<p>　　git checkout - 切换到上一个分支</p>
+<p><strong>git merge</strong></p>
+<p>　　git merge [branch-name] 合并指定分支到当前分支</p>
+<h5 id="5、远程操作"><a href="#5、远程操作" class="headerlink" title="5、远程操作"></a>5、远程操作</h5><p>git fetch 将远程主机上所有分支的更新取回本地，并记录在 .git/FETCH_HEAD 中；</p>
+<p>　　git fetch <remote-name> 下载远程仓库的所有变动；</remote-name></p>
+<p>　　git fetch <remote-name> master:test 在本地新建test 分支，并将主机上master分支代码下载到本地 test 分支；</remote-name></p>
+<p><strong>git remote</strong></p>
+<p>　　git remote -v  显示所有远程仓库</p>
+<p>　　git remote show <remote-name> 显示某个远程仓库的信息</remote-name></p>
+<p>　　git remote add <remote-name> [ url ] 增加一个新的远程仓库 并命名</remote-name></p>
+<p><strong>git pull</strong></p>
+<p>　　git pull &lt;远程主机名&gt; &lt;远程分支名&gt; : &lt;本地分支名&gt;  取回远程仓库某个分支的更新，并与本地分支合并</p>
+<p>　　git pull origin dev: master 取回远程主机的 dev 分支，与本地的master分支合并</p>
+<p>　　git pull origin dev 相当于以下两个命令：</p>
+<p>　　　　git fetch origin 获取远程主机上所有分支的更新</p>
+<p>　　　　git merge origin/dev 与当前分支合并</p>
+<p><strong>git push</strong></p>
+<p>　　git push &lt;远程主机名&gt; &lt;本地分支名&gt; : &lt;远程分支&gt; 上传本地指定分支到远程仓库的指定分支</p>
+<p>　　　　省略远程分支名，表示将本地分支推送到与之存在“追踪关系”的远程分支，通常两者同名，后者不存在，将会被创建；</p>
+<p>　　　　省略本地分支名，表示删除指定的远程分支【这相当推送一个空的本地分支到远程分支】；</p>
+<p>　　git push origin master 将本地的master 分支推送到 origin 主机的master 分支【后者不存在，将会被创建】</p>
+<p>　　git push origin : master 删除 origin 主机的master 分支；【相当于 git push origin –delete master】</p>
+<h5 id="6、撤销修改"><a href="#6、撤销修改" class="headerlink" title="6、撤销修改"></a>6、撤销修改</h5><p>撤销工作区的修改： 【文件修改之后撤销】</p>
+<p>　　git checkout – file 恢复暂存区的指定文件到工作区</p>
+<p>　　git checkout . 恢复暂存区的所有文件到工作区</p>
+<p>撤销暂存区的修改： 【git add 之后】</p>
+<p>　　git reste HEAD <file></file></p>
+<p>版本回退 ：</p>
+<p>　　 git reset –hard <commit_id> </commit_id></p>
+<p>git log 查看提交历史，确定回退到那个版本；</p>
+<p>git reflog 查看历史命令，确定回到未来的版本；</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/james23dong/p/12375970.html">https://www.cnblogs.com/james23dong/p/12375970.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" data-id="cksmslcpf000pmsu97pzy8vio" data-title="Git常用命令" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Netty介绍" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/09/Netty%E4%BB%8B%E7%BB%8D/" class="article-date">
+  <time class="dt-published" datetime="2020-11-09T14:12:47.000Z" itemprop="datePublished">2020-11-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Netty/">Netty</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/11/09/Netty%E4%BB%8B%E7%BB%8D/">Netty介绍</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="一、什么是Netty"><a href="#一、什么是Netty" class="headerlink" title="一、什么是Netty"></a>一、什么是Netty</h5><p>​    Netty是由JBOSS提供的一个java开源框架。Netty提供异步的、事件驱动的网络应用程序框架和工具，用以快速开发高性能、高可靠性的网络服务器和客户端程序</p>
+<p>​    也就是说，Netty 是一个基于NIO的客户、服务器端编程框架，使用Netty 可以确保你快速和简单的开发出一个网络应用，例如实现了某种协议的客户，服务端应用。Netty相当简化和流线化了网络应用的编程开发过程，例如，TCP和UDP的socket服务开发。</p>
+<p>我们下面编写四个类</p>
+<p>1.用于接收数据的服务器端Socket</p>
+<p>2.用于接收客户端的消息，用于接收和反馈客户端发出的消息类ServertHandler</p>
+<p>3.用于发送数据的服务器端Client</p>
+<p>4.用于发送数据和接收服务器端发出的数据处理类ClientHandler</p>
+<p><strong>Socket.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> io.netty.bootstrap.ServerBootstrap;</span><br><span class="line"><span class="keyword">import</span> io.netty.buffer.ByteBuf;</span><br><span class="line"><span class="keyword">import</span> io.netty.buffer.Unpooled;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelFuture;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelInitializer;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelOption;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.EventLoopGroup;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.nio.NioEventLoopGroup;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.socket.SocketChannel;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.socket.nio.NioServerSocketChannel;</span><br><span class="line"><span class="keyword">import</span> io.netty.handler.codec.DelimiterBasedFrameDecoder;</span><br><span class="line"><span class="keyword">import</span> io.netty.handler.codec.string.StringDecoder;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Server</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		<span class="comment">//1.第一个线程组是用于接收Client端连接的</span></span><br><span class="line">		EventLoopGroup bossGroup = <span class="keyword">new</span> NioEventLoopGroup(); </span><br><span class="line">		<span class="comment">//2.第二个线程组是用于实际的业务处理的</span></span><br><span class="line">		EventLoopGroup workerGroup = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">		ServerBootstrap b = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line">		b.group(bossGroup, workerGroup);<span class="comment">//绑定两个线程池</span></span><br><span class="line">		b.channel(NioServerSocketChannel.class);<span class="comment">//指定NIO的模式，如果是客户端就是NioSocketChannel</span></span><br><span class="line">		b.option(ChannelOption.SO_BACKLOG, <span class="number">1024</span>);<span class="comment">//TCP的缓冲区设置</span></span><br><span class="line">		b.option(ChannelOption.SO_SNDBUF, <span class="number">32</span>*<span class="number">1024</span>);<span class="comment">//设置发送缓冲的大小</span></span><br><span class="line">		b.option(ChannelOption.SO_RCVBUF, <span class="number">32</span>*<span class="number">1024</span>);<span class="comment">//设置接收缓冲区大小</span></span><br><span class="line">		b.option(ChannelOption.SO_KEEPALIVE, <span class="keyword">true</span>);<span class="comment">//保持连续</span></span><br><span class="line">		b.childHandler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel sc)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">				ByteBuf buf = Unpooled.copiedBuffer(<span class="string">&quot;$_&quot;</span>.getBytes());<span class="comment">//拆包粘包定义结束字符串（第一种解决方案）</span></span><br><span class="line">				sc.pipeline().addLast(<span class="keyword">new</span> DelimiterBasedFrameDecoder(<span class="number">1024</span>,buf));<span class="comment">//在管道中加入结束字符串</span></span><br><span class="line">			<span class="comment">//	sc.pipeline().addLast(new FixedLengthFrameDecoder(200));第二种定长</span></span><br><span class="line">				sc.pipeline().addLast(<span class="keyword">new</span> StringDecoder());<span class="comment">//定义接收类型为字符串把ByteBuf转成String</span></span><br><span class="line">				sc.pipeline().addLast(<span class="keyword">new</span> ServertHandler());<span class="comment">//在这里配置具体数据接收方法的处理</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">		ChannelFuture future = b.bind(<span class="number">8765</span>).sync();<span class="comment">//绑定端口</span></span><br><span class="line">		future.channel().closeFuture().sync();<span class="comment">//等待关闭(程序阻塞在这里等待客户端请求)</span></span><br><span class="line">		bossGroup.shutdownGracefully();<span class="comment">//关闭线程</span></span><br><span class="line">		workerGroup.shutdownGracefully();<span class="comment">//关闭线程</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>1.在上面这个Server.java中，我们都要定义两个线程池，boss和worker，boss是用于管理连接到server端的client的连接数的线程池，而woeker是用于管理实际操作的线程池。</p>
+<p>2.ServerBootstrap用一个ServerSocketChannelFactory 来实例化。ServerSocketChannelFactory 有两种选择，一种是NioServerSocketChannelFactory，一种是OioServerSocketChannelFactory。 前者使用NIO，后则使用普通的阻塞式IO。它们都需要两个线程池实例作为参数来初始化，一个是boss线程池，一个是worker线程池。</p>
+<p>3.然后使ServerBookstrap管理boss和worker线程池。并且设置各个缓冲区的大小。</p>
+<p>4.这里的事件处理类经常会被用来处理一个最近的已经接收的Channel。ChannelInitializer是一个特殊的处理类，他的目的是帮助使用者配置一个新的Channel。也许你想通过增加一些处理类比如NettyServerHandler来配置一个新的Channel 或者其对应的ChannelPipeline来实现你的网络程序。 当你的程序变的复杂时，可能你会增加更多的处理类到pipline上，然后提取这些匿名类到最顶层的类上。</p>
+<p>5.在使用原始的encoder、decoder的情况下，Netty发送接收数据都是按照ByteBuf的形式，其它形式都是不合法的。 而在上面这个Socket中，我使用sc.pipeline().addLast()这个方法设置了接收为字符串类型，注意：只能设置接收为字符串类型，发送还是需要发送ByteBuf类型的数据。而且在这里我还设置了以$_为结尾的字符串就代表了本次请求字符串的结束。</p>
+<p>6.通过b.bind绑定端口，用于监听的端口号。</p>
+<p><strong>ServerHandler.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServertHandler</span> <span class="keyword">extends</span> <span class="title">ChannelHandlerAdapter</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		String body = (String) msg;</span><br><span class="line">		System.out.println(<span class="string">&quot;server&quot;</span>+body);<span class="comment">//前面已经定义了接收为字符串，这里直接接收字符串就可以</span></span><br><span class="line">		<span class="comment">//服务端给客户端的响应</span></span><br><span class="line">		String response= <span class="string">&quot; hi client!$_&quot;</span>;<span class="comment">//发送的数据以定义结束的字符串结尾</span></span><br><span class="line">		ctx.writeAndFlush(Unpooled.copiedBuffer(response.getBytes()));<span class="comment">//发送必须还是ByteBuf类型</span></span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx, Throwable cause)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		 cause.printStackTrace();</span><br><span class="line">		  ctx.close();</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>ServertHandler继承自 ChannelHandlerAdapter，这个类实现了ChannelHandler接口，ChannelHandler提供了许多事件处理的接口方法，然后你可以覆盖这些方法。现在仅仅只需要继承ChannelHandlerAdapter类而不是你自己去实现接口方法。</p>
+<p>1.由于我们再server端开始的时候已经定义了接收类型为String，所以在这里我们接收到的msg直接强转成String就可以了。同时也要定义以什么为一次请求的结尾。</p>
+<p><strong>Client.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		EventLoopGroup worker = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">		Bootstrap b = <span class="keyword">new</span> Bootstrap();</span><br><span class="line">		b.group(worker)</span><br><span class="line">		.channel(NioSocketChannel.class)</span><br><span class="line">		.handler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel sc)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">				ByteBuf buf = Unpooled.copiedBuffer(<span class="string">&quot;$_&quot;</span>.getBytes()); </span><br><span class="line">				sc.pipeline().addLast(<span class="keyword">new</span> DelimiterBasedFrameDecoder(<span class="number">1024</span>,buf));</span><br><span class="line">				sc.pipeline().addLast(<span class="keyword">new</span> StringDecoder());</span><br><span class="line">				sc.pipeline().addLast(<span class="keyword">new</span> ClientHandler());</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">		ChannelFuture f=b.connect(<span class="string">&quot;127.0.0.1&quot;</span>,<span class="number">8765</span>).sync();</span><br><span class="line">		f.channel().writeAndFlush(Unpooled.copiedBuffer(<span class="string">&quot; hi server2$_&quot;</span>.getBytes()));</span><br><span class="line">		f.channel().writeAndFlush(Unpooled.copiedBuffer(<span class="string">&quot; hi server3$_&quot;</span>.getBytes()));</span><br><span class="line">		f.channel().writeAndFlush(Unpooled.copiedBuffer(<span class="string">&quot; hi server4$_&quot;</span>.getBytes()));</span><br><span class="line">		f.channel().closeFuture().sync();</span><br><span class="line">		worker.shutdownGracefully();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>client端和Socket端几乎代码相同，只是client端用的不是ServerBootstrap而是Bootstrap来管理连接</p>
+<p><strong>ClientHandler.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClientHandler</span> <span class="keyword">extends</span> <span class="title">ChannelHandlerAdapter</span></span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;client&quot;</span>+msg.toString());</span><br><span class="line">		&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">			ReferenceCountUtil.release(msg);<span class="comment">//释放缓冲区</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx, Throwable cause)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		 cause.printStackTrace();</span><br><span class="line">		  ctx.close();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ClientHandler和ServertHandler代码和原理也是一样，只是在client端我们要释放缓冲区。为什么在ServerHandler我们不需要释放呢 ？因为在ServertHandler我们调用ctx.writeAndFlush方法的时候，这个方法默认已经帮我们释放了缓冲区。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/a347911/article/details/53734255">https://blog.csdn.net/a347911/article/details/53734255</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/11/09/Netty%E4%BB%8B%E7%BB%8D/" data-id="cksmslcoz000mmsu907453iht" data-title="Netty介绍" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Netty/" rel="tag">Netty</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Go-make和new关键字的区别和实现原理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/08/Go-make%E5%92%8Cnew%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2020-11-08T13:32:47.000Z" itemprop="datePublished">2020-11-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Go%E5%9F%BA%E7%A1%80/">Go基础</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/11/08/Go-make%E5%92%8Cnew%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Go-make和new关键字的区别和实现原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h5><p>​     make 和 new都用来初始化一个结构，make 关键字的主要作用是初始化内置的数据结构，也就是我们在前面提到的数组、切片和 Channel，而当我们想要获取指向某个类型的指针时可以使用 new 关键字</p>
+<h5 id="二、区别"><a href="#二、区别" class="headerlink" title="二、区别"></a>二、区别</h5><p>make在Go语言中用来初始化语言的基本类型</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	slice := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>, <span class="number">100</span>)</span><br><span class="line">	myMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>, <span class="number">10</span>)</span><br><span class="line">	ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">5</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> new 的作用其实只是接收一个类型作为参数然后返回一个指向这个类型的指针</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">i := <span class="built_in">new</span>(<span class="keyword">int</span>)</span><br><span class="line"><span class="keyword">var</span> v <span class="keyword">int</span></span><br><span class="line">i := &amp;v</span><br></pre></td></tr></table></figure>
+
+<p>所以：make 用于创建切片、哈希表和管道等内置数据结构，new 用于分配并创建一个指向对应类型的指针。</p>
+<h5 id="三、原理"><a href="#三、原理" class="headerlink" title="三、原理"></a>三、原理</h5><p><strong>make</strong></p>
+<p>​    在编译期间的类型检查阶段，Go语言其实就将代表 make 关键字的 OMAKE 节点根据参数类型的不同转换成了 OMAKESLICE、OMAKEMAP 和 OMAKECHAN 三种不同类型的节点，这些节点最终也会调用不同的运行时函数来初始化数据结构。</p>
+<p><strong>new</strong></p>
+<p>​    内置函数 new 会在编译期间的 SSA 代码生成阶段经过 callnew 函数的处理，如果请求创建的类型大小是 0，那么就会返回一个表示空指针的 zerobase 变量，在遇到其他情况时会将关键字转换成 newobject：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">callnew</span><span class="params">(t *types.Type)</span> *<span class="title">Node</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> t.NotInHeap() &#123;</span><br><span class="line">        yyerror(<span class="string">&quot;%v is go:notinheap; heap allocation disallowed&quot;</span>, t)</span><br><span class="line">    &#125;</span><br><span class="line">    dowidth(t)</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> t.Size() == <span class="number">0</span> &#123;</span><br><span class="line">        z := newname(Runtimepkg.Lookup(<span class="string">&quot;zerobase&quot;</span>))</span><br><span class="line">        z.SetClass(PEXTERN)</span><br><span class="line">        z.Type = t</span><br><span class="line">        <span class="keyword">return</span> typecheck(nod(OADDR, z, <span class="literal">nil</span>), ctxExpr)</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    fn := syslook(<span class="string">&quot;newobject&quot;</span>)</span><br><span class="line">    fn = substArgTypes(fn, t)</span><br><span class="line">    v := mkcall1(fn, types.NewPtr(t), <span class="literal">nil</span>, typename(t))</span><br><span class="line">    v.SetNonNil(<span class="literal">true</span>)</span><br><span class="line">    <span class="keyword">return</span> v</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>​    需要提到的是，哪怕当前变量是使用 var 进行初始化，在这一阶段也可能会被转换成 newobject 的函数调用并在堆上申请内存：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">walkstmt</span><span class="params">(n *Node)</span> *<span class="title">Node</span></span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> n.Op &#123;</span><br><span class="line">    <span class="keyword">case</span> ODCL:</span><br><span class="line">        v := n.Left</span><br><span class="line">        <span class="keyword">if</span> v.Class() == PAUTOHEAP &#123;</span><br><span class="line">            <span class="keyword">if</span> prealloc[v] == <span class="literal">nil</span> &#123;</span><br><span class="line">                prealloc[v] = callnew(v.Type)</span><br><span class="line">            &#125;</span><br><span class="line">            nn := nod(OAS, v.Name.Param.Heapaddr, prealloc[v])</span><br><span class="line">            nn.SetColas(<span class="literal">true</span>)</span><br><span class="line">            nn = typecheck(nn, ctxStmt)</span><br><span class="line">            <span class="keyword">return</span> walkstmt(nn)</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">case</span> ONEW:</span><br><span class="line">        <span class="keyword">if</span> n.Esc == EscNone &#123;</span><br><span class="line">            r := temp(n.Type.Elem())</span><br><span class="line">            r = nod(OAS, r, <span class="literal">nil</span>)</span><br><span class="line">            r = typecheck(r, ctxStmt)</span><br><span class="line">            init.Append(r)</span><br><span class="line">            r = nod(OADDR, r.Left, <span class="literal">nil</span>)</span><br><span class="line">            r = typecheck(r, ctxExpr)</span><br><span class="line">            n = r</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            n = callnew(n.Type.Elem())</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>  当然这也不是绝对的，如果当前声明的变量或者参数不需要在当前作用域外生存，那么其实就不会被初始化在堆上，而是会初始化在当前函数的栈中并随着函数调用的结束而被销毁。</p>
+<p>​    newobject 函数的工作就是获取传入类型的大小并调用 mallocgc 在堆上申请一片大小合适的内存空间并返回指向这片内存空间的指针：  </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">newobject</span><span class="params">(typ *_type)</span> <span class="title">unsafe</span>.<span class="title">Pointer</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> mallocgc(typ.size, typ, <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h5><p>​    简单总结一下Go语言中 make 和 new 关键字的实现原理，make 关键字的主要作用是创建切片、哈希表和 Channel 等内置的数据结构，而 new 的主要作用是为类型申请一片内存空间，并返回指向这片内存的指针</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_32252917/article/details/102953438">https://blog.csdn.net/qq_32252917/article/details/102953438</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/11/08/Go-make%E5%92%8Cnew%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" data-id="cksmslcoz0008msu9efu111hi" data-title="Go-make和new关键字的区别和实现原理" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Sync(Go语言中的同步手段)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/" class="article-date">
+  <time class="dt-published" datetime="2020-11-06T03:23:47.000Z" itemprop="datePublished">2020-11-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/">Sync(Go语言中的同步手段)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="1-sync-WaitGroup"><a href="#1-sync-WaitGroup" class="headerlink" title="1.sync.WaitGroup"></a>1.sync.WaitGroup</h5><p>​    Go语言中可以使用sync.WaitGroup来实现并发任务的同步。</p>
+<p>​    sync.WaitGroup内部维护着一个计数器，计数器的值可以增加和减少。例如当我们启动了N 个并发任务时，就将计数器值增加N。每个任务完成时通过调用Done()方法将计数器减1。通过调用Wait()来等待并发任务执行完，当计数器值为0时，表示所有并发任务已经完成</p>
+<pre><code> sync.WaitGroup有以下几个方法：
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(wg * WaitGroup) Add(delta int)</td>
+<td>计数器+delta</td>
+</tr>
+<tr>
+<td>(wg *WaitGroup) Done()</td>
+<td>计数器-1</td>
+</tr>
+<tr>
+<td>(wg *WaitGroup) Wait()</td>
+<td>阻塞直到计数器变为0</td>
+</tr>
+</tbody></table>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;sync&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">()</span></span>  &#123;</span><br><span class="line">	<span class="keyword">defer</span> wg.Done()</span><br><span class="line">	fmt.Println(<span class="string">&quot;hello Goroutine!&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	wg.Add(<span class="number">1</span>)</span><br><span class="line">	<span class="keyword">go</span> hello()</span><br><span class="line">	fmt.Println(<span class="string">&quot;main gorountine done&quot;</span>)</span><br><span class="line">	wg.Wait()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="2-sync-Once"><a href="#2-sync-Once" class="headerlink" title="2.sync.Once"></a>2.sync.Once</h5><p>​    确保某些操作在高并发的场景下只执行一次,sunc.Once是一个针对值执行一次场景的解决方案</p>
+<p>​    整个程序，只会执行printNum()方法一次,print()方法是不会被执行的。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;sync&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> once sync.Once</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> i, v :=<span class="keyword">range</span> <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">10</span>) &#123;</span><br><span class="line">		once.Do(printNum)</span><br><span class="line">		fmt.Println(<span class="string">&quot;count:&quot;</span>,v,<span class="string">&quot;---&quot;</span>,i)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			once.Do(<span class="built_in">print</span>)</span><br><span class="line">			fmt.Println(<span class="string">&quot;hello&quot;</span>)</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	time.Sleep(<span class="number">4000</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">printNum</span><span class="params">()</span></span>  &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;123456&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">print</span><span class="params">()</span></span>  &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;abcdefg&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="3-sync-Map"><a href="#3-sync-Map" class="headerlink" title="3.sync.Map"></a>3.sync.Map</h5><p>​    Go语言中内置的map不是并发安全的,有些场景下就需要为map加锁来保证并发的安全性了，Go语言的sync包中提供了一个开箱即用的并发安全版map–sync.Map。开箱即用表示不用像内置的map一样使用make函数初始化就能直接使用。同时sync.Map内置了诸如Store、Load、LoadOrStore、Delete、Range等操作方法</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/" data-id="cksmslcoz000hmsu99pgg3mnp" data-title="Sync(Go语言中的同步手段)" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Goroutine" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/04/Goroutine/" class="article-date">
+  <time class="dt-published" datetime="2020-11-04T04:12:47.000Z" itemprop="datePublished">2020-11-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/11/04/Goroutine/">Goroutine</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="一、Goroutine简介"><a href="#一、Goroutine简介" class="headerlink" title="一、Goroutine简介"></a>一、Goroutine简介</h5><p>​    在java/c++中我们要实现并发编程的时候，我们通常需要自己维护一个线程池，并且需要自己去包装一个又一个的任务，同时需要自己去调度线程执行任务并维护上下文切换，这一切通常会耗费程序员大量的心智。那么能不能有一种机制，程序员只需要定义很多个任务，让系统去帮助我们把这些任务分配到CPU上实现并发执行呢？</p>
+<p>​    Go语言中的goroutine就是这样一种机制，goroutine的概念类似于线程，但 goroutine是由Go的运行时（runtime）调度和管理的。Go程序会智能地将 goroutine 中的任务合理地分配给每个CPU。Go语言之所以被称为现代化的编程语言，就是因为它在语言层面已经内置了调度和上下文切换的机制。</p>
+<p>​    在Go语言编程中你不需要去自己写进程、线程、协程，你的技能包里只有一个技能–goroutine，当你需要让某个任务并发执行的时候，你只需要把这个任务包装成一个函数，开启一个goroutine去执行这个函数就可以了，就是这么简单粗暴。</p>
+<h5 id="二、Goroutine使用"><a href="#二、Goroutine使用" class="headerlink" title="二、Goroutine使用"></a>二、Goroutine使用</h5><p>​    Go语言中使用goroutine非常简单，只需要在调用函数的时候在前面加上go关键字，就可以为一个函数创建一个goroutine。</p>
+<p>​    一个goroutine必定对应一个函数，可以创建多个goroutine去执行相同的函数。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">(s <span class="keyword">string</span>)</span></span>  &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;hello&quot;</span>, s)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> hello(<span class="string">&quot;a&quot;</span>)</span><br><span class="line">	<span class="keyword">go</span> hello(<span class="string">&quot;b&quot;</span>)</span><br><span class="line">	<span class="keyword">go</span> hello(<span class="string">&quot;c&quot;</span>)</span><br><span class="line">	time.Sleep(time.Second)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="三、goroutine与线程"><a href="#三、goroutine与线程" class="headerlink" title="三、goroutine与线程"></a>三、goroutine与线程</h5><p>​    OS线程（操作系统线程）一般都有固定的栈内存（通常为2MB）,一个goroutine的栈在其生命周期开始时只有很小的栈（典型情况下2KB），goroutine的栈不是固定的，他可以按需增大和缩小，goroutine的栈大小限制可以达到1GB，虽然极少会用到这个大。所以在Go语言中一次创建十万左右的goroutine也是可以的。</p>
+<p><strong>goroutine调度细节——GPM模型</strong></p>
+<p>​    GPM是Go语言运行时（runtime）层面的实现，是go语言自己实现的一套调度系统。区别于操作系统调度OS线程。</p>
+<ul>
+<li>1.G很好理解，就是个goroutine的，里面除了存放本goroutine信息外 还有与所在P的绑定等信息。</li>
+<li>2.P管理着一组goroutine队列，P里面会存储当前goroutine运行的上下文环境（函数指针，堆栈地址及地址边界），P会对自己管理的goroutine队列做一些调度（比如把占用CPU时间较长的goroutine暂停、运行后续的goroutine等等）当自己的队列消费完了就去全局队列里取，如果全局队列里也消费完了会去其他P的队列里抢任务。</li>
+<li>3.M（machine）是Go运行时（runtime）对操作系统内核线程的虚拟， M与内核线程一般是一一映射的关系， 一个groutine最终是要放到M上执行的；</li>
+</ul>
+<p>P与M一般也是一一对应的。他们关系是： P管理着一组G挂载在M上运行。当一个G长久阻塞在一个M上时，runtime会新建一个M，阻塞G所在的P会把其他的G 挂载在新建的M上。当旧的G阻塞完成或者认为其已经死掉时 回收旧的M。</p>
+<p>P的个数是通过runtime.GOMAXPROCS设定（最大256），Go1.5版本之后默认为物理线程数。 在并发量大的时候会增加一些P和M，但不会太多，切换太频繁的话得不偿失。</p>
+<p>单从线程调度讲，Go语言相比起其他语言的优势在于OS线程是由OS内核来调度的，goroutine则是由Go运行时（runtime）自己的调度器调度的，这个调度器使用一个称为m:n调度的技术（复用/调度m个goroutine到n个OS线程）。 其一大特点是goroutine的调度是在用户态下完成的， 不涉及内核态与用户态之间的频繁切换，包括内存的分配与释放，都是在用户态维护着一块大的内存池， 不直接调用系统的malloc函数（除非内存池需要改变），成本比调度OS线程低很多。 另一方面充分利用了多核的硬件资源，近似的把若干goroutine均分在物理线程上， 再加上本身goroutine的超轻量，以上种种保证了go调度方面的性能。</p>
+<h5 id="四、Goroutine-协程-的理解"><a href="#四、Goroutine-协程-的理解" class="headerlink" title="四、Goroutine(协程)的理解"></a>四、Goroutine(协程)的理解</h5><p>​    先了解一下进程线程协程的定义：</p>
+<ul>
+<li>进程：拥有自己独立的堆和栈，既不共享堆，亦不共享栈，进程由操作系统调度。</li>
+<li>线程：拥有自己独立的栈和共享的堆，共享堆，不共享栈，线程亦由操作系统调度。</li>
+<li>协程 :和线程一样共享堆，不共享栈，协程由程序员在协程的代码里显示调度。</li>
+</ul>
+<p>在操作系统的OS Thread和编程语言的User Thread之间，实际上存在3种线程对应模型，也就是：1:1，1:N，M:N。</p>
+<ul>
+<li><u>1:1：一个用户线程就只在一个内核线程上跑，这时可以利用多核，但是上下文切换很慢，切换效率很低。</u></li>
+<li><u>N:1：多个（N）用户线程始终在一个内核线程上跑，context上下文切换很快，但是无法真正的利用多核。</u></li>
+<li><u>M:N：多个goroutine在多个内核线程上跑，这个可以集齐上面两者的优势,既能快速切换上下文，也能利用多核的优势，而Go正是选择这种实现方式。</u></li>
+</ul>
+<p>Java中的线程属于1：1，Goroutine属于M:N</p>
+<p>简单将 goroutine归纳为协程并不合适。运行时会创建多个线程来执行并发任务,且任务单元可被调度到其他线程并行执行。这更像是多线程和协程的综合体,能最大限度提升执行效率,发挥多核处理能力。</p>
+<h5 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h5><p>​    相比于线程，goroutine并不会更快，它只是增加了更多的并发性。当一goroutine被阻塞（比如等待IO）,golang的调度器会调度其它可以执行的goroutine运行。与线程相比，它有以下几个优点：</p>
+<p>优点：</p>
+<ul>
+<li>内存消耗更少：Goroutine所需要的内存通常只有2kb，而线程则需要1Mb</li>
+<li>创建与销毁的开销更小:由于线程创建时需要向操作系统申请资源，并且在销毁时将资源归还，因此它的创建和销毁的开销比较大。相比之下，goroutine的创建和销毁是由go语言在运行时自己管理的，因此开销更低。</li>
+<li>切换开销更小线程的调度方式是抢占式的，如果一个线程的执行时间超过了分配给它的时间片，就会被其它可执行的线程抢占;而goroutine的调度是协同式的，它不会直接地与操作系统内核打交道。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>协程调度机制无法实现公平调度：因为协程的调度是非入侵式的，系统不会为他分配资源。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/11/04/Goroutine/" data-id="cksmslcoz0007msu94tusga5h" data-title="Goroutine" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Goroutine/" rel="tag">Goroutine</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Gin数据库操作" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/01/Gin%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/" class="article-date">
+  <time class="dt-published" datetime="2020-11-01T14:15:47.000Z" itemprop="datePublished">2020-11-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Gin%E6%A1%86%E6%9E%B6/">Gin框架</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/11/01/Gin%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/">Gin数据库操作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="一、连接数据库"><a href="#一、连接数据库" class="headerlink" title="一、连接数据库"></a>一、连接数据库</h5><p>​    准备好数据库，表，同时与Gin建立连接</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化数据库连接</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">InitDatabase</span><span class="params">()</span> <span class="params">(*sql.DB, error)</span></span> &#123;</span><br><span class="line">	<span class="comment">//将数据转换成数据库url作为返回值</span></span><br><span class="line">	url := strings.Join([]<span class="keyword">string</span>&#123;<span class="string">&quot;root&quot;</span>, <span class="string">&quot;:&quot;</span>, <span class="string">&quot;123456&quot;</span>, <span class="string">&quot;@tcp(&quot;</span>, <span class="string">&quot;127.0.0.1&quot;</span>, <span class="string">&quot;:&quot;</span>, <span class="string">&quot;3306&quot;</span>, <span class="string">&quot;)/&quot;</span>, <span class="string">&quot;gomysql&quot;</span>&#125;, <span class="string">&quot;&quot;</span>)</span><br><span class="line">	db, err := sql.Open(<span class="string">&quot;mysql&quot;</span>, url)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Printf(<span class="string">&quot;open database error:%v&quot;</span>, err)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">return</span> db, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    新建一个全局变量<code>sql.DB</code>方便我们后期调用，然后通过 <code>sql.Open</code>对数据进行连接</p>
+<h5 id="二、增删改"><a href="#二、增删改" class="headerlink" title="二、增删改"></a>二、增删改</h5><p>​    往数据库中增删改</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用于增删改</span></span><br><span class="line"> <span class="comment">//执行增、改、删任务</span></span><br><span class="line"> <span class="function"><span class="keyword">func</span> <span class="title">Execute</span><span class="params">(db *sql.DB, sql <span class="keyword">string</span>, params ...<span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	stmt, _ := db.Prepare(sql) <span class="comment">//预编译</span></span><br><span class="line">	<span class="keyword">defer</span> stmt.Close()</span><br><span class="line">	_, err := stmt.Exec(params...)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Printf(<span class="string">&quot;execute sql error:%v\n&quot;</span>, err)</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line">	log.Println(<span class="string">&quot;execute sql success&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="三、查询"><a href="#三、查询" class="headerlink" title="三、查询"></a>三、查询</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查询数据库数据</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">QueryData</span><span class="params">(db *sql.DB, sql <span class="keyword">string</span>, params ...<span class="keyword">interface</span>&#123;&#125;)</span> <span class="params">(*sql.Rows, error)</span></span> &#123;</span><br><span class="line">	stmt, _ := db.Prepare(sql)</span><br><span class="line">	<span class="keyword">defer</span> stmt.Close()</span><br><span class="line">	rows, err := stmt.Query(params...)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Printf(<span class="string">&quot;query data error:%v&quot;</span>, err)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">		&#125;</span><br><span class="line">	log.Println(<span class="string">&quot;query data success&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> rows, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;database/sql&quot;</span></span><br><span class="line">	_ <span class="string">&quot;github.com/go-sql-driver/mysql&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;strings&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Student <span class="keyword">struct</span> &#123;</span><br><span class="line">	id <span class="keyword">int</span></span><br><span class="line">	name <span class="keyword">string</span></span><br><span class="line">	age <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	db, err := InitDatabase()</span><br><span class="line">	<span class="keyword">defer</span> db.Close()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Println(err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//增加</span></span><br><span class="line">	insert := <span class="string">&quot;insert into person (name, age) values (?,?)&quot;</span></span><br><span class="line">	err = Execute(db, insert, <span class="string">&quot;xiaoming&quot;</span>, <span class="number">23</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Println(<span class="string">&quot;insert data error : %v\n&quot;</span>, err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	querySql := <span class="string">&quot;select * from person&quot;</span></span><br><span class="line">	data, err := QueryData(db,querySql)</span><br><span class="line">	<span class="keyword">defer</span> data.Close()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Printf(<span class="string">&quot;query data error:%v\n&quot;</span>, err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	s := <span class="built_in">new</span>(Student)</span><br><span class="line">	<span class="keyword">for</span> data.Next() &#123;</span><br><span class="line">		data.Scan(&amp;s.id, &amp;s.name, &amp;s.age)</span><br><span class="line">		log.Println(*s)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//初始化数据库连接</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">InitDatabase</span><span class="params">()</span> <span class="params">(*sql.DB, error)</span></span> &#123;</span><br><span class="line">	<span class="comment">//将数据转换成数据库url作为返回值</span></span><br><span class="line">	url := strings.Join([]<span class="keyword">string</span>&#123;<span class="string">&quot;root&quot;</span>, <span class="string">&quot;:&quot;</span>, <span class="string">&quot;123456&quot;</span>, <span class="string">&quot;@tcp(&quot;</span>, <span class="string">&quot;127.0.0.1&quot;</span>, <span class="string">&quot;:&quot;</span>, <span class="string">&quot;3306&quot;</span>, <span class="string">&quot;)/&quot;</span>, <span class="string">&quot;gomysql&quot;</span>&#125;, <span class="string">&quot;&quot;</span>)</span><br><span class="line">	db, err := sql.Open(<span class="string">&quot;mysql&quot;</span>, url)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Printf(<span class="string">&quot;open database error:%v&quot;</span>, err)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">return</span> db, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//用于增删改</span></span><br><span class="line"> <span class="comment">//执行增、改、删任务</span></span><br><span class="line"> <span class="function"><span class="keyword">func</span> <span class="title">Execute</span><span class="params">(db *sql.DB, sql <span class="keyword">string</span>, params ...<span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	stmt, _ := db.Prepare(sql) <span class="comment">//预编译</span></span><br><span class="line">	<span class="keyword">defer</span> stmt.Close()</span><br><span class="line">	_, err := stmt.Exec(params...)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Printf(<span class="string">&quot;execute sql error:%v\n&quot;</span>, err)</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line">	log.Println(<span class="string">&quot;execute sql success&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//查询数据库数据</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">QueryData</span><span class="params">(db *sql.DB, sql <span class="keyword">string</span>, params ...<span class="keyword">interface</span>&#123;&#125;)</span> <span class="params">(*sql.Rows, error)</span></span> &#123;</span><br><span class="line">	stmt, _ := db.Prepare(sql)</span><br><span class="line">	<span class="keyword">defer</span> stmt.Close()</span><br><span class="line">	rows, err := stmt.Query(params...)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Printf(<span class="string">&quot;query data error:%v&quot;</span>, err)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">		&#125;</span><br><span class="line">	log.Println(<span class="string">&quot;query data success&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> rows, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/11/01/Gin%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/" data-id="cksmslcok0003msu9hc714iq0" data-title="Gin数据库操作" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Gin入门" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/01/Gin%E5%85%A5%E9%97%A8/" class="article-date">
+  <time class="dt-published" datetime="2020-11-01T02:12:47.000Z" itemprop="datePublished">2020-11-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Gin%E6%A1%86%E6%9E%B6/">Gin框架</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/11/01/Gin%E5%85%A5%E9%97%A8/">Gin框架入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="一、Gin简介"><a href="#一、Gin简介" class="headerlink" title="一、Gin简介"></a>一、Gin简介</h5><p>​    Gin 是使用 Go/golang 语言实现的 HTTP Web 框架。接口简洁，性能极高，框架源码仅5K</p>
+<h5 id="二、Gin-特性"><a href="#二、Gin-特性" class="headerlink" title="二、Gin 特性"></a>二、Gin 特性</h5><ul>
+<li><strong>快速</strong>：路由不使用反射，基于Radix树，内存占用少。</li>
+<li><strong>中间件</strong>：HTTP请求，可先经过一系列中间件处理，例如：Logger，Authorization，GZIP等。这个特性和 NodeJs 的 <code>Koa</code> 框架很像。中间件机制也极大地提高了框架的可扩展性。</li>
+<li><strong>异常处理</strong>：服务始终可用，不会宕机。Gin 可以捕获 panic，并恢复。而且有极为便利的机制处理HTTP请求过程中发生的错误。</li>
+<li><strong>JSON</strong>：Gin可以解析并验证请求的JSON。这个特性对<code>Restful API</code>的开发尤其有用。</li>
+<li><strong>路由分组</strong>：例如将需要授权和不需要授权的API分组，不同版本的API分组。而且分组可嵌套，且性能不受影响。</li>
+<li><strong>渲染内置</strong>：原生支持JSON，XML和HTML的渲染。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	r := gin.Default()</span><br><span class="line">	r.GET(<span class="string">&quot;/&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">		c.String(http.StatusOK, <span class="string">&quot;hello, world&quot;</span>)</span><br><span class="line">	&#125;)</span><br><span class="line">    r.Run(<span class="string">&quot;:8000&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ol>
+<li>首先，我们使用了<code>gin.Default()</code>生成了一个实例，这个实例即 WSGI 应用程序。</li>
+<li>接下来，我们使用<code>r.Get(&quot;/&quot;, ...)</code>声明了一个路由，告诉 Gin 什么样的URL 能触发传入的函数，这个函数返回我们想要显示在用户浏览器中的信息。</li>
+<li>最后用 <code>r.Run()</code>函数来让应用运行在本地服务器上，默认监听端口是 _8080_，可以传入参数设置端口，例如<code>r.Run(&quot;:8000&quot;)</code>即运行在8000端口。</li>
+</ol>
+<h5 id="三、路由（Route）"><a href="#三、路由（Route）" class="headerlink" title="三、路由（Route）"></a>三、路由（Route）</h5><p>​    1. 路由方法有 <strong>GET, POST, PUT, PATCH, DELETE</strong> 和 <strong>OPTIONS</strong>，还有<strong>Any</strong>，可匹配以上任意类型的请求。</p>
+<p>​    2.解析路径参数；动态的路由，如 <code>/user/:name</code>，通过调用不同的 url 来传入不同的 name。<code>/user/:name/*role</code>，<code>*</code> 代表可选</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	r := gin.Default()</span><br><span class="line">	r.GET(<span class="string">&quot;/user/:name&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">		name := c.Param(<span class="string">&quot;name&quot;</span>)</span><br><span class="line">		c.String(http.StatusOK, <span class="string">&quot;hello,%s&quot;</span>, name)</span><br><span class="line">	&#125;)</span><br><span class="line">	r.Run(<span class="string">&quot;:8000&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    3.获取Query参数</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 匹配users?name=xxx</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	r := gin.Default()</span><br><span class="line">	r.GET(<span class="string">&quot;/user&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">		name := c.Query(<span class="string">&quot;name&quot;</span>)</span><br><span class="line">		c.String(http.StatusOK, <span class="string">&quot;hello, %s&quot;</span>, name)</span><br><span class="line">	&#125;)</span><br><span class="line">	r.Run(<span class="string">&quot;:8000&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    4.获取POST参数</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	r := gin.Default()</span><br><span class="line">	r.POST(<span class="string">&quot;/form&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">		username := c.PostForm(<span class="string">&quot;username&quot;</span>)</span><br><span class="line">		password := c.DefaultPostForm(<span class="string">&quot;password&quot;</span>, <span class="string">&quot;000000&quot;</span>) <span class="comment">// 可设置默认值</span></span><br><span class="line"></span><br><span class="line">		c.JSON(http.StatusOK, gin.H&#123;</span><br><span class="line">			<span class="string">&quot;username&quot;</span>: username,</span><br><span class="line">			<span class="string">&quot;password&quot;</span>: password,</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;)</span><br><span class="line">	r.Run(<span class="string">&quot;:8000&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="四、HTML模板"><a href="#四、HTML模板" class="headerlink" title="四、HTML模板"></a>四、HTML模板</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">    <span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>  &#123;</span><br><span class="line">    r := gin.Default()</span><br><span class="line">    <span class="comment">// 指明html加载文件目录</span></span><br><span class="line">    r.LoadHTMLGlob(<span class="string">&quot;./html/*&quot;</span>)</span><br><span class="line">    r.Handle(<span class="string">&quot;GET&quot;</span>, <span class="string">&quot;/&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">        <span class="comment">// 返回HTML文件，响应状态码200，html文件名为index.html，模板参数为nil</span></span><br><span class="line">        c.HTML(http.StatusOK, <span class="string">&quot;index.html&quot;</span>, <span class="literal">nil</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    r.Run()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/11/01/Gin%E5%85%A5%E9%97%A8/" data-id="cksmslcok0006msu971004taj" data-title="Gin框架入门" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+  </nav>
+</section>
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Goroutine/" rel="tag">Goroutine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/" rel="tag">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netty/" rel="tag">Netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TopK/" rel="tag">TopK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%B0%81%E9%97%AD/" rel="tag">线程封闭</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%83%8C%E5%8C%85/" rel="tag">背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" rel="tag">零拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/29/AQS%E5%85%A5%E9%97%A8/">AQS介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/">Kafka介绍（二）</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/08/Kafka%E5%85%A5%E9%97%A8/">kafka入门介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/">Redis cluster集群模式介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/21/TopK%E9%97%AE%E9%A2%98%E7%94%A8%E5%BF%AB%E6%8E%92%E5%92%8C%E5%A0%86%E6%8E%92%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E5%88%AB%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F/">TopK问题用快排和堆排的复杂度分别是多少？</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Gin%E6%A1%86%E6%9E%B6/">Gin框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go%E5%9F%BA%E7%A1%80/">Go基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Netty/">Netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot-%E6%A1%86%E6%9E%B6/">SpringBoot 框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8C%E6%AD%A5/">同步</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88java%EF%BC%89/">并发编程（java）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%B8%B8/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 By Autoload<br>
+      Driven - <a href="https://hexo.io/" target="_blank">Hexo</a>|Theme - <a href="https://github.com/autoload/hexo-theme-auto" target="_blank">Auto</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

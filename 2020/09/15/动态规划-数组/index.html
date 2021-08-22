@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>动态规划-数组 | 如果方向错误，停止前进就是一种进步</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">如果方向错误，停止前进就是一种进步</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-动态规划-数组" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/09/15/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%95%B0%E7%BB%84/" class="article-date">
+  <time class="dt-published" datetime="2020-09-15T14:33:47.000Z" itemprop="datePublished">2020-09-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      动态规划-数组
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>两个数组最长公共子数组</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] arr1=&#123;<span class="number">3</span>,<span class="number">4576</span>,<span class="number">768</span>,<span class="number">3</span>,<span class="number">35</span>,<span class="number">68</span>,<span class="number">7</span>,<span class="number">43</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span>[] arr2=&#123;<span class="number">54</span>,<span class="number">67</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">768</span>,<span class="number">3</span>,<span class="number">35</span>,<span class="number">564</span>&#125;;<span class="comment">//768,3,35</span></span><br><span class="line">        <span class="keyword">int</span> m=arr1.length;</span><br><span class="line">        <span class="keyword">int</span> n=arr2.length;</span><br><span class="line">        <span class="keyword">int</span>[][] dp=<span class="keyword">new</span> <span class="keyword">int</span>[m][n];</span><br><span class="line">        <span class="keyword">int</span> start=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> end=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> maxlen=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;=m ; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;=n ; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(arr1[i-<span class="number">1</span>]==arr2[j-<span class="number">1</span>])&#123;</span><br><span class="line">                    dp[i][j]=dp[i-<span class="number">1</span>][j-<span class="number">1</span>]+<span class="number">1</span>;</span><br><span class="line">                    <span class="keyword">if</span>(dp[i][j]&gt;maxlen)&#123;</span><br><span class="line">                        maxlen=dp[i][j];</span><br><span class="line">                        start=i-maxlen;</span><br><span class="line">                        end=i;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;Integer&gt; res=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=start;i&lt;end;i++)&#123;</span><br><span class="line">            res.add(arr1[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(res);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>两个数组最长公共子序列长度</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span>[] arr1=&#123;<span class="number">1</span>,<span class="number">9999</span>,<span class="number">777777</span>,<span class="number">3</span>,<span class="number">8888888</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="number">9</span>,<span class="number">33333333</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span>[] arr2=&#123;<span class="number">12</span>,<span class="number">334</span>,<span class="number">456</span>,<span class="number">87</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">456</span>,<span class="number">7</span>,<span class="number">9</span>,<span class="number">435</span>,<span class="number">12</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span> m=arr1.length;</span><br><span class="line">    <span class="keyword">int</span> n=arr2.length;</span><br><span class="line">    <span class="keyword">int</span>[][] dp=<span class="keyword">new</span> <span class="keyword">int</span>[m+<span class="number">1</span>][n+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(arr1[i-<span class="number">1</span>]==arr2[j-<span class="number">1</span>])&#123;</span><br><span class="line">                dp[i][j]=dp[i-<span class="number">1</span>][j-<span class="number">1</span>]+<span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                dp[i][j]=Math.max(dp[i-<span class="number">1</span>][j],dp[i][j-<span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(dp[m][n]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>连续子数组之和最大值<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums.length==<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> res=Integer.MIN_VALUE;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">        sum=Math.max(sum+nums[i],nums[i]);</span><br><span class="line">        res=Math.max(res,sum);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>连续子数组乘积最大值</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">int</span> m=nums.length;</span><br><span class="line">    <span class="keyword">if</span>(m==<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> max=nums[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">int</span> min=nums[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">int</span> res=nums[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;m;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums[i]&lt;<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">int</span> tmp=max;</span><br><span class="line">            max=min;</span><br><span class="line">            min=tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        max=Math.max(max*nums[i],nums[i]);</span><br><span class="line">        min=Math.min(min*nums[i],nums[i]);</span><br><span class="line">        res=Math.max(res,max);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>最长上升子序列<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLIS</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n=nums.length;</span><br><span class="line">    <span class="keyword">if</span>(n==<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span>[] dp=<span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">    Arrays.fill(dp,<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;i;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]&gt;nums[j])&#123;</span><br><span class="line">                dp[i]=Math.max(dp[i],dp[j]+<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        res=Math.max(res,dp[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/09/15/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%95%B0%E7%BB%84/" data-id="cksmslcq1001tmsu9bts8d059" data-title="动态规划-数组" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/09/19/%E6%89%8B%E6%92%95KMp/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          手撕KMP
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/09/15/%E6%89%8B%E6%92%95%E7%BA%BF%E7%A8%8B%E6%B1%A0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">手撕线程池</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Goroutine/" rel="tag">Goroutine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/" rel="tag">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netty/" rel="tag">Netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TopK/" rel="tag">TopK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%B0%81%E9%97%AD/" rel="tag">线程封闭</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%83%8C%E5%8C%85/" rel="tag">背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" rel="tag">零拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/29/AQS%E5%85%A5%E9%97%A8/">AQS介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/">Kafka介绍（二）</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/08/Kafka%E5%85%A5%E9%97%A8/">kafka入门介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/">Redis cluster集群模式介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/21/TopK%E9%97%AE%E9%A2%98%E7%94%A8%E5%BF%AB%E6%8E%92%E5%92%8C%E5%A0%86%E6%8E%92%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E5%88%AB%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F/">TopK问题用快排和堆排的复杂度分别是多少？</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Gin%E6%A1%86%E6%9E%B6/">Gin框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go%E5%9F%BA%E7%A1%80/">Go基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Netty/">Netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot-%E6%A1%86%E6%9E%B6/">SpringBoot 框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8C%E6%AD%A5/">同步</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88java%EF%BC%89/">并发编程（java）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%B8%B8/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 By Autoload<br>
+      Driven - <a href="https://hexo.io/" target="_blank">Hexo</a>|Theme - <a href="https://github.com/autoload/hexo-theme-auto" target="_blank">Auto</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>操作系统-进程管理-用户级线程和内核级线程的区别 | 如果方向错误，停止前进就是一种进步</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">如果方向错误，停止前进就是一种进步</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-操作系统-进程管理-用户级线程和内核级线程的区别" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/10/31/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86-%E7%94%A8%E6%88%B7%E7%BA%A7%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%86%85%E6%A0%B8%E7%BA%A7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
+  <time class="dt-published" datetime="2020-10-31T09:07:23.000Z" itemprop="datePublished">2020-10-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      操作系统-进程管理-用户级线程和内核级线程的区别
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="一、线程的分类"><a href="#一、线程的分类" class="headerlink" title="一、线程的分类"></a>一、线程的分类</h5><p>​    线程的实现可以分为两大类：<strong>用户级线程</strong>和<strong>内核级线程</strong>。</p>
+<h6 id="1-用户级线程"><a href="#1-用户级线程" class="headerlink" title="1.用户级线程"></a>1.用户级线程</h6><p>​    在一个纯粹的用户级线程软件中，有关线程管理的所有工作都由应用程序完成，内核意识不到线程的存在。任何应用程序都可以通过使用线程库被设计成多线程程序。线程库是用于用户级线程管理的一个例程包，它包含用于创建和销毁线程的代码、在线程间传递消息和数据的代码、调度线程执行的代码、以及保存和恢复线程上下文的代码。在默认情况下，应用程序从单线程开始，并在该线程中开始运行。该应用程序及其线程被分配给一个由内核管理的进程。在应用程序正在运行（进程处于运行态）的任何时刻，应用程序都可以派生一个在相同进程中运行的新线程（派生线程是通过调用线程库中的派生例程完成的，通过过程调用，控制权被传递给派生例程）。线程库为新线程创建一个数据结构，然后使用某种调度算法，把控制权传递给该进程中处于就绪态的一个线程。当控制权被传递给线程库时，需要保存当前线程的上下文，然后当控制权从线程库中传递给一个线程时，将恢复哪个线程的上下文。上下文实际上包括用户寄存器的内容、程序计数器和栈指针</p>
+<p>在前一段描述的所有活动都发生在用户空间中，并且发生在一个进程内，而内核并不知道这些活动。内核继续以进程为单位进行调度，并且给该进程指定一个执行状态。</p>
+<p>使用用户级线程而不是内核线程有很多优点：</p>
+<blockquote>
+<p><strong>1、由于所有线程管理数据结构都在一个进程的用户地址空间中，线程切换不需要内核态特权；</strong></p>
+<p><strong>2、调度可以是应用程序相关的，可以做到为应用程序量身定做调度算法而不扰乱底层的操作系统调度程序；</strong></p>
+<p><strong>3、用户级线程可以在任何操作系统中运行，线程库是一组供所有应用程序共享的应用程序级别的函数。</strong></p>
+</blockquote>
+<p>使用用户级线程而不是内核线程有两个明显的缺点：</p>
+<blockquote>
+<p><strong>1、当用户级线程执行一个会引起阻塞的系统调用时，不仅这个线程会被阻塞，进程中的所有线程都会被阻塞；</strong></p>
+<p><strong>2、在纯粹的用户级线程策略中，多线程应用程序不能利用多处理技术，内核一次只把一个进程分配给一个处理器，因此一次进程中只有一个线程可以执行。</strong></p>
+</blockquote>
+<h6 id="2-内核级线程"><a href="#2-内核级线程" class="headerlink" title="2.内核级线程"></a>2.内核级线程</h6><p>在一个纯粹的内核级线程软件中，有关线程管理的所有工作都是由内核完成的，应用程序部分没有进行线程管理的代码，只有一个到内核线程设施的应用程序编程接口（API）。Windows 是这种方法的一个例子。</p>
+<p>内核为进程及其内部的每个线程维护上下文信息。调度是由内核基于线程完成的。该方法克服了用户级线程方法的两个基本缺陷（优点：）：</p>
+<blockquote>
+<p><strong>首先：内核可以同时把同一个进程中的多个线程调度到多个处理器中；</strong></p>
+<p><strong>再者：如果进程中的一个线程被阻塞，内核可以调度同一个进程中的另一个线程；</strong></p>
+<p><strong>另外：内核例程自身也是可以使用多线程的。</strong></p>
+</blockquote>
+<p>缺点：把控制从一个线程传送到同一个进程内的另一个线程时，需要到内核的状态转换</p>
+<h5 id="二、Windows线程"><a href="#二、Windows线程" class="headerlink" title="二、Windows线程"></a>二、Windows线程</h5><p>​    Windows 使用两类与进程相关的对象：进程和线程。</p>
+<p>​    进程是对应一个拥有内存、打开的文件等资源的用户作业或应用程序的实体。线程是顺序执行的一个科分派的工作单元，并且它是可中断的，因此，处理器可以切换到另一个线程。一个 Windows 进程必须至少包含一个执行线程，该线程可能会创建别的线程。在多处理器系统中，同一个进程的多个线程可以并行的执行。</p>
+<p>​    由于不同进程中的线程可能并非执行，因而 Windows 支持进程间的并发性。此外，同一个进程中的多个线程可以分配给不同的处理器并且同时执行。一个含有多线程的进程在实现并发时，不需要使用多进程的开销。同一个进程中的线程可以通过他们的公共地址空间交换信息，并访问进程中的共享资源，不同进程中的线程可以通过在两个进程间建立的共享内存交换信息</p>
+<h5 id="三、Linux的进程和线程管理"><a href="#三、Linux的进程和线程管理" class="headerlink" title="三、Linux的进程和线程管理"></a>三、Linux的进程和线程管理</h5><p>​    Linux 中的进程或任务由一个 task_struct 数据结构表示。</p>
+<p>​    传统的 UNIX 系统支持每个执行的进程中只有一个单独的一个线程，但现代典型的 UNIX 系统支持一个进程中含有多个 内核级线程。</p>
+<p>**    Linux 提供一种不区分进程和线程的解决方案**。用户级线程被映射到内核级进程上，组成一个用户级进程的多个用户级线程被映射到共享同一个组 ID 的多个 Linux 内核级进程上。这使得这些进程可以共享文件和内存等资源，使得同一组中的进程调度切换时不需要切换上下文。</p>
+<p>​    当两个进程共享相同的虚存时，它们可以被当做是一个进程中的线程。</p>
+<p>​    当 Linux 内核执行从一个进程到另一个进程的切换时，它将坚持当前进程的页目录地址是否和将被调度的进程相同。如果相同，那么它们共享同一个地址空间，所以此时上下文切换仅仅是从代码的一处跳转到代码的另一处。</p>
+<p>​    虽然属于同一进程组的被克隆的进程共享同一内存空间，但它们不能共享同一个用户栈。</p>
+<h5 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h5><p>​    用户级线程对操作系统是未知的，它们由一个在进程的用户空间中运行的线程库创建并管理。用户线程是非常高效的，因为从一个线程切换到另一个线程不需要进行状态切换，但是，一个进程中一次只有一个用户级线程可以执行，如果一个线程发生阻塞，整个进程都会被阻塞。</p>
+<p>​    进程内包含的内核级线程是由内核维护的。由于内核认识它们，因而同一个进程中的多个线程可以再多个处理器上并行执行，一个线程的阻塞不会阻塞整个进程，但当从一个线程切换到另一个线程时就会需要进行模式切换。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/10/31/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86-%E7%94%A8%E6%88%B7%E7%BA%A7%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%86%85%E6%A0%B8%E7%BA%A7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="cksmslcq1002fmsu98hfc6i81" data-title="操作系统-进程管理-用户级线程和内核级线程的区别" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/11/01/%E5%89%91%E6%8C%87offer%2056-67/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          剑指offer 56-67
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/10/31/%E5%89%91%E6%8C%87offer%2046-55/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">剑指offer 46-55</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Goroutine/" rel="tag">Goroutine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/" rel="tag">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netty/" rel="tag">Netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TopK/" rel="tag">TopK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%B0%81%E9%97%AD/" rel="tag">线程封闭</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%83%8C%E5%8C%85/" rel="tag">背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" rel="tag">零拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/29/AQS%E5%85%A5%E9%97%A8/">AQS介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/">Kafka介绍（二）</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/08/Kafka%E5%85%A5%E9%97%A8/">kafka入门介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/">Redis cluster集群模式介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/21/TopK%E9%97%AE%E9%A2%98%E7%94%A8%E5%BF%AB%E6%8E%92%E5%92%8C%E5%A0%86%E6%8E%92%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E5%88%AB%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F/">TopK问题用快排和堆排的复杂度分别是多少？</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Gin%E6%A1%86%E6%9E%B6/">Gin框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go%E5%9F%BA%E7%A1%80/">Go基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Netty/">Netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot-%E6%A1%86%E6%9E%B6/">SpringBoot 框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8C%E6%AD%A5/">同步</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88java%EF%BC%89/">并发编程（java）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%B8%B8/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 By Autoload<br>
+      Driven - <a href="https://hexo.io/" target="_blank">Hexo</a>|Theme - <a href="https://github.com/autoload/hexo-theme-auto" target="_blank">Auto</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

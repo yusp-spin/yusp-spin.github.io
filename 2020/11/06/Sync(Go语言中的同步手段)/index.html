@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Sync(Go语言中的同步手段) | 如果方向错误，停止前进就是一种进步</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">如果方向错误，停止前进就是一种进步</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Sync(Go语言中的同步手段)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/" class="article-date">
+  <time class="dt-published" datetime="2020-11-06T03:23:47.000Z" itemprop="datePublished">2020-11-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Sync(Go语言中的同步手段)
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="1-sync-WaitGroup"><a href="#1-sync-WaitGroup" class="headerlink" title="1.sync.WaitGroup"></a>1.sync.WaitGroup</h5><p>​    Go语言中可以使用sync.WaitGroup来实现并发任务的同步。</p>
+<p>​    sync.WaitGroup内部维护着一个计数器，计数器的值可以增加和减少。例如当我们启动了N 个并发任务时，就将计数器值增加N。每个任务完成时通过调用Done()方法将计数器减1。通过调用Wait()来等待并发任务执行完，当计数器值为0时，表示所有并发任务已经完成</p>
+<pre><code> sync.WaitGroup有以下几个方法：
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(wg * WaitGroup) Add(delta int)</td>
+<td>计数器+delta</td>
+</tr>
+<tr>
+<td>(wg *WaitGroup) Done()</td>
+<td>计数器-1</td>
+</tr>
+<tr>
+<td>(wg *WaitGroup) Wait()</td>
+<td>阻塞直到计数器变为0</td>
+</tr>
+</tbody></table>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;sync&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">()</span></span>  &#123;</span><br><span class="line">	<span class="keyword">defer</span> wg.Done()</span><br><span class="line">	fmt.Println(<span class="string">&quot;hello Goroutine!&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	wg.Add(<span class="number">1</span>)</span><br><span class="line">	<span class="keyword">go</span> hello()</span><br><span class="line">	fmt.Println(<span class="string">&quot;main gorountine done&quot;</span>)</span><br><span class="line">	wg.Wait()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="2-sync-Once"><a href="#2-sync-Once" class="headerlink" title="2.sync.Once"></a>2.sync.Once</h5><p>​    确保某些操作在高并发的场景下只执行一次,sunc.Once是一个针对值执行一次场景的解决方案</p>
+<p>​    整个程序，只会执行printNum()方法一次,print()方法是不会被执行的。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;sync&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> once sync.Once</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> i, v :=<span class="keyword">range</span> <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">10</span>) &#123;</span><br><span class="line">		once.Do(printNum)</span><br><span class="line">		fmt.Println(<span class="string">&quot;count:&quot;</span>,v,<span class="string">&quot;---&quot;</span>,i)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			once.Do(<span class="built_in">print</span>)</span><br><span class="line">			fmt.Println(<span class="string">&quot;hello&quot;</span>)</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	time.Sleep(<span class="number">4000</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">printNum</span><span class="params">()</span></span>  &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;123456&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">print</span><span class="params">()</span></span>  &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;abcdefg&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="3-sync-Map"><a href="#3-sync-Map" class="headerlink" title="3.sync.Map"></a>3.sync.Map</h5><p>​    Go语言中内置的map不是并发安全的,有些场景下就需要为map加锁来保证并发的安全性了，Go语言的sync包中提供了一个开箱即用的并发安全版map–sync.Map。开箱即用表示不用像内置的map一样使用make函数初始化就能直接使用。同时sync.Map内置了诸如Store、Load、LoadOrStore、Delete、Range等操作方法</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/" data-id="cksmslcoz000hmsu99pgg3mnp" data-title="Sync(Go语言中的同步手段)" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/11/08/Go-make%E5%92%8Cnew%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Go-make和new关键字的区别和实现原理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/11/04/Goroutine/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Goroutine</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Goroutine/" rel="tag">Goroutine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/" rel="tag">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netty/" rel="tag">Netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TopK/" rel="tag">TopK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%B0%81%E9%97%AD/" rel="tag">线程封闭</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%83%8C%E5%8C%85/" rel="tag">背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" rel="tag">零拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/29/AQS%E5%85%A5%E9%97%A8/">AQS介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/">Kafka介绍（二）</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/08/Kafka%E5%85%A5%E9%97%A8/">kafka入门介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/">Redis cluster集群模式介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/21/TopK%E9%97%AE%E9%A2%98%E7%94%A8%E5%BF%AB%E6%8E%92%E5%92%8C%E5%A0%86%E6%8E%92%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E5%88%AB%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F/">TopK问题用快排和堆排的复杂度分别是多少？</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Gin%E6%A1%86%E6%9E%B6/">Gin框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go%E5%9F%BA%E7%A1%80/">Go基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Netty/">Netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot-%E6%A1%86%E6%9E%B6/">SpringBoot 框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8C%E6%AD%A5/">同步</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88java%EF%BC%89/">并发编程（java）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%B8%B8/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 By Autoload<br>
+      Driven - <a href="https://hexo.io/" target="_blank">Hexo</a>|Theme - <a href="https://github.com/autoload/hexo-theme-auto" target="_blank">Auto</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

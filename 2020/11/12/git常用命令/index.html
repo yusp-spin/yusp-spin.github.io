@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Git常用命令 | 如果方向错误，停止前进就是一种进步</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">如果方向错误，停止前进就是一种进步</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-git常用命令" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="article-date">
+  <time class="dt-published" datetime="2020-11-12T13:58:13.000Z" itemprop="datePublished">2020-11-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Git/">Git</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Git常用命令
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>git常用操作总结一下，也相当于做个笔记</p>
+<h5 id="1、git-配置"><a href="#1、git-配置" class="headerlink" title="1、git 配置"></a>1、git 配置</h5><p>git config user.name  查看 用户名</p>
+<p>git config user.email   查看 邮箱</p>
+<p>git config –global user.name <name>  修改 用户名</name></p>
+<p>git config –global user.email <email>  修改 邮箱</email></p>
+<p>ssh-keygen -t rsa -C “ <a href="mailto:&#121;&#111;&#x75;&#x72;&#x5f;&#x65;&#109;&#x61;&#105;&#108;&#x40;&#101;&#x78;&#97;&#109;&#112;&#108;&#101;&#x2e;&#99;&#111;&#109;">&#121;&#111;&#x75;&#x72;&#x5f;&#x65;&#109;&#x61;&#105;&#108;&#x40;&#101;&#x78;&#97;&#109;&#112;&#108;&#101;&#x2e;&#99;&#111;&#109;</a>“ 创建SSH key 【可以填写任意值作为注释key，例如邮箱】</p>
+<p>ssh -T <a href="mailto:&#103;&#105;&#116;&#x40;&#x67;&#x69;&#x74;&#101;&#101;&#x2e;&#99;&#x6f;&#109;">&#103;&#105;&#116;&#x40;&#x67;&#x69;&#x74;&#101;&#101;&#x2e;&#99;&#x6f;&#109;</a> 测试该SHH key 已添加到 gitee.com【码云】</p>
+<h5 id="2、创建版本库"><a href="#2、创建版本库" class="headerlink" title="2、创建版本库"></a>2、创建版本库</h5><p>git init  初始化本地版本库【创建一个 .git的子目录】</p>
+<p>git init [project-name]  新建一个目录，并将其初始化为 git 代码库；</p>
+<p>git clone <url>  克隆远程版本库；</url></p>
+<h5 id="3、修改和提交"><a href="#3、修改和提交" class="headerlink" title="3、修改和提交"></a>3、修改和提交</h5><p>git status  显示文件的状态 【红色表示被修改没提交到暂存区，绿色代表已提交到暂存区；】</p>
+<p>git status -s  以极简的方式显示文件的状态【红色的M 表示被修改没提交到暂存区，绿色的M代表已提交到暂存区；】</p>
+<p><strong>git add</strong>  将文件从工作目录添加至暂存区；</p>
+<p>　　git add -u | –update  仅将被修改的文件添加至暂存区（不包含新添加的文件）；</p>
+<p>　　git add .  将被修改的文件 和 新添加的文件提交到暂存区（不包含已经删除的文件）；</p>
+<p>　　git add -a  将本地所有修改的内容添加至暂存区（包含新添加的 和 已经删除的）；</p>
+<p><strong>git commit</strong>  将暂存区的修改提交到本地仓库，同时生成一个commit-id；</p>
+<p>　　git commit -m <message>  将暂存区修改提交到本地仓库</message></p>
+<p>　　git commit -a -m <message>  将工作区的修改提交到本地仓库 【相当于 <strong>git add + git commit</strong> 】</message></p>
+<p>　　git commit -amend  修改上一次提交【代码没有任何变化，则修改提交信息】</p>
+<h5 id="4、分支操作"><a href="#4、分支操作" class="headerlink" title="4、分支操作"></a>4、分支操作</h5><p><strong>git branch</strong></p>
+<p>　　git branch  列出所有本地分支</p>
+<p>　　git branch -r  列出所有远程分支</p>
+<p>　　git branch -a 列出所有本地和远程分支</p>
+<p>　　git branch [branch-name]  新建一个分支，仍停留在当前分支</p>
+<p>　　git branch -m <nameA> <nameB>  将分支nameA 改名为 nameB</nameB></nameA></p>
+<p>　　git branch -d [branch-name] 删除分支</p>
+<p><strong>git checkout</strong></p>
+<p>　　git checkout [branch-name]  切换到指定分支</p>
+<p>　　git checkout -b [branch-name]  新建一个分支，并切换到该分支</p>
+<p>　　git checkout - 切换到上一个分支</p>
+<p><strong>git merge</strong></p>
+<p>　　git merge [branch-name] 合并指定分支到当前分支</p>
+<h5 id="5、远程操作"><a href="#5、远程操作" class="headerlink" title="5、远程操作"></a>5、远程操作</h5><p>git fetch 将远程主机上所有分支的更新取回本地，并记录在 .git/FETCH_HEAD 中；</p>
+<p>　　git fetch <remote-name> 下载远程仓库的所有变动；</remote-name></p>
+<p>　　git fetch <remote-name> master:test 在本地新建test 分支，并将主机上master分支代码下载到本地 test 分支；</remote-name></p>
+<p><strong>git remote</strong></p>
+<p>　　git remote -v  显示所有远程仓库</p>
+<p>　　git remote show <remote-name> 显示某个远程仓库的信息</remote-name></p>
+<p>　　git remote add <remote-name> [ url ] 增加一个新的远程仓库 并命名</remote-name></p>
+<p><strong>git pull</strong></p>
+<p>　　git pull &lt;远程主机名&gt; &lt;远程分支名&gt; : &lt;本地分支名&gt;  取回远程仓库某个分支的更新，并与本地分支合并</p>
+<p>　　git pull origin dev: master 取回远程主机的 dev 分支，与本地的master分支合并</p>
+<p>　　git pull origin dev 相当于以下两个命令：</p>
+<p>　　　　git fetch origin 获取远程主机上所有分支的更新</p>
+<p>　　　　git merge origin/dev 与当前分支合并</p>
+<p><strong>git push</strong></p>
+<p>　　git push &lt;远程主机名&gt; &lt;本地分支名&gt; : &lt;远程分支&gt; 上传本地指定分支到远程仓库的指定分支</p>
+<p>　　　　省略远程分支名，表示将本地分支推送到与之存在“追踪关系”的远程分支，通常两者同名，后者不存在，将会被创建；</p>
+<p>　　　　省略本地分支名，表示删除指定的远程分支【这相当推送一个空的本地分支到远程分支】；</p>
+<p>　　git push origin master 将本地的master 分支推送到 origin 主机的master 分支【后者不存在，将会被创建】</p>
+<p>　　git push origin : master 删除 origin 主机的master 分支；【相当于 git push origin –delete master】</p>
+<h5 id="6、撤销修改"><a href="#6、撤销修改" class="headerlink" title="6、撤销修改"></a>6、撤销修改</h5><p>撤销工作区的修改： 【文件修改之后撤销】</p>
+<p>　　git checkout – file 恢复暂存区的指定文件到工作区</p>
+<p>　　git checkout . 恢复暂存区的所有文件到工作区</p>
+<p>撤销暂存区的修改： 【git add 之后】</p>
+<p>　　git reste HEAD <file></file></p>
+<p>版本回退 ：</p>
+<p>　　 git reset –hard <commit_id> </commit_id></p>
+<p>git log 查看提交历史，确定回退到那个版本；</p>
+<p>git reflog 查看历史命令，确定回到未来的版本；</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/james23dong/p/12375970.html">https://www.cnblogs.com/james23dong/p/12375970.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" data-id="cksmslcpf000pmsu97pzy8vio" data-title="Git常用命令" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/11/14/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          操作系统-存储器管理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/11/09/Netty%E4%BB%8B%E7%BB%8D/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Netty介绍</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Goroutine/" rel="tag">Goroutine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/" rel="tag">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netty/" rel="tag">Netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TopK/" rel="tag">TopK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%B0%81%E9%97%AD/" rel="tag">线程封闭</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%83%8C%E5%8C%85/" rel="tag">背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" rel="tag">零拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/29/AQS%E5%85%A5%E9%97%A8/">AQS介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/">Kafka介绍（二）</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/08/Kafka%E5%85%A5%E9%97%A8/">kafka入门介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/">Redis cluster集群模式介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/21/TopK%E9%97%AE%E9%A2%98%E7%94%A8%E5%BF%AB%E6%8E%92%E5%92%8C%E5%A0%86%E6%8E%92%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E5%88%AB%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F/">TopK问题用快排和堆排的复杂度分别是多少？</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Gin%E6%A1%86%E6%9E%B6/">Gin框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go%E5%9F%BA%E7%A1%80/">Go基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Netty/">Netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot-%E6%A1%86%E6%9E%B6/">SpringBoot 框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8C%E6%AD%A5/">同步</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88java%EF%BC%89/">并发编程（java）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%B8%B8/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 By Autoload<br>
+      Driven - <a href="https://hexo.io/" target="_blank">Hexo</a>|Theme - <a href="https://github.com/autoload/hexo-theme-auto" target="_blank">Auto</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
