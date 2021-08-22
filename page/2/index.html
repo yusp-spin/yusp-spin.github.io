@@ -87,13 +87,13 @@
 
 <h5 id="7-选择排序"><a href="#7-选择排序" class="headerlink" title="7. 选择排序"></a>7. 选择排序</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] arr=&#123;<span class="number">7</span>,<span class="number">4</span>,<span class="number">87</span>,<span class="number">23</span>,<span class="number">2324</span>,<span class="number">57</span>,<span class="number">34</span>,<span class="number">87</span>,<span class="number">345</span>,<span class="number">68</span>,<span class="number">23</span>,<span class="number">1</span>,<span class="number">567</span>,<span class="number">345</span>,<span class="number">77</span>,<span class="number">33</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">76</span>&#125;;</span><br><span class="line">        <span class="comment">//选择排序，每次选择一个最小的与前面的交换</span></span><br><span class="line">        <span class="keyword">int</span> len=arr.length;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len-<span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> min=i;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i+<span class="number">1</span>; j &lt;len ; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(arr[min]&gt;arr[j])&#123;</span><br><span class="line">                    min=j;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> tmp=arr[min];</span><br><span class="line">            arr[min]=arr[i];</span><br><span class="line">            arr[i]=tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(Arrays.toString(arr));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.io//photo/paixu.png" alt="image.png"></p>
+<p><img src="/2020/11/16/%E5%B8%B8%E8%A7%81%E6%8E%92%E5%BA%8F%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/photo/paixu.png" alt="image.png"></p>
 <p><strong>各大排序优化：</strong><br>冒泡：加入一个flag，如果有一轮flag没变说明没排序，说明已经排序好，可以直接退出<br>快排：小数组切换到插入排序，三数取中，三向切分<br>   三向切分：类似于荷兰国旗改进，荷兰国旗问题和经典快排不同的就只是将&lt;=num改为了&lt; num和=num两部分，借用这个思想使得原来每次只可以让一个数找到正确的位置改进为了每次至少让一个数找到位置 在topk问题中，快排每次可以排除一半元素<br>  随机快排 1. 选取最后一个数：如果是一个已经排好序的数组，每次找到位置之后，左边是要进行排序的部分，数组长度是原长度-1，它的时间复杂度就是O(N^2)；如果每次找到的数都是中间的位置，它的时间复杂度就只有O(logN) 2. 然而以随机数作为选取的标准num的时候，因为是随机的，就只能通过数学期望去计算它的时间复杂度，时间复杂度是O(logN)</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/16/%E5%B8%B8%E8%A7%81%E6%8E%92%E5%BA%8F%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/" data-id="cksmsueou001ys0u9dnh6g80v" data-title="常见排序介绍及优化手段" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/16/%E5%B8%B8%E8%A7%81%E6%8E%92%E5%BA%8F%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/" data-id="cksmuk4n10022nwu947di3ux2" data-title="常见排序介绍及优化手段" class="article-share-link">Share</a>
       
       
       
@@ -167,7 +167,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/15/%E4%BA%86%E8%A7%A3ConcurrentHashMap/" data-id="cksmsueq6004os0u94ayv87nk" data-title="了解ConcurrentHashMap" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/15/%E4%BA%86%E8%A7%A3ConcurrentHashMap/" data-id="cksmuk4od004gnwu9119pfvdf" data-title="了解ConcurrentHashMap" class="article-share-link">Share</a>
       
       
       
@@ -254,7 +254,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/14/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/" data-id="cksmsueou002as0u94sp8c8kf" data-title="操作系统-存储器管理" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/14/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/" data-id="cksmuk4n10029nwu98w5s7lvj" data-title="操作系统-存储器管理" class="article-share-link">Share</a>
       
       
       
@@ -297,8 +297,8 @@
 <p>git config user.email   查看 邮箱</p>
 <p>git config –global user.name <name>  修改 用户名</name></p>
 <p>git config –global user.email <email>  修改 邮箱</email></p>
-<p>ssh-keygen -t rsa -C “ <a href="mailto:&#121;&#x6f;&#117;&#x72;&#95;&#x65;&#x6d;&#x61;&#x69;&#x6c;&#64;&#101;&#x78;&#97;&#109;&#112;&#x6c;&#101;&#46;&#x63;&#x6f;&#x6d;">&#121;&#x6f;&#117;&#x72;&#95;&#x65;&#x6d;&#x61;&#x69;&#x6c;&#64;&#101;&#x78;&#97;&#109;&#112;&#x6c;&#101;&#46;&#x63;&#x6f;&#x6d;</a>“ 创建SSH key 【可以填写任意值作为注释key，例如邮箱】</p>
-<p>ssh -T <a href="mailto:&#103;&#x69;&#x74;&#x40;&#103;&#x69;&#x74;&#101;&#101;&#x2e;&#x63;&#111;&#x6d;">&#103;&#x69;&#x74;&#x40;&#103;&#x69;&#x74;&#101;&#101;&#x2e;&#x63;&#111;&#x6d;</a> 测试该SHH key 已添加到 gitee.com【码云】</p>
+<p>ssh-keygen -t rsa -C “ <a href="mailto:&#x79;&#111;&#x75;&#x72;&#95;&#x65;&#x6d;&#x61;&#105;&#x6c;&#64;&#x65;&#x78;&#x61;&#x6d;&#112;&#x6c;&#101;&#x2e;&#99;&#x6f;&#109;">&#x79;&#111;&#x75;&#x72;&#95;&#x65;&#x6d;&#x61;&#105;&#x6c;&#64;&#x65;&#x78;&#x61;&#x6d;&#112;&#x6c;&#101;&#x2e;&#99;&#x6f;&#109;</a>“ 创建SSH key 【可以填写任意值作为注释key，例如邮箱】</p>
+<p>ssh -T <a href="mailto:&#103;&#x69;&#x74;&#x40;&#x67;&#x69;&#116;&#101;&#x65;&#x2e;&#99;&#111;&#x6d;">&#103;&#x69;&#x74;&#x40;&#x67;&#x69;&#116;&#101;&#x65;&#x2e;&#99;&#111;&#x6d;</a> 测试该SHH key 已添加到 gitee.com【码云】</p>
 <h5 id="2、创建版本库"><a href="#2、创建版本库" class="headerlink" title="2、创建版本库"></a>2、创建版本库</h5><p>git init  初始化本地版本库【创建一个 .git的子目录】</p>
 <p>git init [project-name]  新建一个目录，并将其初始化为 git 代码库；</p>
 <p>git clone <url>  克隆远程版本库；</url></p>
@@ -358,7 +358,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" data-id="cksmsueo5000qs0u9g77v0ej4" data-title="Git常用命令" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" data-id="cksmuk4m6000snwu98isf9unx" data-title="Git常用命令" class="article-share-link">Share</a>
       
       
       
@@ -432,7 +432,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/09/Netty%E4%BB%8B%E7%BB%8D/" data-id="cksmsuenq000cs0u9a5nbf5j9" data-title="Netty介绍" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/09/Netty%E4%BB%8B%E7%BB%8D/" data-id="cksmuk4m4000gnwu90gtd2xcy" data-title="Netty介绍" class="article-share-link">Share</a>
       
       
       
@@ -505,7 +505,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/08/Go-make%E5%92%8Cnew%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" data-id="cksmsuena0003s0u94a4603wj" data-title="Go-make和new关键字的区别和实现原理" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/08/Go-make%E5%92%8Cnew%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" data-id="cksmuk4lm0007nwu98midfduo" data-title="Go-make和new关键字的区别和实现原理" class="article-share-link">Share</a>
       
       
       
@@ -584,7 +584,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/" data-id="cksmsuenq000gs0u9d5sg56n1" data-title="Sync(Go语言中的同步手段)" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/" data-id="cksmuk4mg000ynwu976ww253b" data-title="Sync(Go语言中的同步手段)" class="article-share-link">Share</a>
       
       
       
@@ -671,7 +671,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/04/Goroutine/" data-id="cksmsuena0008s0u92r8w3gl0" data-title="Goroutine" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/04/Goroutine/" data-id="cksmuk4lm0008nwu9ejvr7vzt" data-title="Goroutine" class="article-share-link">Share</a>
       
       
       
@@ -730,7 +730,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/01/Gin%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/" data-id="cksmsuena0001s0u90tsa06o5" data-title="Gin数据库操作" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/01/Gin%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/" data-id="cksmuk4lc0001nwu95d9vfnh8" data-title="Gin数据库操作" class="article-share-link">Share</a>
       
       
       
@@ -804,7 +804,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/01/Gin%E5%85%A5%E9%97%A8/" data-id="cksmsuena0006s0u901jl0aaf" data-title="Gin框架入门" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/01/Gin%E5%85%A5%E9%97%A8/" data-id="cksmuk4lm0006nwu96alz8svh" data-title="Gin框架入门" class="article-share-link">Share</a>
       
       
       

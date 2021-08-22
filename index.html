@@ -102,7 +102,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2021/03/29/AQS%E5%85%A5%E9%97%A8/" data-id="cksmsuena0007s0u94b340zus" data-title="AQS介绍" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2021/03/29/AQS%E5%85%A5%E9%97%A8/" data-id="cksmuk4lk0003nwu9fm86e09c" data-title="AQS介绍" class="article-share-link">Share</a>
       
       
       
@@ -141,7 +141,13 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <h5 id="一、Kafka架构介绍"><a href="#一、Kafka架构介绍" class="headerlink" title="一、Kafka架构介绍"></a>一、Kafka架构介绍</h5><p>​     一个典型的Kafka集群中包含若干Producer，若干broker（Kafka支持水平扩展，一般broker数量越多，集群吞吐率越高），若干Consumer Group，以及一个Zookeeper集群。Kafka通过Zookeeper管理集群配置，选举leader，以及在Consumer Group发生变化时进行rebalance。Producer使用push模式将消息发布到broker，Consumer使用pull模式从broker订阅并消费消息。 </p>
-<p><img src="/.io//kafka.png" alt="kafka架构"></p>
+<div>
+    <p style="text-align:center">
+    <img src="/photo/kafka.png" width="700" height="400">
+    <br>kafka架构
+    </p>
+</div>
+
 <h5 id="二、Topics和Partition的关系"><a href="#二、Topics和Partition的关系" class="headerlink" title="二、Topics和Partition的关系"></a>二、Topics和Partition的关系</h5><p>​     主题（topic）：一个 topic 里保存的是同一类消息，相当于对消息的分类，每个 producer 将消息发送到 kafka 中，都需要指明要存的 topic 是哪个，也就是指明这个消息属于哪一类。</p>
 <p> 分区（partition）：每个 topic 都可以分成多个 partition，每个 partition 在存储层面是 append log 文件。任何发布到此 partition 的消息都会被直接追加到 log 文件的尾部。为什么要进行分区呢？最根本的原因就是：kafka基于文件进行存储，当文件内容大到一定程度时，很容易达到单个磁盘的上限，因此，采用分区的办法，一个分区对应一个文件，这样就可以将数据分别存储到不同的server上去，另外这样做也可以负载均衡，容纳更多的消费者。</p>
 <p>​    Topic在逻辑上可以被认为是一个queue，每条消费都必须指定它的Topic，可以简单理解为必须指明把这条消息放进哪个queue里。为了使得Kafka的吞吐率可以线性提高，物理上把Topic分成一个或多个Partition，每个Partition在物理上对应一个文件夹，该文件夹下存储这个Partition的所有消息和索引文件。创建一个topic时，同时可以指定分区数目，分区数越多，其吞吐量也越大，但是需要的资源也越多，同时也会导致更高的不可用性，kafka在接收到生产者发送的消息之后，会根据均衡策略将消息存储到不同的分区中。因为每条消息都被append到该Partition中，属于顺序写磁盘，因此效率非常高 </p>
@@ -178,7 +184,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/" data-id="cksmsuenq000as0u926y14ek5" data-title="Kafka介绍（二）" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/" data-id="cksmuk4lw000anwu9gpgz4nrk" data-title="Kafka介绍（二）" class="article-share-link">Share</a>
       
       
       
@@ -219,10 +225,24 @@
         <h5 id="一、消息系统介绍"><a href="#一、消息系统介绍" class="headerlink" title="一、消息系统介绍"></a>一、消息系统介绍</h5><p>​    消息系统负责将数据从一个应用程序传输到另一个应用程序，因此应用程序可以专注于数据，但不担心如何共享它。 分布式消息传递基于可靠消息队列的概念。 消息在客户端应用程序和消息传递系统之间异步排队。 有两种类型的消息模式可用 - 一种是点对点，另一种是发布 - 订阅(pub-sub)消息系统。 大多数消息模式遵循 <strong>pub-sub</strong> </p>
 <p><strong>点对点模式</strong></p>
 <p>​    生产者发送一条消息到queue，一个queue可以有很多消费者，但是一个消息只能被一个消费者接受，当没有消费者可用时，这个消息会被保存直到有 一个可用的消费者，所以Queue实现了一个可靠的负载均衡。</p>
-<p><img src="/.io//point.png" alt="点对点"></p>
+<div>
+    <p style="text-align:center">
+    <img src="/photo/point.png" width="700" height="400">
+    <br>点对点
+    </p>
+</div>
+
+
+
 <p><strong>发布订阅模式</strong></p>
 <p>​    在发布 - 订阅系统中，消息被保留在主题中。 与点对点系统不同，消费者可以订阅一个或多个主题并使用该主题中的所有消息。 在发布 - 订阅系统中，消息生产者称为发布者，消息使用者称为订阅者。 </p>
-<p><img src="/.io//topic.png" alt="发布订阅"></p>
+<div>
+    <p style="text-align:center">
+    <img src="/photo/topic.png" width="700" height="400">
+    <br>发布订阅
+    </p>
+</div>
+
 <h5 id="二、Kafka"><a href="#二、Kafka" class="headerlink" title="二、Kafka"></a>二、Kafka</h5><h6 id="2-1-介绍"><a href="#2-1-介绍" class="headerlink" title="2.1 介绍"></a>2.1 介绍</h6><p>Kafka专为分布式高吞吐量系统而设计。 Kafka往往工作得很好，作为一个更传统的消息代理的替代品。 与其他消息传递系统相比，Kafka具有更好的吞吐量，内置分区，复制和固有的容错能力，这使得它非常适合大规模消息处理应用程序。是一个分布式发布 - 订阅消息系统和一个强大的队列，可以处理大量的数据，并使您能够将消息从一个端点传递到另一个端点。</p>
 <h6 id="2-2-Kafka的优势"><a href="#2-2-Kafka的优势" class="headerlink" title="2.2  Kafka的优势"></a>2.2  Kafka的优势</h6><p>以下是Kafka的几个好处 -</p>
 <ul>
@@ -238,7 +258,13 @@
 <li><strong>日志聚合解决方案</strong> - Kafka可用于跨组织从多个服务收集日志，并使它们以标准格式提供给多个服务器。</li>
 <li><strong>流处理</strong> - 流行的框架(如Storm和Spark Streaming)从主题中读取数据，对其进行处理，并将处理后的数据写入新主题，供用户和应用程序使用。 Kafka的强耐久性在流处理的上下文中也非常有用。</li>
 </ul>
-<h5 id="三、几大MQ比较"><a href="#三、几大MQ比较" class="headerlink" title="三、几大MQ比较"></a>三、几大MQ比较</h5><p><img src="/.io//MQ.jpg" alt="几大MQ对比"></p>
+<h5 id="三、几大MQ比较"><a href="#三、几大MQ比较" class="headerlink" title="三、几大MQ比较"></a>三、几大MQ比较</h5><div>
+    <p style="text-align:center">
+    <img src="/photo/MQ.jpg" width="700" height="1400">
+    <br>几大MQ对比
+    </p>
+</div>
+
 <h5 id="四、Kafka基础"><a href="#四、Kafka基础" class="headerlink" title="四、Kafka基础"></a>四、Kafka基础</h5><h6 id="4-1-几大术语"><a href="#4-1-几大术语" class="headerlink" title="4.1 几大术语"></a>4.1 几大术语</h6><ul>
 <li><p><strong>producer和consumer</strong>：消息的发送者叫 Producer，消息的使用者和接受者是 Consumer，生产者将数据保存到 Kafka 集群中，消费者从中获取消息进行业务的处理。</p>
 </li>
@@ -284,7 +310,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2021/01/08/Kafka%E5%85%A5%E9%97%A8/" data-id="cksmsuenq000fs0u95yg07v6l" data-title="kafka入门介绍" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2021/01/08/Kafka%E5%85%A5%E9%97%A8/" data-id="cksmuk4lw000cnwu90p7k2d8e" data-title="kafka入门介绍" class="article-share-link">Share</a>
       
       
       
@@ -336,13 +362,13 @@
 <li>然后采用同样的方法求出存储数据的键的哈希值，并映射到相同的圆上。</li>
 <li>然后从数据映射到的位置开始顺时针查找，将数据保存到找到的第一个服务器上。如果超过232仍然找不到服务器，就会保存到第一台服务器上。</li>
 </ol>
-<p><img src="/.io//hash1.png" alt="hash1"></p>
-<p><img src="/.io//hash2.png" alt="hash2"></p>
+<p><img src="/photo/hash1.png" alt="hash1"></p>
+<p><img src="/photo/hash2.png" alt="hash2"></p>
 <p>可能存在的问题：</p>
 <p>​     一个master宕机不会导致大部分缓存失效，可能存在缓存热点问题 ，比如某个区间的值特别多没那么会导致大量的数据都涌入一个服务器内，造成缓存热点问题，出现性能瓶颈</p>
-<p><img src="/.io//hash3.png" alt="hash3"></p>
+<p><img src="/photo/hash3.png" alt="hash3"></p>
 <h6 id="3-3-用虚拟节点改进的一致性hash算法"><a href="#3-3-用虚拟节点改进的一致性hash算法" class="headerlink" title="3.3 用虚拟节点改进的一致性hash算法"></a>3.3 用虚拟节点改进的一致性hash算法</h6><p>​    缓存热点问题是在服务器节点数非常少的时候容易出现，因此，我们通过添加虚拟节点的方式，来使的服务器节点数变多，从而大量数据均匀分布，而不是涌入到一个服务器内</p>
-<p><img src="/.io//hash4.png" alt="hash4"></p>
+<p><img src="/photo/hash4.png" alt="hash4"></p>
 <h6 id="3-4-rediscluster的hash-slot算法"><a href="#3-4-rediscluster的hash-slot算法" class="headerlink" title="3.4  rediscluster的hash slot算法"></a>3.4  rediscluster的hash slot算法</h6><p>​     <a href>redis</a> cluster中每个master都会持有部分slot，比如有3个master，那么可能每个master持有5000多个hash slot 。hash slot让node的增加和移除很简单，增加一个master，就将其他master的hash slot移动部分过去，减少一个master，就将它的hash slot移动到其他master上去</p>
 <p>​    <a target="_blank" rel="noopener" href="https://www.nowcoder.com/jump/super-jump/word?word=%E5%AE%A2%E6%88%B7%E7%AB%AF">客户端</a>的api，可以对指定的数据，让他们走同一个hash slot，通过hash tag来实现</p>
 <p>​    <a target="_blank" rel="noopener" href="https://www.nowcoder.com/jump/super-jump/word?word=%E5%AE%A2%E6%88%B7%E7%AB%AF">客户端</a>向节点发送键命令，节点要计算这个键属于哪个槽。如果是自己负责这个槽，那么直接执行命令，如果不是，向<a target="_blank" rel="noopener" href="https://www.nowcoder.com/jump/super-jump/word?word=%E5%AE%A2%E6%88%B7%E7%AB%AF">客户端</a>返回一个MOVED错误，指引<a target="_blank" rel="noopener" href="https://www.nowcoder.com/jump/super-jump/word?word=%E5%AE%A2%E6%88%B7%E7%AB%AF">客户端</a>转向正确的节点。</p>
@@ -383,7 +409,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/" data-id="cksmsueo50013s0u9aaf79vo1" data-title="Redis cluster集群模式介绍" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/" data-id="cksmuk4mg0010nwu93et5cckr" data-title="Redis cluster集群模式介绍" class="article-share-link">Share</a>
       
       
       
@@ -445,7 +471,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/12/21/TopK%E9%97%AE%E9%A2%98%E7%94%A8%E5%BF%AB%E6%8E%92%E5%92%8C%E5%A0%86%E6%8E%92%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E5%88%AB%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F/" data-id="cksmsuenq000ms0u9ghj67yo6" data-title="TopK问题用快排和堆排的复杂度分别是多少？" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/12/21/TopK%E9%97%AE%E9%A2%98%E7%94%A8%E5%BF%AB%E6%8E%92%E5%92%8C%E5%A0%86%E6%8E%92%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E5%88%AB%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F/" data-id="cksmuk4m6000lnwu9bea2enj1" data-title="TopK问题用快排和堆排的复杂度分别是多少？" class="article-share-link">Share</a>
       
       
       
@@ -587,7 +613,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/12/01/%E4%B8%80%E6%96%87%E6%90%9E%E9%80%8FRedis/" data-id="cksmsueo50011s0u9ac5u5ids" data-title="Redis常考的知识点" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/12/01/%E4%B8%80%E6%96%87%E6%90%9E%E9%80%8FRedis/" data-id="cksmuk4mg0013nwu9eusra49r" data-title="Redis常考的知识点" class="article-share-link">Share</a>
       
       
       
@@ -664,7 +690,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/30/Netty%E2%80%94%E5%BF%83%E8%B7%B3%E6%9C%BA%E5%88%B6/" data-id="cksmsuenq000ls0u9hrqie8g6" data-title="Netty—心跳机制" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/30/Netty%E2%80%94%E5%BF%83%E8%B7%B3%E6%9C%BA%E5%88%B6/" data-id="cksmuk4lw000fnwu96ffj8wg1" data-title="Netty—心跳机制" class="article-share-link">Share</a>
       
       
       
@@ -706,7 +732,7 @@
       
         <h5 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h5><p>现在一般springboot，mybatis项目中的mapper，pojo都是通过逆向工程直接生成的，但是生成的mapper中的查询语句中是没有分页功能的，如果想要分页的话，只能自己再去xml配置文件中修改sql语句，显得特别麻烦。为了方便快捷的翻页，这里引入一个分页插件。</p>
 <p>pagehelper，原理如下</p>
-<p><img src="/.io//photo/fenye.png" alt="fenye"></p>
+<p><img src="/2020/11/27/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/photo/fenye.png" alt="fenye"></p>
 <p>使用这个插件后，会自动在我们的sql查询中加上limit，而不需要我们自己再去做limit处理</p>
 <h5 id="二、使用方法"><a href="#二、使用方法" class="headerlink" title="二、使用方法"></a>二、使用方法</h5><p>​    首先引入依赖</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.pagehelper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pagehelper-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -727,7 +753,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/27/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" data-id="cksmsueo5000xs0u9bfo92fpz" data-title="pagehelper的使用方法" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/27/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" data-id="cksmuk4m6000pnwu90phq5ydl" data-title="pagehelper的使用方法" class="article-share-link">Share</a>
       
       
       
@@ -846,16 +872,16 @@
 
 <p>三大工厂模式的区别可见：</p>
 <p>​    <a target="_blank" rel="noopener" href="http://www.zhihu.com/question/20367734/answer/807965357">www.zhihu.com/question/20367734/answer/807965357</a></p>
-<p><img src="/.io//simplefactory.jpg" alt="simplefactory"></p>
-<p><img src="/.io//factorymethod.jpg" alt="factorymethod"></p>
-<p><img src="/.io//abstractfactory.jpg" alt="abstractfactory"></p>
+<p><img src="/photo/simplefactory.jpg" alt="simplefactory"></p>
+<p><img src="/photo/factorymethod.jpg" alt="factorymethod"></p>
+<p><img src="/photo/abstractfactory.jpg" alt="abstractfactory"></p>
 <h5 id="6-建造者模式"><a href="#6-建造者模式" class="headerlink" title="6.建造者模式"></a>6.建造者模式</h5><p>​    建造者模式（Builder Pattern）使用多个简单的对象一步一步构建成一个复杂的对象。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://www.runoob.com/design-pattern">https://www.runoob.com/design-pattern</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E2%80%94%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/" data-id="cksmsuepe002zs0u9g1uceluz" data-title="设计模式—创建型模式" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E2%80%94%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/" data-id="cksmuk4o50048nwu9honqfkv9" data-title="设计模式—创建型模式" class="article-share-link">Share</a>
       
       
       
@@ -904,7 +930,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/21/springboot%E5%A6%82%E4%BD%95%E4%B8%8D%E4%BE%9D%E8%B5%96parent/" data-id="cksmsueo5000ws0u9awwn8fje" data-title="SpringBoot 必须依赖spring-boot-parent？" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/21/springboot%E5%A6%82%E4%BD%95%E4%B8%8D%E4%BE%9D%E8%B5%96parent/" data-id="cksmuk4me000vnwu99agqfwm5" data-title="SpringBoot 必须依赖spring-boot-parent？" class="article-share-link">Share</a>
       
       
       

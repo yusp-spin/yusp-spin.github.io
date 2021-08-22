@@ -87,13 +87,13 @@
 <li>然后采用同样的方法求出存储数据的键的哈希值，并映射到相同的圆上。</li>
 <li>然后从数据映射到的位置开始顺时针查找，将数据保存到找到的第一个服务器上。如果超过232仍然找不到服务器，就会保存到第一台服务器上。</li>
 </ol>
-<p><img src="/.io//hash1.png" alt="hash1"></p>
-<p><img src="/.io//hash2.png" alt="hash2"></p>
+<p><img src="/photo/hash1.png" alt="hash1"></p>
+<p><img src="/photo/hash2.png" alt="hash2"></p>
 <p>可能存在的问题：</p>
 <p>​     一个master宕机不会导致大部分缓存失效，可能存在缓存热点问题 ，比如某个区间的值特别多没那么会导致大量的数据都涌入一个服务器内，造成缓存热点问题，出现性能瓶颈</p>
-<p><img src="/.io//hash3.png" alt="hash3"></p>
+<p><img src="/photo/hash3.png" alt="hash3"></p>
 <h6 id="3-3-用虚拟节点改进的一致性hash算法"><a href="#3-3-用虚拟节点改进的一致性hash算法" class="headerlink" title="3.3 用虚拟节点改进的一致性hash算法"></a>3.3 用虚拟节点改进的一致性hash算法</h6><p>​    缓存热点问题是在服务器节点数非常少的时候容易出现，因此，我们通过添加虚拟节点的方式，来使的服务器节点数变多，从而大量数据均匀分布，而不是涌入到一个服务器内</p>
-<p><img src="/.io//hash4.png" alt="hash4"></p>
+<p><img src="/photo/hash4.png" alt="hash4"></p>
 <h6 id="3-4-rediscluster的hash-slot算法"><a href="#3-4-rediscluster的hash-slot算法" class="headerlink" title="3.4  rediscluster的hash slot算法"></a>3.4  rediscluster的hash slot算法</h6><p>​     <a href>redis</a> cluster中每个master都会持有部分slot，比如有3个master，那么可能每个master持有5000多个hash slot 。hash slot让node的增加和移除很简单，增加一个master，就将其他master的hash slot移动部分过去，减少一个master，就将它的hash slot移动到其他master上去</p>
 <p>​    <a target="_blank" rel="noopener" href="https://www.nowcoder.com/jump/super-jump/word?word=%E5%AE%A2%E6%88%B7%E7%AB%AF">客户端</a>的api，可以对指定的数据，让他们走同一个hash slot，通过hash tag来实现</p>
 <p>​    <a target="_blank" rel="noopener" href="https://www.nowcoder.com/jump/super-jump/word?word=%E5%AE%A2%E6%88%B7%E7%AB%AF">客户端</a>向节点发送键命令，节点要计算这个键属于哪个槽。如果是自己负责这个槽，那么直接执行命令，如果不是，向<a target="_blank" rel="noopener" href="https://www.nowcoder.com/jump/super-jump/word?word=%E5%AE%A2%E6%88%B7%E7%AB%AF">客户端</a>返回一个MOVED错误，指引<a target="_blank" rel="noopener" href="https://www.nowcoder.com/jump/super-jump/word?word=%E5%AE%A2%E6%88%B7%E7%AB%AF">客户端</a>转向正确的节点。</p>
@@ -134,7 +134,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/" data-id="cksmsueo50013s0u9aaf79vo1" data-title="Redis cluster集群模式介绍" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/" data-id="cksmuk4mg0010nwu93et5cckr" data-title="Redis cluster集群模式介绍" class="article-share-link">Share</a>
       
       
       

@@ -76,10 +76,24 @@
         <h5 id="一、消息系统介绍"><a href="#一、消息系统介绍" class="headerlink" title="一、消息系统介绍"></a>一、消息系统介绍</h5><p>​    消息系统负责将数据从一个应用程序传输到另一个应用程序，因此应用程序可以专注于数据，但不担心如何共享它。 分布式消息传递基于可靠消息队列的概念。 消息在客户端应用程序和消息传递系统之间异步排队。 有两种类型的消息模式可用 - 一种是点对点，另一种是发布 - 订阅(pub-sub)消息系统。 大多数消息模式遵循 <strong>pub-sub</strong> </p>
 <p><strong>点对点模式</strong></p>
 <p>​    生产者发送一条消息到queue，一个queue可以有很多消费者，但是一个消息只能被一个消费者接受，当没有消费者可用时，这个消息会被保存直到有 一个可用的消费者，所以Queue实现了一个可靠的负载均衡。</p>
-<p><img src="/.io//point.png" alt="点对点"></p>
+<div>
+    <p style="text-align:center">
+    <img src="/photo/point.png" width="700" height="400">
+    <br>点对点
+    </p>
+</div>
+
+
+
 <p><strong>发布订阅模式</strong></p>
 <p>​    在发布 - 订阅系统中，消息被保留在主题中。 与点对点系统不同，消费者可以订阅一个或多个主题并使用该主题中的所有消息。 在发布 - 订阅系统中，消息生产者称为发布者，消息使用者称为订阅者。 </p>
-<p><img src="/.io//topic.png" alt="发布订阅"></p>
+<div>
+    <p style="text-align:center">
+    <img src="/photo/topic.png" width="700" height="400">
+    <br>发布订阅
+    </p>
+</div>
+
 <h5 id="二、Kafka"><a href="#二、Kafka" class="headerlink" title="二、Kafka"></a>二、Kafka</h5><h6 id="2-1-介绍"><a href="#2-1-介绍" class="headerlink" title="2.1 介绍"></a>2.1 介绍</h6><p>Kafka专为分布式高吞吐量系统而设计。 Kafka往往工作得很好，作为一个更传统的消息代理的替代品。 与其他消息传递系统相比，Kafka具有更好的吞吐量，内置分区，复制和固有的容错能力，这使得它非常适合大规模消息处理应用程序。是一个分布式发布 - 订阅消息系统和一个强大的队列，可以处理大量的数据，并使您能够将消息从一个端点传递到另一个端点。</p>
 <h6 id="2-2-Kafka的优势"><a href="#2-2-Kafka的优势" class="headerlink" title="2.2  Kafka的优势"></a>2.2  Kafka的优势</h6><p>以下是Kafka的几个好处 -</p>
 <ul>
@@ -95,7 +109,13 @@
 <li><strong>日志聚合解决方案</strong> - Kafka可用于跨组织从多个服务收集日志，并使它们以标准格式提供给多个服务器。</li>
 <li><strong>流处理</strong> - 流行的框架(如Storm和Spark Streaming)从主题中读取数据，对其进行处理，并将处理后的数据写入新主题，供用户和应用程序使用。 Kafka的强耐久性在流处理的上下文中也非常有用。</li>
 </ul>
-<h5 id="三、几大MQ比较"><a href="#三、几大MQ比较" class="headerlink" title="三、几大MQ比较"></a>三、几大MQ比较</h5><p><img src="/.io//MQ.jpg" alt="几大MQ对比"></p>
+<h5 id="三、几大MQ比较"><a href="#三、几大MQ比较" class="headerlink" title="三、几大MQ比较"></a>三、几大MQ比较</h5><div>
+    <p style="text-align:center">
+    <img src="/photo/MQ.jpg" width="700" height="1400">
+    <br>几大MQ对比
+    </p>
+</div>
+
 <h5 id="四、Kafka基础"><a href="#四、Kafka基础" class="headerlink" title="四、Kafka基础"></a>四、Kafka基础</h5><h6 id="4-1-几大术语"><a href="#4-1-几大术语" class="headerlink" title="4.1 几大术语"></a>4.1 几大术语</h6><ul>
 <li><p><strong>producer和consumer</strong>：消息的发送者叫 Producer，消息的使用者和接受者是 Consumer，生产者将数据保存到 Kafka 集群中，消费者从中获取消息进行业务的处理。</p>
 </li>
@@ -141,7 +161,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2021/01/08/Kafka%E5%85%A5%E9%97%A8/" data-id="cksmsuenq000fs0u95yg07v6l" data-title="kafka入门介绍" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2021/01/08/Kafka%E5%85%A5%E9%97%A8/" data-id="cksmuk4lw000cnwu90p7k2d8e" data-title="kafka入门介绍" class="article-share-link">Share</a>
       
       
       
