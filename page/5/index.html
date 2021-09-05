@@ -49,6 +49,65 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-背包问题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/09/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" class="article-date">
+  <time class="dt-published" datetime="2020-09-14T07:22:47.000Z" itemprop="datePublished">2020-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/09/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">背包问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>今天来个简单的背包问题大汇总</p>
+<h2 id="1-01背包"><a href="#1-01背包" class="headerlink" title="1. 01背包"></a>1. 01背包</h2><p>​    01背包顾名思义就是对一种物品只有选或者不选两种选择<br>​    对于背包体积为W，物品数量是N，每个物品的体积是w[i]，每个物品的价值是price[i]的选择，求用这个背包装下的物品价值最大<br>​    dp[i][j]表示数量为i体积为j的时候选出的最大价值<br>​    方程：<code>dp[i][j]=Math.max(dp[i-1][j],dp[i][j-w[i]]+prices[i])</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N=<span class="number">4</span>;<span class="comment">//物品数量</span></span><br><span class="line">    <span class="keyword">int</span> W=<span class="number">5</span>;<span class="comment">//体积</span></span><br><span class="line">    <span class="keyword">int</span>[] w=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;<span class="comment">//每个物品体积</span></span><br><span class="line">    <span class="keyword">int</span>[] prices=&#123;<span class="number">2</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;<span class="comment">//每个物品价值</span></span><br><span class="line">    <span class="keyword">int</span>[][] dp=<span class="keyword">new</span> <span class="keyword">int</span>[N+<span class="number">1</span>][W+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= W ; j++) &#123;</span><br><span class="line">            <span class="comment">//在j比w[i-1]小的时候，选不了物品，所以只能dp[i][j]=dp[i-1][j];</span></span><br><span class="line">            <span class="keyword">if</span>(j&gt;=w[i-<span class="number">1</span>])&#123;</span><br><span class="line">                dp[i][j]=Math.max(dp[i-<span class="number">1</span>][j],dp[i-<span class="number">1</span>][j-w[i-<span class="number">1</span>]]+prices[i-<span class="number">1</span>]);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                dp[i][j]=dp[i-<span class="number">1</span>][j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(dp[N][W]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>优化：<br>上面的装态方程只与i-1有关，因此可将二维状态方程压缩成一维状态方程<br>方程：<code>dp[j]=Math.max(dp[j],dp[j-w[i]]+prices[i])</code><br>但是这里按照j从小打到进行计算的话，背包会被重复计算（那就是后面的完全背包问题了），所以要从大到小进行计算</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N=<span class="number">4</span>;<span class="comment">//物品数量</span></span><br><span class="line">    <span class="keyword">int</span> W=<span class="number">5</span>;<span class="comment">//体积</span></span><br><span class="line">    <span class="keyword">int</span>[] w=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;<span class="comment">//每个物品体积</span></span><br><span class="line">    <span class="keyword">int</span>[] prices=&#123;<span class="number">2</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;<span class="comment">//每个物品价值</span></span><br><span class="line">    <span class="keyword">int</span>[] dp=<span class="keyword">new</span> <span class="keyword">int</span>[W+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=N;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=W;j&gt;=<span class="number">1</span>;j--)&#123;</span><br><span class="line">            <span class="keyword">if</span>(j&gt;=w[i-<span class="number">1</span>])&#123;</span><br><span class="line">                dp[j]=Math.max(dp[j],dp[j-w[i-<span class="number">1</span>]]+prices[i-<span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(dp[W]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>之前一直不理解为什么j从小到大就会重复，这里引用一个例子<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_33279781/article/details/52073519">https://blog.csdn.net/qq_33279781/article/details/52073519</a></p>
+<p><strong><em>假设一个物品GG价值1000，体积为2，那么假设我们按【0…..v】这个顺序遍历，那么在j=2时，dp[2] = max(dp[2], dp[0]+1000)，那么dp[2] = 1000，当j=4时，dp[4]=max(dp[4], dp[2]+1000)， dp[4] = 2000，这时我们再思考一下，GG将被放进背包两次</em></strong></p>
+<h2 id="2-完全背包"><a href="#2-完全背包" class="headerlink" title="2. 完全背包"></a>2. 完全背包</h2><p>完全背包指的就是物品的次数可以被无数次选取，非常好理解，就是之前的01背包的基础上，每个背包被重复选取，也就是我们的j从小到大的一个过程，每个背包被重复选取，求出最大值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N=<span class="number">4</span>;<span class="comment">//物品数量</span></span><br><span class="line">    <span class="keyword">int</span> W=<span class="number">5</span>;<span class="comment">//体积</span></span><br><span class="line">    <span class="keyword">int</span>[] w=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;<span class="comment">//每个物品体积</span></span><br><span class="line">    <span class="keyword">int</span>[] prices=&#123;<span class="number">2</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;<span class="comment">//每个物品价值</span></span><br><span class="line">    <span class="keyword">int</span>[] dp=<span class="keyword">new</span> <span class="keyword">int</span>[W+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=N;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=w[i-<span class="number">1</span>];j&lt;=W;j++)&#123;</span><br><span class="line">            dp[j]=Math.max(dp[j],dp[j-w[i-<span class="number">1</span>]]+prices[i-<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(dp[W]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-多重背包"><a href="#3-多重背包" class="headerlink" title="3.多重背包"></a>3.多重背包</h2><p>最简单的多重背包指的是背包能够被选取给定次数，同样的道理，在j从小到大的时候背包被无数次选取，选取次数不可控制，在01背包的基础上，j从大到小排列，每个背包只会被选取一次，在这个基础上，对每个j再加一重循环，使其被选取k次，就完成了多重背包</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N=<span class="number">4</span>;<span class="comment">//物品数量</span></span><br><span class="line">    <span class="keyword">int</span> W=<span class="number">5</span>;<span class="comment">//体积</span></span><br><span class="line">    <span class="keyword">int</span>[] w=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;<span class="comment">//每个物品体积</span></span><br><span class="line">    <span class="keyword">int</span>[] prices=&#123;<span class="number">2</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;<span class="comment">//每个物品价值</span></span><br><span class="line">    <span class="keyword">int</span>[] nums=&#123;<span class="number">3</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span>[] dp=<span class="keyword">new</span> <span class="keyword">int</span>[W+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=N;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=W;j&gt;=<span class="number">1</span>;j--)&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt;=nums[i-<span class="number">1</span>]; k++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(j&gt;=k*w[i-<span class="number">1</span>])&#123;</span><br><span class="line">                    dp[j]=Math.max(dp[j],dp[j-k*w[i-<span class="number">1</span>]]+k*prices[i-<span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(dp[W]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="http://www.acwing.com/">www.acwing.com</a></p>
+<p>练习：leecode 322,416,518</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/09/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" data-id="ckt75c1jt0030qku957x2ee4w" data-title="背包问题" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%83%8C%E5%8C%85/" rel="tag">背包</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-腾讯面经" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2020/09/14/%E8%85%BE%E8%AE%AF%E9%9D%A2%E7%BB%8F/" class="article-date">
@@ -155,70 +214,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/14/%E8%85%BE%E8%AE%AF%E9%9D%A2%E7%BB%8F/" data-id="ckt7535hl0030hgu90uya09jt" data-title="腾讯面经" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/09/14/%E8%85%BE%E8%AE%AF%E9%9D%A2%E7%BB%8F/" data-id="ckt75c1jv0033qku95n7d3b0q" data-title="腾讯面经" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-背包问题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/09/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" class="article-date">
-  <time class="dt-published" datetime="2020-09-14T07:22:47.000Z" itemprop="datePublished">2020-09-14</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/09/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">背包问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>今天来个简单的背包问题大汇总</p>
-<h2 id="1-01背包"><a href="#1-01背包" class="headerlink" title="1. 01背包"></a>1. 01背包</h2><p>​    01背包顾名思义就是对一种物品只有选或者不选两种选择<br>​    对于背包体积为W，物品数量是N，每个物品的体积是w[i]，每个物品的价值是price[i]的选择，求用这个背包装下的物品价值最大<br>​    dp[i][j]表示数量为i体积为j的时候选出的最大价值<br>​    方程：<code>dp[i][j]=Math.max(dp[i-1][j],dp[i][j-w[i]]+prices[i])</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N=<span class="number">4</span>;<span class="comment">//物品数量</span></span><br><span class="line">    <span class="keyword">int</span> W=<span class="number">5</span>;<span class="comment">//体积</span></span><br><span class="line">    <span class="keyword">int</span>[] w=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;<span class="comment">//每个物品体积</span></span><br><span class="line">    <span class="keyword">int</span>[] prices=&#123;<span class="number">2</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;<span class="comment">//每个物品价值</span></span><br><span class="line">    <span class="keyword">int</span>[][] dp=<span class="keyword">new</span> <span class="keyword">int</span>[N+<span class="number">1</span>][W+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= W ; j++) &#123;</span><br><span class="line">            <span class="comment">//在j比w[i-1]小的时候，选不了物品，所以只能dp[i][j]=dp[i-1][j];</span></span><br><span class="line">            <span class="keyword">if</span>(j&gt;=w[i-<span class="number">1</span>])&#123;</span><br><span class="line">                dp[i][j]=Math.max(dp[i-<span class="number">1</span>][j],dp[i-<span class="number">1</span>][j-w[i-<span class="number">1</span>]]+prices[i-<span class="number">1</span>]);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                dp[i][j]=dp[i-<span class="number">1</span>][j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(dp[N][W]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>优化：<br>上面的装态方程只与i-1有关，因此可将二维状态方程压缩成一维状态方程<br>方程：<code>dp[j]=Math.max(dp[j],dp[j-w[i]]+prices[i])</code><br>但是这里按照j从小打到进行计算的话，背包会被重复计算（那就是后面的完全背包问题了），所以要从大到小进行计算</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N=<span class="number">4</span>;<span class="comment">//物品数量</span></span><br><span class="line">    <span class="keyword">int</span> W=<span class="number">5</span>;<span class="comment">//体积</span></span><br><span class="line">    <span class="keyword">int</span>[] w=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;<span class="comment">//每个物品体积</span></span><br><span class="line">    <span class="keyword">int</span>[] prices=&#123;<span class="number">2</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;<span class="comment">//每个物品价值</span></span><br><span class="line">    <span class="keyword">int</span>[] dp=<span class="keyword">new</span> <span class="keyword">int</span>[W+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=N;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=W;j&gt;=<span class="number">1</span>;j--)&#123;</span><br><span class="line">            <span class="keyword">if</span>(j&gt;=w[i-<span class="number">1</span>])&#123;</span><br><span class="line">                dp[j]=Math.max(dp[j],dp[j-w[i-<span class="number">1</span>]]+prices[i-<span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(dp[W]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>之前一直不理解为什么j从小到大就会重复，这里引用一个例子<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_33279781/article/details/52073519">https://blog.csdn.net/qq_33279781/article/details/52073519</a></p>
-<p><strong><em>假设一个物品GG价值1000，体积为2，那么假设我们按【0…..v】这个顺序遍历，那么在j=2时，dp[2] = max(dp[2], dp[0]+1000)，那么dp[2] = 1000，当j=4时，dp[4]=max(dp[4], dp[2]+1000)， dp[4] = 2000，这时我们再思考一下，GG将被放进背包两次</em></strong></p>
-<h2 id="2-完全背包"><a href="#2-完全背包" class="headerlink" title="2. 完全背包"></a>2. 完全背包</h2><p>完全背包指的就是物品的次数可以被无数次选取，非常好理解，就是之前的01背包的基础上，每个背包被重复选取，也就是我们的j从小到大的一个过程，每个背包被重复选取，求出最大值</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N=<span class="number">4</span>;<span class="comment">//物品数量</span></span><br><span class="line">    <span class="keyword">int</span> W=<span class="number">5</span>;<span class="comment">//体积</span></span><br><span class="line">    <span class="keyword">int</span>[] w=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;<span class="comment">//每个物品体积</span></span><br><span class="line">    <span class="keyword">int</span>[] prices=&#123;<span class="number">2</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;<span class="comment">//每个物品价值</span></span><br><span class="line">    <span class="keyword">int</span>[] dp=<span class="keyword">new</span> <span class="keyword">int</span>[W+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=N;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=w[i-<span class="number">1</span>];j&lt;=W;j++)&#123;</span><br><span class="line">            dp[j]=Math.max(dp[j],dp[j-w[i-<span class="number">1</span>]]+prices[i-<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(dp[W]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-多重背包"><a href="#3-多重背包" class="headerlink" title="3.多重背包"></a>3.多重背包</h2><p>最简单的多重背包指的是背包能够被选取给定次数，同样的道理，在j从小到大的时候背包被无数次选取，选取次数不可控制，在01背包的基础上，j从大到小排列，每个背包只会被选取一次，在这个基础上，对每个j再加一重循环，使其被选取k次，就完成了多重背包</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N=<span class="number">4</span>;<span class="comment">//物品数量</span></span><br><span class="line">    <span class="keyword">int</span> W=<span class="number">5</span>;<span class="comment">//体积</span></span><br><span class="line">    <span class="keyword">int</span>[] w=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;<span class="comment">//每个物品体积</span></span><br><span class="line">    <span class="keyword">int</span>[] prices=&#123;<span class="number">2</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;<span class="comment">//每个物品价值</span></span><br><span class="line">    <span class="keyword">int</span>[] nums=&#123;<span class="number">3</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span>[] dp=<span class="keyword">new</span> <span class="keyword">int</span>[W+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=N;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=W;j&gt;=<span class="number">1</span>;j--)&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt;=nums[i-<span class="number">1</span>]; k++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(j&gt;=k*w[i-<span class="number">1</span>])&#123;</span><br><span class="line">                    dp[j]=Math.max(dp[j],dp[j-k*w[i-<span class="number">1</span>]]+k*prices[i-<span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(dp[W]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="http://www.acwing.com/">www.acwing.com</a></p>
-<p>练习：leecode 322,416,518</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" data-id="ckt7535hm0033hgu94w0dbojh" data-title="背包问题" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%83%8C%E5%8C%85/" rel="tag">背包</a></li></ul>
 
     </footer>
   </div>
@@ -345,7 +345,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/14/%E9%98%BF%E9%87%8C%E9%9D%A2%E7%BB%8F/" data-id="ckt7535i3004nhgu9hgk1hqkj" data-title="阿里面经" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/09/14/%E9%98%BF%E9%87%8C%E9%9D%A2%E7%BB%8F/" data-id="ckt75c1kb004lqku9fa5g9dd7" data-title="阿里面经" class="article-share-link">Share</a>
       
       
       
@@ -411,7 +411,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/14/%E8%BD%AC%E8%A1%8C%E4%B9%8B%E8%B7%AF/" data-id="ckt7535hz004hhgu96hoa7o0x" data-title="转行之路" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/09/14/%E8%BD%AC%E8%A1%8C%E4%B9%8B%E8%B7%AF/" data-id="ckt75c1ka004iqku9bc89b67y" data-title="转行之路" class="article-share-link">Share</a>
       
       
       
@@ -456,7 +456,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/13/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/" data-id="ckt7535hj002uhgu97o8j72hh" data-title="博客成立啦" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/09/13/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/" data-id="ckt75c1js002xqku99d5fcbaw" data-title="博客成立啦" class="article-share-link">Share</a>
       
       
       
