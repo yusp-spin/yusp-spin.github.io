@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Kafka介绍（二） | 如果方向错误，停止前进就是一种进步</title>
+  <title>理解Netty中的零拷贝(Zero-Copy) | 如果方向错误，停止前进就是一种进步</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
     <link rel="shortcut icon" href="/favicon.png">
@@ -47,14 +47,14 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Kafka介绍（二）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-Netty中的零拷贝(Zero-Copy)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/" class="article-date">
-  <time class="dt-published" datetime="2021-01-10T06:59:23.000Z" itemprop="datePublished">2021-01-10</time>
+    <a href="/2021/09/05/Netty%E4%B8%AD%E7%9A%84%E9%9B%B6%E6%8B%B7%E8%B4%9D(Zero-Copy)/" class="article-date">
+  <time class="dt-published" datetime="2021-09-05T09:26:01.000Z" itemprop="datePublished">2021-09-05</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a>
+    <a class="article-category-link" href="/categories/Netty/">Netty</a>
   </div>
 
   </div>
@@ -65,7 +65,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      Kafka介绍（二）
+      理解Netty中的零拷贝(Zero-Copy)
     </h1>
   
 
@@ -73,73 +73,32 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h5 id="一、Kafka架构介绍"><a href="#一、Kafka架构介绍" class="headerlink" title="一、Kafka架构介绍"></a>一、Kafka架构介绍</h5><p>​     一个典型的Kafka集群中包含若干Producer，若干broker（Kafka支持水平扩展，一般broker数量越多，集群吞吐率越高），若干Consumer Group，以及一个Zookeeper集群。Kafka通过Zookeeper管理集群配置，选举leader，以及在Consumer Group发生变化时进行rebalance。Producer使用push模式将消息发布到broker，Consumer使用pull模式从broker订阅并消费消息。 </p>
-<div>
-    <p style="text-align:center">
-    <img src="https://yusp-spin.github.io/photo/kafka.png" width="700" height="400">
-    <br>kafka架构
-    </p>
-</div>
-
-<h5 id="二、Topics和Partition的关系"><a href="#二、Topics和Partition的关系" class="headerlink" title="二、Topics和Partition的关系"></a>二、Topics和Partition的关系</h5><p>​     主题（topic）：一个 topic 里保存的是同一类消息，相当于对消息的分类，每个 producer 将消息发送到 kafka 中，都需要指明要存的 topic 是哪个，也就是指明这个消息属于哪一类。</p>
-<p> 分区（partition）：每个 topic 都可以分成多个 partition，每个 partition 在存储层面是 append log 文件。任何发布到此 partition 的消息都会被直接追加到 log 文件的尾部。为什么要进行分区呢？最根本的原因就是：kafka基于文件进行存储，当文件内容大到一定程度时，很容易达到单个磁盘的上限，因此，采用分区的办法，一个分区对应一个文件，这样就可以将数据分别存储到不同的server上去，另外这样做也可以负载均衡，容纳更多的消费者。</p>
-<p>​    Topic在逻辑上可以被认为是一个queue，每条消费都必须指定它的Topic，可以简单理解为必须指明把这条消息放进哪个queue里。为了使得Kafka的吞吐率可以线性提高，物理上把Topic分成一个或多个Partition，每个Partition在物理上对应一个文件夹，该文件夹下存储这个Partition的所有消息和索引文件。创建一个topic时，同时可以指定分区数目，分区数越多，其吞吐量也越大，但是需要的资源也越多，同时也会导致更高的不可用性，kafka在接收到生产者发送的消息之后，会根据均衡策略将消息存储到不同的分区中。因为每条消息都被append到该Partition中，属于顺序写磁盘，因此效率非常高 </p>
-<h5 id="三、Consumer-Group"><a href="#三、Consumer-Group" class="headerlink" title="三、Consumer Group"></a>三、Consumer Group</h5><p>​    每一个consumer实例都属于一个consumer group，每一条消息只会被同一个consumer group里的一个consumer实例消费。（不同consumer group可以同时消费同一条消息）</p>
-<p>　　很多传统的message queue都会在消息被消费完后将消息删除，一方面避免重复消费，另一方面可以保证queue的长度比较少，提高效率。而如上文所将，Kafka并不删除 已消费的消息，为了实现传统message queue消息只被消费一次的语义，Kafka保证保证同一个consumer group里只有一个consumer会消费一条消息。与传统message queue不同的是，Kafka还允许不同consumer group同时消费同一条消息，这一特性可以为消息的多元化处理提供了支持。实际上，Kafka的设计理念之一就是同时提供离线处理和实时处理。
-　　 </p>
-<h5 id="四、push-vs-pull"><a href="#四、push-vs-pull" class="headerlink" title="四、push vs pull"></a>四、push vs pull</h5><p>　　kafka采用的是传统的数据由producer推送给broker，然后由consumer从broker拉去的机制</p>
-<h5 id="五、基本操作"><a href="#五、基本操作" class="headerlink" title="五、基本操作"></a>五、基本操作</h5><ol>
-<li><p>启动ZooKeeper</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/zookeeper-server-start.sh config/zookeeper.properties</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动Kafka</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-server-start.sh config/server.properties</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>创建主题</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 </span><br><span class="line">--partitions 1 --topic Hello-World</span><br></pre></td></tr></table></figure>
-
-<p> 刚刚创建了一个名为 `Hello-World的主题，其中包含一个分区和一个副本因子 </p>
-</li>
-<li><p>获取主题列表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh --list --zookeeper localhost:2181</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>生产者发送消息</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-console-producer.sh --broker-list localhost:9092 --topic Hello-World</span><br></pre></td></tr></table></figure>
-
-<p>然后就可以在终端键入消息</p>
-</li>
-<li><p>消费者消费消息.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-console-consumer.sh --zookeeper localhost:2181 —topic Hello-World</span><br><span class="line">--from-beginning</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
+        <h5 id="一、理解零拷贝"><a href="#一、理解零拷贝" class="headerlink" title="一、理解零拷贝"></a>一、理解零拷贝</h5><p>​    <em>“Zero-copy” describes computer operations in which the CPU does not perform the task of copying data from one memory area to another.</em></p>
+<p>​    “零拷贝”是指计算机操作的过程中，CPU不需要为数据在内存之间的拷贝消耗资源。而它通常是指计算机在网络上发送文件时，不需要将文件内容拷贝到用户空间（User Space）而直接在内核空间（Kernel Space）中传输到网络的方式。</p>
+<p>​    Zero Copy的模式中，避免了数据在用户空间和内存空间之间的拷贝，从而提高了系统的整体性能。Linux中的<code>sendfile()</code>以及Java NIO中的<code>FileChannel.transferTo()</code>方法都实现了零拷贝的功能，而在Netty中也通过在<code>FileRegion</code>中包装了NIO的<code>FileChannel.transferTo()</code>方法实现了零拷贝。</p>
+<p>看这两 完全 理解netty</p>
+<p><a target="_blank" rel="noopener" href="https://my.oschina.net/plucury/blog/192577">https://my.oschina.net/plucury/blog/192577</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/code4craft/netty-learning/blob/master/posts/ch2-buffer.md">https://github.com/code4craft/netty-learning/blob/master/posts/ch2-buffer.md</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/" data-id="ckt70mnsv000azcu9h5qb8q37" data-title="Kafka介绍（二）" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2021/09/05/Netty%E4%B8%AD%E7%9A%84%E9%9B%B6%E6%8B%B7%E8%B4%9D(Zero-Copy)/" data-id="ckt70mnsv000czcu91bvtapig" data-title="理解Netty中的零拷贝(Zero-Copy)" class="article-share-link">Share</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Netty/" rel="tag">Netty</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2021/03/29/AQS%E5%85%A5%E9%97%A8/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          AQS介绍
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/01/08/Kafka%E5%85%A5%E9%97%A8/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/03/29/AQS%E5%85%A5%E9%97%A8/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">kafka入门介绍</div>
+      <div class="article-nav-title">AQS介绍</div>
     </a>
   
 </nav>

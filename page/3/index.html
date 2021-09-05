@@ -49,6 +49,80 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Gin入门" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/01/Gin%E5%85%A5%E9%97%A8/" class="article-date">
+  <time class="dt-published" datetime="2020-11-01T02:12:47.000Z" itemprop="datePublished">2020-11-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Gin%E6%A1%86%E6%9E%B6/">Gin框架</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/11/01/Gin%E5%85%A5%E9%97%A8/">Gin框架入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="一、Gin简介"><a href="#一、Gin简介" class="headerlink" title="一、Gin简介"></a>一、Gin简介</h5><p>​    Gin 是使用 Go/golang 语言实现的 HTTP Web 框架。接口简洁，性能极高，框架源码仅5K</p>
+<h5 id="二、Gin-特性"><a href="#二、Gin-特性" class="headerlink" title="二、Gin 特性"></a>二、Gin 特性</h5><ul>
+<li><strong>快速</strong>：路由不使用反射，基于Radix树，内存占用少。</li>
+<li><strong>中间件</strong>：HTTP请求，可先经过一系列中间件处理，例如：Logger，Authorization，GZIP等。这个特性和 NodeJs 的 <code>Koa</code> 框架很像。中间件机制也极大地提高了框架的可扩展性。</li>
+<li><strong>异常处理</strong>：服务始终可用，不会宕机。Gin 可以捕获 panic，并恢复。而且有极为便利的机制处理HTTP请求过程中发生的错误。</li>
+<li><strong>JSON</strong>：Gin可以解析并验证请求的JSON。这个特性对<code>Restful API</code>的开发尤其有用。</li>
+<li><strong>路由分组</strong>：例如将需要授权和不需要授权的API分组，不同版本的API分组。而且分组可嵌套，且性能不受影响。</li>
+<li><strong>渲染内置</strong>：原生支持JSON，XML和HTML的渲染。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	r := gin.Default()</span><br><span class="line">	r.GET(<span class="string">&quot;/&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">		c.String(http.StatusOK, <span class="string">&quot;hello, world&quot;</span>)</span><br><span class="line">	&#125;)</span><br><span class="line">    r.Run(<span class="string">&quot;:8000&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ol>
+<li>首先，我们使用了<code>gin.Default()</code>生成了一个实例，这个实例即 WSGI 应用程序。</li>
+<li>接下来，我们使用<code>r.Get(&quot;/&quot;, ...)</code>声明了一个路由，告诉 Gin 什么样的URL 能触发传入的函数，这个函数返回我们想要显示在用户浏览器中的信息。</li>
+<li>最后用 <code>r.Run()</code>函数来让应用运行在本地服务器上，默认监听端口是 _8080_，可以传入参数设置端口，例如<code>r.Run(&quot;:8000&quot;)</code>即运行在8000端口。</li>
+</ol>
+<h5 id="三、路由（Route）"><a href="#三、路由（Route）" class="headerlink" title="三、路由（Route）"></a>三、路由（Route）</h5><p>​    1. 路由方法有 <strong>GET, POST, PUT, PATCH, DELETE</strong> 和 <strong>OPTIONS</strong>，还有<strong>Any</strong>，可匹配以上任意类型的请求。</p>
+<p>​    2.解析路径参数；动态的路由，如 <code>/user/:name</code>，通过调用不同的 url 来传入不同的 name。<code>/user/:name/*role</code>，<code>*</code> 代表可选</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	r := gin.Default()</span><br><span class="line">	r.GET(<span class="string">&quot;/user/:name&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">		name := c.Param(<span class="string">&quot;name&quot;</span>)</span><br><span class="line">		c.String(http.StatusOK, <span class="string">&quot;hello,%s&quot;</span>, name)</span><br><span class="line">	&#125;)</span><br><span class="line">	r.Run(<span class="string">&quot;:8000&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    3.获取Query参数</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 匹配users?name=xxx</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	r := gin.Default()</span><br><span class="line">	r.GET(<span class="string">&quot;/user&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">		name := c.Query(<span class="string">&quot;name&quot;</span>)</span><br><span class="line">		c.String(http.StatusOK, <span class="string">&quot;hello, %s&quot;</span>, name)</span><br><span class="line">	&#125;)</span><br><span class="line">	r.Run(<span class="string">&quot;:8000&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    4.获取POST参数</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	r := gin.Default()</span><br><span class="line">	r.POST(<span class="string">&quot;/form&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">		username := c.PostForm(<span class="string">&quot;username&quot;</span>)</span><br><span class="line">		password := c.DefaultPostForm(<span class="string">&quot;password&quot;</span>, <span class="string">&quot;000000&quot;</span>) <span class="comment">// 可设置默认值</span></span><br><span class="line"></span><br><span class="line">		c.JSON(http.StatusOK, gin.H&#123;</span><br><span class="line">			<span class="string">&quot;username&quot;</span>: username,</span><br><span class="line">			<span class="string">&quot;password&quot;</span>: password,</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;)</span><br><span class="line">	r.Run(<span class="string">&quot;:8000&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="四、HTML模板"><a href="#四、HTML模板" class="headerlink" title="四、HTML模板"></a>四、HTML模板</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">    <span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>  &#123;</span><br><span class="line">    r := gin.Default()</span><br><span class="line">    <span class="comment">// 指明html加载文件目录</span></span><br><span class="line">    r.LoadHTMLGlob(<span class="string">&quot;./html/*&quot;</span>)</span><br><span class="line">    r.Handle(<span class="string">&quot;GET&quot;</span>, <span class="string">&quot;/&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">        <span class="comment">// 返回HTML文件，响应状态码200，html文件名为index.html，模板参数为nil</span></span><br><span class="line">        c.HTML(http.StatusOK, <span class="string">&quot;index.html&quot;</span>, <span class="literal">nil</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    r.Run()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/11/01/Gin%E5%85%A5%E9%97%A8/" data-id="ckt70mnsf0003zcu9bul4dfxi" data-title="Gin框架入门" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-剑指offer 56-67" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2020/11/01/%E5%89%91%E6%8C%87offer%2056-67/" class="article-date">
@@ -139,7 +213,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/01/%E5%89%91%E6%8C%87offer%2056-67/" data-id="cksmv6ota001h4wu99igk7nna" data-title="剑指offer 56-67" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/01/%E5%89%91%E6%8C%87offer%2056-67/" data-id="ckt70mnta001vzcu941775j32" data-title="剑指offer 56-67" class="article-share-link">Share</a>
       
       
       
@@ -216,7 +290,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/10/31/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86-%E7%94%A8%E6%88%B7%E7%BA%A7%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%86%85%E6%A0%B8%E7%BA%A7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="cksmv6otk002a4wu9dub3e4g6" data-title="操作系统-进程管理-用户级线程和内核级线程的区别" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/10/31/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86-%E7%94%A8%E6%88%B7%E7%BA%A7%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%86%85%E6%A0%B8%E7%BA%A7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="ckt70mntq002izcu9diozahjv" data-title="操作系统-进程管理-用户级线程和内核级线程的区别" class="article-share-link">Share</a>
       
       
       
@@ -309,7 +383,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/10/31/%E5%89%91%E6%8C%87offer%2046-55/" data-id="cksmv6ota001k4wu98lq2af8v" data-title="剑指offer 46-55" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/10/31/%E5%89%91%E6%8C%87offer%2046-55/" data-id="ckt70mnta001mzcu9cv5icx7l" data-title="剑指offer 46-55" class="article-share-link">Share</a>
       
       
       
@@ -401,7 +475,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/10/30/%E5%89%91%E6%8C%87offer%2036-45/" data-id="cksmv6ota001f4wu9cqpvh5lx" data-title="剑指offer 36-45" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/10/30/%E5%89%91%E6%8C%87offer%2036-45/" data-id="ckt70mnta001gzcu98ni8cxtc" data-title="剑指offer 36-45" class="article-share-link">Share</a>
       
       
       
@@ -449,7 +523,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/10/30/%E6%9C%80%E8%BF%91%E5%9B%B0%E6%89%B0/" data-id="cksmv6otu002n4wu90wei1sh1" data-title="最近——纠结与困扰" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/10/30/%E6%9C%80%E8%BF%91%E5%9B%B0%E6%89%B0/" data-id="ckt70mntq002pzcu9gdfw5p0u" data-title="最近——纠结与困扰" class="article-share-link">Share</a>
       
       
       
@@ -560,7 +634,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/10/29/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" data-id="cksmv6otu002j4wu9dc954448" data-title="进程管理" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/10/29/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" data-id="ckt70mntq002mzcu9gi5m24j3" data-title="进程管理" class="article-share-link">Share</a>
       
       
       
@@ -806,7 +880,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/10/28/%E4%B8%80%E4%BA%9B%E5%A5%BD%E7%BD%91%E7%AB%99/" data-id="cksmv6ouz004u4wu9cff4dhtj" data-title="学习过程中一些网站的收藏" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/10/28/%E4%B8%80%E4%BA%9B%E5%A5%BD%E7%BD%91%E7%AB%99/" data-id="ckt70mnul0051zcu9cvd4c9m5" data-title="学习过程中一些网站的收藏" class="article-share-link">Share</a>
       
       
       
@@ -896,7 +970,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/10/27/%E5%89%91%E6%8C%87offer%2026-35/" data-id="cksmv6ot8001b4wu9e0q39r9u" data-title="剑指offer 26-35" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/10/27/%E5%89%91%E6%8C%87offer%2026-35/" data-id="ckt70mnta001jzcu98r2f77b9" data-title="剑指offer 26-35" class="article-share-link">Share</a>
       
       
       
@@ -988,78 +1062,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/10/20/%E5%89%91%E6%8C%87offer%2016-25/" data-id="cksmv6ot000194wu96poa2ty8" data-title="剑指offer 16-25" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/10/20/%E5%89%91%E6%8C%87offer%2016-25/" data-id="ckt70mnta001czcu94q5b4cbc" data-title="剑指offer 16-25" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-零拷贝" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/10/16/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" class="article-date">
-  <time class="dt-published" datetime="2020-10-16T02:02:27.000Z" itemprop="datePublished">2020-10-16</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/IO/">IO</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/10/16/%E9%9B%B6%E6%8B%B7%E8%B4%9D/">零拷贝（Zero-copy）学习</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h5 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h5><p>零拷贝（Zero-copy）是一种高效的数据传输机制，是指计算机执行操作时，CPU不需要先将数据从某处内存复制到另一个特定区域</p>
-<h5 id="传统IO传输方法"><a href="#传统IO传输方法" class="headerlink" title="传统IO传输方法"></a>传统IO传输方法</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    File file = <span class="keyword">new</span> File(<span class="string">&quot;test.txt&quot;</span>);</span><br><span class="line">    RandomAccessFile accessFile = <span class="keyword">new</span> RandomAccessFile(file, <span class="string">&quot;rw&quot;</span>);</span><br><span class="line">    <span class="keyword">byte</span>[] arr = <span class="keyword">new</span> <span class="keyword">byte</span>[(<span class="keyword">int</span>) file.length()];</span><br><span class="line">    accessFile.read(arr);</span><br><span class="line">    Socket socket = <span class="keyword">new</span> ServerSocket(<span class="number">6666</span>).accept();</span><br><span class="line">    socket.getOutputStream().write(arr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>从操作系统层面来看这一次传输操作</p>
-<p>1.JVM向OS发出read()系统调用，触发上下文切换，从用户态切换到内核态。</p>
-<p>2.从外部存储（如硬盘）读取文件内容，通过直接内存访问（DMA）存入内核地址空间的缓冲区。</p>
-<p>3.将数据从内核缓冲区拷贝到用户空间缓冲区，read()系统调用返回，并从内核态切换回用户态。</p>
-<p>4.JVM向OS发出write()系统调用，触发上下文切换，从用户态切换到内核态。</p>
-<p>5.将数据从用户缓冲区拷贝到内核中与目的地Socket关联的缓冲区。</p>
-<p>6.数据最终经由Socket通过DMA传送到硬件（如网卡）缓冲区，write()系统调用返回，并从内核态切换回用户态。</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/195230-b16e57175b87e8bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/922/format/webp" alt="img"></p>
-<p>上面总共是经过了<strong>4次上下文切换（严格来讲是模式切换），并且数据也被来回拷贝了4次</strong></p>
-<p>第2、3次拷贝（也就是从内核空间到用户空间的来回复制）是没有意义的，数据应该可以直接从内核缓冲区直接送入Socket缓冲区。零拷贝机制就实现了这一点。不过零拷贝需要由操作系统直接支持，不同OS有不同的实现方法</p>
-<h5 id="零拷贝"><a href="#零拷贝" class="headerlink" title="零拷贝"></a>零拷贝</h5><p>下面的零拷贝机制下的时序图。</p>
-<p>零拷贝消除了从内核空间到用户空间的来回复制，因此“zero-copy”这个词实际上是站在内核的角度来说的，并不是完全不会发生任何拷贝。</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/195230-b29d64619b3e98a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/846/format/webp" alt="img"></p>
-<p>在Java NIO包中提供了零拷贝机制对应的API，即FileChannel.transferTo()方法，可将拷贝次数变为3次，上下文切换次数减少到2次。</p>
-<h5 id="Scatter-Gather的优化"><a href="#Scatter-Gather的优化" class="headerlink" title="Scatter/Gather的优化"></a>Scatter/Gather的优化</h5><p>​    从“Read buffer”到“Socket buffer”，在一般的Block DMA方式中，源物理地址和目标物理地址都得是连续的，所以一次只能传输物理上连续的一块数据，每传输一个块发起一次中断，直到传输完成，所以必须要在两个缓冲区之间拷贝数据。</p>
-<p>而Scatter/Gather DMA方式则不同，会预先维护一个物理上不连续的块描述符的链表，描述符中包含有数据的起始地址和长度。传输时只需要遍历链表，按序传输数据，全部完成后发起一次中断即可，效率比Block DMA要高。也就是说，硬件可以通过Scatter/Gather DMA直接从内核缓冲区中取得全部数据，不需要再从内核缓冲区向Socket缓冲区拷贝数据。</p>
-<h5 id="对内存映射（mmap）的支持"><a href="#对内存映射（mmap）的支持" class="headerlink" title="对内存映射（mmap）的支持"></a>对内存映射（mmap）的支持</h5><p>以上机制，如果想在传输时修改数据本身，就无能为力了，不过，很多操作系统也提供了内存映射机制，对应的系统调用为mmap()/munmap()。通过它可以将文件数据映射到内核地址空间，直接进行操作</p>
-<p>但是呢，这样会造成4次上下文切换，另外，它需要在快表（TLB）中始终维护着所有数据对应的地址空间，直到刷写完成，因此处理缺页的overhead也会更大。在使用该机制时，需要权衡效率。</p>
-<p>NIO框架中提供了MappedByteBuffer用来支持mmap。它与常用的DirectByteBuffer一样，都是在堆外内存分配空间。相对地，HeapByteBuffer在堆内内存分配空间。</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/193cae9cbf07">https://www.jianshu.com/p/193cae9cbf07</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/10/16/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" data-id="cksmv6oux004h4wu92xm6bevy" data-title="零拷贝（Zero-copy）学习" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" rel="tag">零拷贝</a></li></ul>
 
     </footer>
   </div>
@@ -1095,6 +1102,10 @@
       <ul>
         
           <li>
+            <a href="/2021/09/05/Netty%E4%B8%AD%E7%9A%84%E9%9B%B6%E6%8B%B7%E8%B4%9D(Zero-Copy)/">理解Netty中的零拷贝(Zero-Copy)</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/29/AQS%E5%85%A5%E9%97%A8/">AQS介绍</a>
           </li>
         
@@ -1108,10 +1119,6 @@
         
           <li>
             <a href="/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/">Redis cluster集群模式介绍</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/21/TopK%E9%97%AE%E9%A2%98%E7%94%A8%E5%BF%AB%E6%8E%92%E5%92%8C%E5%A0%86%E6%8E%92%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E5%88%AB%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F/">TopK问题用快排和堆排的复杂度分别是多少？</a>
           </li>
         
       </ul>
@@ -1133,7 +1140,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
     </div>
   </div>
 

@@ -49,6 +49,73 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-零拷贝" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/10/16/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" class="article-date">
+  <time class="dt-published" datetime="2020-10-16T02:02:27.000Z" itemprop="datePublished">2020-10-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/IO/">IO</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/10/16/%E9%9B%B6%E6%8B%B7%E8%B4%9D/">零拷贝（Zero-copy）学习</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h5><p>零拷贝（Zero-copy）是一种高效的数据传输机制，是指计算机执行操作时，CPU不需要先将数据从某处内存复制到另一个特定区域</p>
+<h5 id="传统IO传输方法"><a href="#传统IO传输方法" class="headerlink" title="传统IO传输方法"></a>传统IO传输方法</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    File file = <span class="keyword">new</span> File(<span class="string">&quot;test.txt&quot;</span>);</span><br><span class="line">    RandomAccessFile accessFile = <span class="keyword">new</span> RandomAccessFile(file, <span class="string">&quot;rw&quot;</span>);</span><br><span class="line">    <span class="keyword">byte</span>[] arr = <span class="keyword">new</span> <span class="keyword">byte</span>[(<span class="keyword">int</span>) file.length()];</span><br><span class="line">    accessFile.read(arr);</span><br><span class="line">    Socket socket = <span class="keyword">new</span> ServerSocket(<span class="number">6666</span>).accept();</span><br><span class="line">    socket.getOutputStream().write(arr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从操作系统层面来看这一次传输操作</p>
+<p>1.JVM向OS发出read()系统调用，触发上下文切换，从用户态切换到内核态。</p>
+<p>2.从外部存储（如硬盘）读取文件内容，通过直接内存访问（DMA）存入内核地址空间的缓冲区。</p>
+<p>3.将数据从内核缓冲区拷贝到用户空间缓冲区，read()系统调用返回，并从内核态切换回用户态。</p>
+<p>4.JVM向OS发出write()系统调用，触发上下文切换，从用户态切换到内核态。</p>
+<p>5.将数据从用户缓冲区拷贝到内核中与目的地Socket关联的缓冲区。</p>
+<p>6.数据最终经由Socket通过DMA传送到硬件（如网卡）缓冲区，write()系统调用返回，并从内核态切换回用户态。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/195230-b16e57175b87e8bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/922/format/webp" alt="img"></p>
+<p>上面总共是经过了<strong>4次上下文切换（严格来讲是模式切换），并且数据也被来回拷贝了4次</strong></p>
+<p>第2、3次拷贝（也就是从内核空间到用户空间的来回复制）是没有意义的，数据应该可以直接从内核缓冲区直接送入Socket缓冲区。零拷贝机制就实现了这一点。不过零拷贝需要由操作系统直接支持，不同OS有不同的实现方法</p>
+<h5 id="零拷贝"><a href="#零拷贝" class="headerlink" title="零拷贝"></a>零拷贝</h5><p>下面的零拷贝机制下的时序图。</p>
+<p>零拷贝消除了从内核空间到用户空间的来回复制，因此“zero-copy”这个词实际上是站在内核的角度来说的，并不是完全不会发生任何拷贝。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/195230-b29d64619b3e98a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/846/format/webp" alt="img"></p>
+<p>在Java NIO包中提供了零拷贝机制对应的API，即FileChannel.transferTo()方法，可将拷贝次数变为3次，上下文切换次数减少到2次。</p>
+<h5 id="Scatter-Gather的优化"><a href="#Scatter-Gather的优化" class="headerlink" title="Scatter/Gather的优化"></a>Scatter/Gather的优化</h5><p>​    从“Read buffer”到“Socket buffer”，在一般的Block DMA方式中，源物理地址和目标物理地址都得是连续的，所以一次只能传输物理上连续的一块数据，每传输一个块发起一次中断，直到传输完成，所以必须要在两个缓冲区之间拷贝数据。</p>
+<p>而Scatter/Gather DMA方式则不同，会预先维护一个物理上不连续的块描述符的链表，描述符中包含有数据的起始地址和长度。传输时只需要遍历链表，按序传输数据，全部完成后发起一次中断即可，效率比Block DMA要高。也就是说，硬件可以通过Scatter/Gather DMA直接从内核缓冲区中取得全部数据，不需要再从内核缓冲区向Socket缓冲区拷贝数据。</p>
+<h5 id="对内存映射（mmap）的支持"><a href="#对内存映射（mmap）的支持" class="headerlink" title="对内存映射（mmap）的支持"></a>对内存映射（mmap）的支持</h5><p>以上机制，如果想在传输时修改数据本身，就无能为力了，不过，很多操作系统也提供了内存映射机制，对应的系统调用为mmap()/munmap()。通过它可以将文件数据映射到内核地址空间，直接进行操作</p>
+<p>但是呢，这样会造成4次上下文切换，另外，它需要在快表（TLB）中始终维护着所有数据对应的地址空间，直到刷写完成，因此处理缺页的overhead也会更大。在使用该机制时，需要权衡效率。</p>
+<p>NIO框架中提供了MappedByteBuffer用来支持mmap。它与常用的DirectByteBuffer一样，都是在堆外内存分配空间。相对地，HeapByteBuffer在堆内内存分配空间。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/193cae9cbf07">https://www.jianshu.com/p/193cae9cbf07</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/10/16/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" data-id="ckt70mnul004kzcu90z3zhras" data-title="零拷贝（Zero-copy）学习" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" rel="tag">零拷贝</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-操作系统-概论" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2020/10/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%A6%82%E8%AE%BA/" class="article-date">
@@ -96,7 +163,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/10/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%A6%82%E8%AE%BA/" data-id="cksmv6otk002c4wu92rojccry" data-title="浅谈操作系统概论" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/10/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%A6%82%E8%AE%BA/" data-id="ckt70mntq002bzcu906lfb6lv" data-title="浅谈操作系统概论" class="article-share-link">Share</a>
       
       
       
@@ -185,7 +252,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/10/05/%E5%89%91%E6%8C%87offer%206-15/" data-id="cksmv6ota001n4wu9eq96dixm" data-title="剑指offer 6-15" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/10/05/%E5%89%91%E6%8C%87offer%206-15/" data-id="ckt70mnta001pzcu95djg2x3h" data-title="剑指offer 6-15" class="article-share-link">Share</a>
       
       
       
@@ -243,7 +310,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/27/%E5%89%91%E6%8C%87offer%201-5/" data-id="cksmv6ot000134wu98y8x700q" data-title="剑指offer 1-5" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/09/27/%E5%89%91%E6%8C%87offer%201-5/" data-id="ckt70mnta001dzcu9fno517zi" data-title="剑指offer 1-5" class="article-share-link">Share</a>
       
       
       
@@ -289,7 +356,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/19/%E6%89%8B%E6%92%95KMp/" data-id="cksmv6oti001u4wu96e0n3a11" data-title="手撕KMP" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/09/19/%E6%89%8B%E6%92%95KMp/" data-id="ckt70mnta0022zcu9ga1x535j" data-title="手撕KMP" class="article-share-link">Share</a>
       
       
       
@@ -349,7 +416,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/15/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%95%B0%E7%BB%84/" data-id="cksmv6otk001y4wu98uas6dm2" data-title="动态规划-数组" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/09/15/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%95%B0%E7%BB%84/" data-id="ckt70mnta001zzcu9ez3ubko6" data-title="动态规划-数组" class="article-share-link">Share</a>
       
       
       
@@ -395,7 +462,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/15/%E6%89%8B%E6%92%95%E7%BA%BF%E7%A8%8B%E6%B1%A0/" data-id="cksmv6otk00264wu97f9w3nc7" data-title="手撕线程池" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/09/15/%E6%89%8B%E6%92%95%E7%BA%BF%E7%A8%8B%E6%B1%A0/" data-id="ckt70mntq0026zcu9cao7bhp1" data-title="手撕线程池" class="article-share-link">Share</a>
       
       
       
@@ -446,7 +513,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/15/%E7%9C%8B%E7%9C%8BThreadLocal%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8CThreadLocalRandom%E5%91%A2%EF%BC%9F/" data-id="cksmv6otu002q4wu991jj6bq7" data-title="看看ThreadLocal是什么，ThreadLocalRandom呢？" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/09/15/%E7%9C%8B%E7%9C%8BThreadLocal%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8CThreadLocalRandom%E5%91%A2%EF%BC%9F/" data-id="ckt70mntq002tzcu96tb03kkj" data-title="看看ThreadLocal是什么，ThreadLocalRandom呢？" class="article-share-link">Share</a>
       
       
       
@@ -511,7 +578,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/14/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E5%AD%97%E7%AC%A6%E4%B8%B2/" data-id="cksmv6otk00224wu9f7bw9tmt" data-title="动态规划-字符串" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/09/14/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E5%AD%97%E7%AC%A6%E4%B8%B2/" data-id="ckt70mnta001szcu9595j4wnl" data-title="动态规划-字符串" class="article-share-link">Share</a>
       
       
       
@@ -578,131 +645,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/14/Unsafe%E5%87%BD%E6%95%B0%E5%85%AD%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/" data-id="cksmv6osq000p4wu9bwj3drad" data-title="Unsafe函数六道面试题" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/09/14/Unsafe%E5%87%BD%E6%95%B0%E5%85%AD%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/" data-id="ckt70mnsv000mzcu99l4v004p" data-title="Unsafe函数六道面试题" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-腾讯面经" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/09/14/%E8%85%BE%E8%AE%AF%E9%9D%A2%E7%BB%8F/" class="article-date">
-  <time class="dt-published" datetime="2020-09-14T07:22:47.000Z" itemprop="datePublished">2020-09-14</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/09/14/%E8%85%BE%E8%AE%AF%E9%9D%A2%E7%BB%8F/">腾讯面经</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h5 id="腾讯（天美）"><a href="#腾讯（天美）" class="headerlink" title="腾讯（天美）"></a>腾讯（天美）</h5><h6 id="一面："><a href="#一面：" class="headerlink" title="一面："></a>一面：</h6><ol start="2">
-<li> 学什么专业的    </li>
-<li> 学了多久代码    </li>
-<li> 对linux了解吗？如何查看进程的指令 ps    </li>
-<li> 什么是僵尸进程    </li>
-<li> 什么是孤儿进程    </li>
-<li> linux下常用的信号，（比如ctrl+c）    </li>
-<li> linux系统调用函数    </li>
-<li> 进程间通信方式    </li>
-<li> 共享内存是什么    </li>
-<li> new一块100m的对象占用物理内存吗    </li>
-<li> 操作系统除了堆，栈还包括哪些段呢？ 代码段 数据段    </li>
-<li> 操作系统一个栈一般多大    </li>
-<li> tcp与udp的区别    </li>
-<li> 流量控制解决什么问题？采用什么算法    </li>
-<li> 拥塞控制解决什么问题，采用什么算法    </li>
-<li> 关闭连接的四次挥手    </li>
-<li> Time wait状态，为什么要2msl?    </li>
-<li> 为什么time wait可以消除本次连接产生的报文？（因为2msl，msl最长报文的生命周期）    </li>
-<li> 写过socket吗?    </li>
-<li> 常用排序算法    </li>
-<li> 讲讲快排原理，特点    </li>
-<li> 红黑树了解吗？    </li>
-<li> 红黑树比平衡二叉树的优点在哪里，为什么？    </li>
-<li> 红黑树比AVL好在哪里    </li>
-<li> 数据库常用的索引是什么？    </li>
-<li> 数据库如何实现回滚到一天前？    </li>
-<li> 数据库的备份怎么实现的？    </li>
-<li> 什么是冷备份什么是热备份         </li>
-<li> 为什么是B+树，有什么优点    </li>
-<li> B+树非叶子节点存放了什么？    </li>
-<li> B+树如何利用磁盘预读特性？（因为B+树存了key，key接近）    </li>
-<li> mysql读的很慢的原因怎么查询（慢查询日志和expalin）    </li>
-<li> hash算法了解吗？用到哪里？    </li>
-<li> 二分查找有什么特点？对数组有什么要求呢？    </li>
-<li> 在哪刷题，刷了多少题？    </li>
-<li> 为什么要做秒杀项目？    </li>
-<li> 什么叫乐观锁，什么叫悲观锁？你的mysql怎么实现？    </li>
-<li> 什么时候是表锁，什么时候是行锁？    </li>
-<li> 分布式锁主要用在什么地方？你的分布式锁是怎么实现的？    </li>
-<li> redis锁怎么实现？    </li>
-<li> 加锁失败会怎么样？（会重复加锁）？    </li>
-<li> 为什么不用乐观锁，而是用redis？    </li>
-<li> 分布式锁如何实现按序获取锁？    </li>
-<li> zoo<a href>keep</a>er怎么实现加锁，讲讲他的触发机制？    </li>
-<li> 消息队列用来干什么的？    </li>
-<li> 死信队列是什么？    </li>
-<li> 秒杀项目如何保证HA？    </li>
-<li> redis为什么性能更高？    </li>
-<li> redis其他的数据结构一般可以用于啥功能？你用过啥？    </li>
-<li> zset为什么可以做排行榜，底层是什么？    </li>
-<li> 那你讲讲跳表？    </li>
-<li> 回到秒杀，nginx如何高可用？    </li>
-<li> 采用的什么负载均衡算法？    </li>
-<li> JAVA和C++的区别？    </li>
-</ol>
-<p>​<br>​    </p>
-<h6 id="二面："><a href="#二面：" class="headerlink" title="二面："></a>二面：</h6><ol>
-<li>填的上海，接受深圳吗？    </li>
-<li>老家哪里？    </li>
-<li>C++了解多少？    </li>
-<li>实习三个月让你看两本五百页的书可以完成吗    </li>
-<li>单向链表的环    </li>
-<li>二叉树两个节点的最近公共父节点（递归）    </li>
-<li> 不用递归怎么做（迭代）    </li>
-<li>不用上面两种方法怎么做    </li>
-<li>TCP三次握手状态    </li>
-<li> 如果UDP模拟TCP的拥塞控制过程，怎么做（我就说实现那四个算法）    </li>
-<li>拥塞避免是什么算法？    </li>
-<li> Linux操作系统查看进程的cpu？    </li>
-<li>关系型数据库的索引和原理    </li>
-<li>王者荣耀的背包设计（前提：背包用数组实现）    </li>
-<li>微信在群里发一条消息如何广播出去？怎么实现的？用的UDP还是TCP？    </li>
-<li>当前有收到其他offer吗？    </li>
-</ol>
-<p>​<br>​   </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/14/%E8%85%BE%E8%AE%AF%E9%9D%A2%E7%BB%8F/" data-id="cksmv6ou5002x4wu9bgldggei" data-title="腾讯面经" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li></ul>
 
     </footer>
   </div>
@@ -738,6 +685,10 @@
       <ul>
         
           <li>
+            <a href="/2021/09/05/Netty%E4%B8%AD%E7%9A%84%E9%9B%B6%E6%8B%B7%E8%B4%9D(Zero-Copy)/">理解Netty中的零拷贝(Zero-Copy)</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/29/AQS%E5%85%A5%E9%97%A8/">AQS介绍</a>
           </li>
         
@@ -751,10 +702,6 @@
         
           <li>
             <a href="/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/">Redis cluster集群模式介绍</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/21/TopK%E9%97%AE%E9%A2%98%E7%94%A8%E5%BF%AB%E6%8E%92%E5%92%8C%E5%A0%86%E6%8E%92%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E5%88%AB%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F/">TopK问题用快排和堆排的复杂度分别是多少？</a>
           </li>
         
       </ul>
@@ -776,7 +723,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
     </div>
   </div>
 
