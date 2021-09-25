@@ -49,6 +49,98 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-剑指offer 16-25" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/10/20/%E5%89%91%E6%8C%87offer%2016-25/" class="article-date">
+  <time class="dt-published" datetime="2020-10-20T13:54:02.000Z" itemprop="datePublished">2020-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/10/20/%E5%89%91%E6%8C%87offer%2016-25/">剑指offer 16-25</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h6 id="16-合并两个有序链表"><a href="#16-合并两个有序链表" class="headerlink" title="16.  合并两个有序链表"></a>16.  合并两个有序链表</h6><p>​    输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">Merge</span><span class="params">(ListNode list1, ListNode list2)</span> </span>&#123;</span><br><span class="line">        ListNode head = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">        ListNode p = head;</span><br><span class="line">        <span class="keyword">while</span> (list1 != <span class="keyword">null</span> &amp;&amp; list2 != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (list1.val &lt;= list2.val) &#123;</span><br><span class="line">                p.next = list1;</span><br><span class="line">                list1 = list1.next;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                p.next = list2;</span><br><span class="line">                list2 = list2.next;</span><br><span class="line">            &#125;</span><br><span class="line">            p = p.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (list1 != <span class="keyword">null</span>) &#123;</span><br><span class="line">            p.next = list1;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (list2 != <span class="keyword">null</span>) &#123;</span><br><span class="line">            p.next = list2;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> head.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="17-树的子结构"><a href="#17-树的子结构" class="headerlink" title="17.树的子结构"></a>17.树的子结构</h6><p>​    输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">HasSubtree</span><span class="params">(TreeNode root1, TreeNode root2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root1 == <span class="keyword">null</span> || root2 == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> help(root1, root2) || HasSubtree(root1.left, root2) || HasSubtree(root1.right, root2);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">help</span><span class="params">(TreeNode root1, TreeNode root2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root2 == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (root1 == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (root1.val != root2.val) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> help(root1.left, root2.left) &amp;&amp; help(root1.right, root2.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="18-二叉树的镜像"><a href="#18-二叉树的镜像" class="headerlink" title="18.二叉树的镜像"></a>18.二叉树的镜像</h6><p>​    操作给定的二叉树，将其变换为源二叉树的镜像。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Mirror</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        TreeNode tmp = root.left;</span><br><span class="line">        root.left = root.right;</span><br><span class="line">        root.right = tmp;</span><br><span class="line">        Mirror(root.left);</span><br><span class="line">        Mirror(root.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="19-顺时针打印矩阵"><a href="#19-顺时针打印矩阵" class="headerlink" title="19.顺时针打印矩阵"></a>19.顺时针打印矩阵</h6><p>​    输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ArrayList&lt;Integer&gt; <span class="title">printMatrix</span><span class="params">(<span class="keyword">int</span> [][] matrix)</span> </span>&#123;</span><br><span class="line">        ArrayList&lt;Integer&gt; res=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">       <span class="keyword">int</span> m=matrix.length;</span><br><span class="line">        <span class="keyword">if</span>(m==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> n=matrix[<span class="number">0</span>].length;</span><br><span class="line">        <span class="keyword">int</span> left=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> right=n-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> up=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> down=m-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=left;i&lt;=right;i++)&#123;</span><br><span class="line">                res.add(matrix[up][i]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(++up&gt;down)&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=up;i&lt;=down;i++)&#123;</span><br><span class="line">                res.add(matrix[i][right]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(--right&lt;left)&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=right;i&gt;=left;i--)&#123;</span><br><span class="line">                res.add(matrix[down][i]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(--down&lt;up)&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=down;i&gt;=up;i--)&#123;</span><br><span class="line">                res.add(matrix[i][left]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(++left&gt;right)&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="20-包含min函数的栈"><a href="#20-包含min函数的栈" class="headerlink" title="20.包含min函数的栈"></a>20.包含min函数的栈</h6><p>​    定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    Stack&lt;Integer&gt; stack=<span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">    Stack&lt;Integer&gt; min=<span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> node)</span> </span>&#123;</span><br><span class="line">        stack.push(node);</span><br><span class="line">        <span class="keyword">if</span>(min.isEmpty()||min.peek()&gt;=node)&#123;</span><br><span class="line">            min.push(node);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            min.push(min.peek());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(stack.isEmpty()&amp;&amp;min.isEmpty())&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        stack.pop();</span><br><span class="line">        min.pop();</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(stack.isEmpty()&amp;&amp;min.isEmpty())&#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> stack.peek();</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">min</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(stack.isEmpty()&amp;&amp;min.isEmpty())&#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> min.peek();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="21-栈的压入、弹出序列"><a href="#21-栈的压入、弹出序列" class="headerlink" title="21.栈的压入、弹出序列"></a>21.栈的压入、弹出序列</h6><p>​    输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">IsPopOrder</span><span class="params">(<span class="keyword">int</span> [] pushA,<span class="keyword">int</span> [] popA)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> index=<span class="number">0</span>;</span><br><span class="line">      Stack&lt;Integer&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;pushA.length;i++)&#123;</span><br><span class="line">            stack.push(pushA[i]);</span><br><span class="line">            <span class="keyword">while</span>(!stack.isEmpty()&amp;&amp;(stack.peek()==popA[index]))&#123;</span><br><span class="line">                stack.pop();</span><br><span class="line">                index++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> stack.isEmpty();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="22-从上往下打印二叉树"><a href="#22-从上往下打印二叉树" class="headerlink" title="22.从上往下打印二叉树"></a>22.从上往下打印二叉树</h6><p>​    从上往下打印出二叉树的每个节点，同层节点从左至右打印。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ArrayList&lt;Integer&gt; <span class="title">PrintFromTopToBottom</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        ArrayList&lt;Integer&gt; res = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        &#125;</span><br><span class="line">        Queue&lt;TreeNode&gt; queue=<span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        queue.add(root);</span><br><span class="line">        <span class="keyword">while</span>(!queue.isEmpty())&#123;</span><br><span class="line">            <span class="keyword">int</span> size=queue.size();</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size;i++)&#123;</span><br><span class="line">                TreeNode node=queue.poll();</span><br><span class="line">                res.add(node.val);</span><br><span class="line">                <span class="keyword">if</span>(node.left!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                    queue.add(node.left);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(node.right!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                    queue.add(node.right);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="23-二叉搜索树的后序遍历序列"><a href="#23-二叉搜索树的后序遍历序列" class="headerlink" title="23.二叉搜索树的后序遍历序列"></a>23.二叉搜索树的后序遍历序列</h6><p>​    输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则返回true,否则返回false。假设输入的数组的任意两个数字都互不相同。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">VerifySquenceOfBST</span><span class="params">(<span class="keyword">int</span> [] sequence)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> len=sequence.length;</span><br><span class="line">        <span class="keyword">if</span>(len==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> help(sequence,<span class="number">0</span>,len-<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">help</span><span class="params">(<span class="keyword">int</span>[] sequence,<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(l&gt;=r)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> key=sequence[r];</span><br><span class="line">        <span class="keyword">int</span> i=l;</span><br><span class="line">        <span class="keyword">for</span>(;i&lt;r;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(sequence[i]&gt;key)&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=i;j&lt;r;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(sequence[j]&lt;key)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> help(sequence,l,i-<span class="number">1</span>)&amp;&amp;help(sequence,i+<span class="number">1</span>,r);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="24-二叉树中和为某一值的路径"><a href="#24-二叉树中和为某一值的路径" class="headerlink" title="24.二叉树中和为某一值的路径"></a>24.二叉树中和为某一值的路径</h6><p>​    输入一颗二叉树的根节点和一个整数，按字典序打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    ArrayList&lt;ArrayList&lt;Integer&gt;&gt; res=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">public</span> ArrayList&lt;ArrayList&lt;Integer&gt;&gt; FindPath(TreeNode root,<span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        &#125;</span><br><span class="line">        help(root,target);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">help</span><span class="params">(TreeNode root,<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        target-=root.val;</span><br><span class="line">        list.add(root.val);</span><br><span class="line">        <span class="keyword">if</span>(root.left==<span class="keyword">null</span>&amp;&amp;root.right==<span class="keyword">null</span>&amp;&amp;target==<span class="number">0</span>)&#123;</span><br><span class="line">            res.add(<span class="keyword">new</span> ArrayList&lt;&gt;(list));</span><br><span class="line">        &#125;</span><br><span class="line">        help(root.left,target);</span><br><span class="line">        help(root.right,target);</span><br><span class="line">        list.remove(list.size()-<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="25-复杂链表的复制"><a href="#25-复杂链表的复制" class="headerlink" title="25.复杂链表的复制"></a>25.复杂链表的复制</h6><p>​    输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针random指向一个随机节点），请对此链表进行深拷贝，并返回拷贝后的头结点。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> RandomListNode <span class="title">Clone</span><span class="params">(RandomListNode head)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(head==<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        Map&lt;RandomListNode,RandomListNode&gt;map=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        RandomListNode cur=head;</span><br><span class="line">        <span class="keyword">while</span>(cur!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            map.put(cur,<span class="keyword">new</span> RandomListNode(cur.label));</span><br><span class="line">            cur=cur.next;</span><br><span class="line">        &#125;</span><br><span class="line">        cur=head;</span><br><span class="line">        <span class="keyword">while</span>(cur!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            RandomListNode p=map.get(cur);</span><br><span class="line">            p.next=map.get(cur.next);</span><br><span class="line">            p.random=map.get(cur.random);</span><br><span class="line">            cur=cur.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> map.get(head);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/10/20/%E5%89%91%E6%8C%87offer%2016-25/" data-id="cktzlwhya001gxcu92ern0d43" data-title="剑指offer 16-25" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-零拷贝" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2020/10/16/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" class="article-date">
@@ -102,7 +194,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/10/16/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" data-id="cktqzg878004ndgu99vrk8yej" data-title="零拷贝（Zero-copy）学习" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/10/16/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" data-id="cktzlwhzb004vxcu93q8m3u39" data-title="零拷贝（Zero-copy）学习" class="article-share-link">Share</a>
       
       
       
@@ -163,7 +255,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/10/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%A6%82%E8%AE%BA/" data-id="cktqzg86f002bdgu9bf152a9y" data-title="浅谈操作系统概论" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/10/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%A6%82%E8%AE%BA/" data-id="cktzlwhyn002fxcu9h052c0bz" data-title="浅谈操作系统概论" class="article-share-link">Share</a>
       
       
       
@@ -252,7 +344,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/10/05/%E5%89%91%E6%8C%87offer%206-15/" data-id="cktqzg86a001rdgu956059bdx" data-title="剑指offer 6-15" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/10/05/%E5%89%91%E6%8C%87offer%206-15/" data-id="cktzlwhyg001uxcu9b84l7sai" data-title="剑指offer 6-15" class="article-share-link">Share</a>
       
       
       
@@ -310,7 +402,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/27/%E5%89%91%E6%8C%87offer%201-5/" data-id="cktqzg8630016dgu909pdgoij" data-title="剑指offer 1-5" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/09/27/%E5%89%91%E6%8C%87offer%201-5/" data-id="cktzlwhy8001cxcu97t3mgmgk" data-title="剑指offer 1-5" class="article-share-link">Share</a>
       
       
       
@@ -356,7 +448,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/19/%E6%89%8B%E6%92%95KMp/" data-id="cktqzg86f0029dgu97k126140" data-title="手撕KMP" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/09/19/%E6%89%8B%E6%92%95KMp/" data-id="cktzlwhyi0020xcu9cwkv9ii0" data-title="手撕KMP" class="article-share-link">Share</a>
       
       
       
@@ -416,7 +508,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/15/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%95%B0%E7%BB%84/" data-id="cktqzg86d0021dgu93v1ed2za" data-title="动态规划-数组" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/09/15/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%95%B0%E7%BB%84/" data-id="cktzlwhyj0023xcu9cqrzhd85" data-title="动态规划-数组" class="article-share-link">Share</a>
       
       
       
@@ -462,7 +554,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/15/%E6%89%8B%E6%92%95%E7%BA%BF%E7%A8%8B%E6%B1%A0/" data-id="cktqzg86e0025dgu9e0950hol" data-title="手撕线程池" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/09/15/%E6%89%8B%E6%92%95%E7%BA%BF%E7%A8%8B%E6%B1%A0/" data-id="cktzlwhyl0028xcu95eat8elb" data-title="手撕线程池" class="article-share-link">Share</a>
       
       
       
@@ -513,7 +605,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/15/%E7%9C%8B%E7%9C%8BThreadLocal%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8CThreadLocalRandom%E5%91%A2%EF%BC%9F/" data-id="cktqzg86n002udgu9dqn350w2" data-title="看看ThreadLocal是什么，ThreadLocalRandom呢？" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/09/15/%E7%9C%8B%E7%9C%8BThreadLocal%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8CThreadLocalRandom%E5%91%A2%EF%BC%9F/" data-id="cktzlwhyr002txcu940njgoui" data-title="看看ThreadLocal是什么，ThreadLocalRandom呢？" class="article-share-link">Share</a>
       
       
       
@@ -578,78 +670,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/14/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E5%AD%97%E7%AC%A6%E4%B8%B2/" data-id="cktqzg869001odgu92zt33vez" data-title="动态规划-字符串" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/09/14/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E5%AD%97%E7%AC%A6%E4%B8%B2/" data-id="cktzlwhyh001xxcu91wnndjtt" data-title="动态规划-字符串" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Unsafe函数六道面试题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/09/14/Unsafe%E5%87%BD%E6%95%B0%E5%85%AD%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/" class="article-date">
-  <time class="dt-published" datetime="2020-09-14T13:22:47.000Z" itemprop="datePublished">2020-09-14</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88java%EF%BC%89/">并发编程（java）</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/09/14/Unsafe%E5%87%BD%E6%95%B0%E5%85%AD%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/">Unsafe函数六道面试题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <ol>
-<li><p>Unsafe是什么？<br> Java 无法直接访问底层操作系统，而是通过本地（native）方法来访问。不过尽管如此，JVM 还是开了一个后门，JDK 中有一个类 Unsafe，底层是使用C/C++写的，它提供了硬件级别的原子操作。Unsafe为我们提供了访问底层的机制，这种机制仅供java核心类库使用，而不应该被普通用户使用。</p>
-<p> UnSafe的功能主要有：（1）实例化一个类；（2）修改私有字段的值；（3）抛出checked异常；（4）使用堆外内存；（5）CAS操作；（6）阻塞/唤醒线程；（7）内存屏障</p>
-</li>
-<li><p>Unsafe为什么是不安全的？<br> 因为官方不推荐使用,因为不安全,例如你使用unsafe创建一个超级大的数组,但是这个数组jvm是不管理的,只能你自己操作,容易oom,也不利于资源的回收.</p>
-</li>
-<li><p>Unsafe的实例怎么获取？<br> a. 在jdk8和之前如果获得其单例对象是会抛出异常的，只能通过反射获取，在jdk9及以后，可以通过getUnsafe静态方法获取<br> b. 我们知道 unsafe是提供给java核心内库使用的，那么我们如何获取Unsafe的实例呢？当然是反射！<br> c. 代码：</p>
-<pre><code> Field f = Unsafe.class.getDeclaredField(&quot;theUnsafe&quot;);
- f.setAccessible(true);
- Unsafe unsafe = (Unsafe) f.get(null);
-</code></pre>
-</li>
-<li><p>讲一讲Unsafe中的CAS操作？<br> a. JUC中用到了大量的CAS，他们的底层其实都是采用Unsafe的CAS操作，<br> b. CAS（比较与交换，Compare and swap）是一种有名的无锁算法,因为不需要加锁，性能比加锁搞。CAS是一个CPU指令。CAS还是一个乐观锁技术<br> c. CAS存在的问题：</p>
-<pre><code> i. 经典的ABA问题，危害有（以栈举例），解决方案：版本号控制，有的数据结构在高位用邮戳标记；不重复使用节点引用，而是构建新的节点，
- ii. CAS常常搭配自旋一起使用，如果自选长时间不成功，循环时间长 开销大
- iii. 只能保持一个共享变量的安全操作
-</code></pre>
-</li>
-<li><p>Unsafe的阻塞/唤醒操作？<br> a. LockSupport类中的park与unpark方法对unsafe中的park与unpark方法做了封装，LockSupport类中有各种版本pack方法，但最终都调用了Unsafe.park()方法。</p>
-</li>
-<li><p>实例化类的六种方式？<br> a. 通过构造方法new一个对象<br> b. 通过Class实例一个类<br> c. 通过发射实例化一个雷<br> d. 通过克隆<br> e. 通过反序列化<br> f. 通过Unsafe实例化一个类</p>
-</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/09/14/Unsafe%E5%87%BD%E6%95%B0%E5%85%AD%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/" data-id="cktqzg85x000sdgu9h9fbazup" data-title="Unsafe函数六道面试题" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li></ul>
 
     </footer>
   </div>
@@ -672,7 +697,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Goroutine/" rel="tag">Goroutine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/" rel="tag">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netty/" rel="tag">Netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TopK/" rel="tag">TopK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%B0%81%E9%97%AD/" rel="tag">线程封闭</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%83%8C%E5%8C%85/" rel="tag">背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" rel="tag">零拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Goroutine/" rel="tag">Goroutine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/" rel="tag">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netty/" rel="tag">Netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TopK/" rel="tag">TopK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" rel="tag">分布式事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%B0%81%E9%97%AD/" rel="tag">线程封闭</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%83%8C%E5%8C%85/" rel="tag">背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" rel="tag">零拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li></ul>
     </div>
   </div>
 
@@ -683,6 +708,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/09/25/RocketMQ%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">RocketMQ版的分布式事务实现</a>
+          </li>
         
           <li>
             <a href="/2021/09/05/Netty%E4%B8%AD%E7%9A%84%E9%9B%B6%E6%8B%B7%E8%B4%9D(Zero-Copy)/">理解Netty中的零拷贝(Zero-Copy)</a>
@@ -700,10 +729,6 @@
             <a href="/2021/01/08/Kafka%E5%85%A5%E9%97%A8/">kafka入门介绍</a>
           </li>
         
-          <li>
-            <a href="/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/">Redis cluster集群模式介绍</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -713,7 +738,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Gin%E6%A1%86%E6%9E%B6/">Gin框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go%E5%9F%BA%E7%A1%80/">Go基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Netty/">Netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot-%E6%A1%86%E6%9E%B6/">SpringBoot 框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8C%E6%AD%A5/">同步</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88java%EF%BC%89/">并发编程（java）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%B8%B8/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Gin%E6%A1%86%E6%9E%B6/">Gin框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go%E5%9F%BA%E7%A1%80/">Go基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MQ/">MQ</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Netty/">Netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot-%E6%A1%86%E6%9E%B6/">SpringBoot 框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8C%E6%AD%A5/">同步</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88java%EF%BC%89/">并发编程（java）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%B8%B8/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a></li></ul>
     </div>
   </div>
 
