@@ -73,21 +73,12 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <ol>
-<li>nginx的负载均衡算法有哪些？</li>
-</ol>
-<p>Nginx的upstream模块支持6种方式的负载均衡策略（算法）：轮询（默认方式）、weight（权重方式）、ip_hash（依据ip分配方式）、least_conn（最少连接方式）、fair（第三方提供的响应时间方式）、url_hash（第三方通过的依据URL分配方式）。</p>
-<ol start="2">
-<li>ngxin的作用</li>
-</ol>
-<p>web 服务.</p>
+        <h5 id="1-nginx的负载均衡算法有哪些？"><a href="#1-nginx的负载均衡算法有哪些？" class="headerlink" title="1. nginx的负载均衡算法有哪些？"></a>1. nginx的负载均衡算法有哪些？</h5><p>Nginx的upstream模块支持6种方式的负载均衡策略（算法）：轮询（默认方式）、weight（权重方式）、ip_hash（依据ip分配方式）、least_conn（最少连接方式）、fair（第三方提供的响应时间方式）、url_hash（第三方通过的依据URL分配方式）。</p>
+<h5 id="2-ngxin的作用"><a href="#2-ngxin的作用" class="headerlink" title="2. ngxin的作用"></a>2. ngxin的作用</h5><p>web 服务.</p>
 <p>负载均衡 （反向代理）</p>
 <p>web cache（web 缓存）</p>
 <p>动静分离</p>
-<ol start="3">
-<li>nginx的优点：</li>
-</ol>
-<p>模块化、事件驱动、异步、非阻塞、多进程单线程</p>
+<h5 id="3-nginx的优点："><a href="#3-nginx的优点：" class="headerlink" title="3. nginx的优点："></a>3. nginx的优点：</h5><p>模块化、事件驱动、异步、非阻塞、多进程单线程</p>
 <p>高并发。静态小文件</p>
 <p>占用资源少。2万并发、10个线程，内存消耗几百M。</p>
 <p>功能种类比较多。web,cache,proxy。每一个功能都不是特别强。</p>
@@ -95,55 +86,34 @@
 <p>nginx 配合动态服务和Apache有区别。（FASTCGI 接口）</p>
 <p>利用nginx可以对IP限速，可以限制连接数。</p>
 <p>配置简单，更灵活。</p>
-<ol start="4">
-<li>nginx为什么抗高并发</li>
-</ol>
-<p>Nginx的高并发得益于其采用了epoll模型</p>
+<h5 id="4-nginx为什么抗高并发"><a href="#4-nginx为什么抗高并发" class="headerlink" title="4. nginx为什么抗高并发"></a>4. nginx为什么抗高并发</h5><p>Nginx的高并发得益于其采用了epoll模型</p>
 <p>nginx采用epoll模型，异步非阻塞。对于Nginx来说，把一个完整的连接请求处理都划分成了事件，一个一个的事件。比如accept（）， recv（），磁盘I/O，send（）等，每部分都有相应的模块去处理，一个完整的请求可能是由几百个模块去处理。真正核心的就是事件收集和分发模块，这就是管理所有模块的核心。只有核心模块的调度才能让对应的模块占用CPU资源，从而处理请求。拿一个HTTP请求来说，首先在事件收集分发模块注册感兴趣的监听事件，注册好之后不阻塞直接返回，接下来就不需要再管了，等待有连接来了内核会通知你(epoll的轮询会告诉进程)，cpu就可以处理其他事情去了。一旦有请求来，那么对整个请求分配相应的上下文（其实已经预先分配好），这时候再注册新的感兴趣的事件(read函数)，同样客户端数据来了内核会自动通知进程可以去读数据了，读了数据之后就是解析，解析完后去磁盘找资源（I/O），一旦I/O完成会通知进程，进程开始给客户端发回数据send()，这时候也不是阻塞的，调用后就等内核发回通知发送的结果就行。整个下来把一个请求分成了很多个阶段，每个阶段都到很多模块去注册，然后处理，都是异步非阻塞。异步这里指的就是做一个事情，不需要等返回结果，做好了会自动通知你。</p>
-<ol start="5">
-<li>为什么nginx的总体性能比Apache高？</li>
-</ol>
-<p>nginx使用最新的epoll和kqueue网络IO模型，而Apache使用传统的select模式。</p>
+<h5 id="5-为什么nginx的总体性能比Apache高？"><a href="#5-为什么nginx的总体性能比Apache高？" class="headerlink" title="5. 为什么nginx的总体性能比Apache高？"></a>5. 为什么nginx的总体性能比Apache高？</h5><p>nginx使用最新的epoll和kqueue网络IO模型，而Apache使用传统的select模式。</p>
 <p>目前Linux下能够承受高并发访问的squid、Memcached 都采用的是epoll网络IO模型。</p>
-<ol start="6">
-<li>nginx如何处理请求？</li>
-</ol>
-<p>nginx在启动时会以daemon形式在后台运行，采用多进程+异步非阻塞IO事件模型来处理各种连接请求。多进程模型包括一个master进程，多个worker进程，一般worker进程个数是根据服务器CPU核数来决定的。master进程负责管理Nginx本身和其他worker进程</p>
+<h5 id="6-nginx如何处理请求？"><a href="#6-nginx如何处理请求？" class="headerlink" title="6. nginx如何处理请求？"></a>6. nginx如何处理请求？</h5><p>nginx在启动时会以daemon形式在后台运行，采用多进程+异步非阻塞IO事件模型来处理各种连接请求。多进程模型包括一个master进程，多个worker进程，一般worker进程个数是根据服务器CPU核数来决定的。master进程负责管理Nginx本身和其他worker进程</p>
 <p>在nginx多进程中，每个worker都是平等的，因此每个进程处理外部请求的机会权重都是一致的。</p>
 <p>Master进程读取并验证配置文件nginx.conf；管理worker进程；而每一个Worker进程都维护一个线程（避免线程切换），处理连接和请求；注意Worker进程的个数由配置文件决定，一般和CPU个数相关（有利于进程切换），配置几个就有几个Worker进程。<strong>worker进程中有一个ngx_worker_process_cycle()函数，执行无限循环</strong>，不断处理收到的来自客户端的请求，并进行处理，那就要讲讲多进程模型的处理流程了。</p>
-<ol start="7">
-<li>nginx多进程模式的处理流程</li>
-</ol>
-<p>首先，master进程一开始就会根据我们的配置，来建立需要listen的网络socket fd，然后fork出多个worker进程。</p>
+<h5 id="7-nginx多进程模式的处理流程"><a href="#7-nginx多进程模式的处理流程" class="headerlink" title="7. nginx多进程模式的处理流程"></a>7. nginx多进程模式的处理流程</h5><p>首先，master进程一开始就会根据我们的配置，来建立需要listen的网络socket fd，然后fork出多个worker进程。</p>
 <p>其次，根据进程的特性，新建立的worker进程，也会和master进程一样，具有相同的设置。因此，其也会去监听相同ip端口的套接字socket fd。</p>
 <p>然后，这个时候有多个worker进程都在监听同样设置的socket fd，意味着当有一个请求进来的时候，所有的worker都会感知到。这样就会产生所谓的“惊群现象”。为了保证只会有一个进程成功注册到listenfd的读事件，nginx中实现了一个“accept_mutex”类似互斥锁，只有获取到这个锁的进程，才可以去注册读事件。其他进程全部accept 失败。</p>
 <p>最后，监听成功的worker进程，读取请求，解析处理，响应数据返回给客户端，断开连接，结束。因此，一个request请求，只需要worker进程就可以完成。</p>
 <p>多进程模型的好处是进程之间独立，有一个worker坏了也不会影响逼得worker瘫痪</p>
 <p>nginx还会将进程和cpu某一个核绑定，避免因为进程切换带来的缓存失效</p>
-<ol start="8">
-<li>为什么要采用异步非阻塞？</li>
-</ol>
-<p>多进程模型+异步非阻塞模型才是胜出的方案。单纯的多进程模型会导致连接并发数量的降低，而采用异步非阻塞IO模型很好的解决了这个问题；并且还因此避免的多线程的上下文切换导致的性能损失。</p>
-<ol start="9">
-<li>如何避免所有的请求都被一个worker进程给竞争获取了</li>
-</ol>
-<p>Nginx采用了一个是否打开accept_mutex选项的值，ngx_accept_disabled标识控制一个worker进程是否需要去竞争获取accept_mutex选项，进而获取accept事件</p>
+<h5 id="8-为什么要采用异步非阻塞？"><a href="#8-为什么要采用异步非阻塞？" class="headerlink" title="8. 为什么要采用异步非阻塞？"></a>8. 为什么要采用异步非阻塞？</h5><p>多进程模型+异步非阻塞模型才是胜出的方案。单纯的多进程模型会导致连接并发数量的降低，而采用异步非阻塞IO模型很好的解决了这个问题；并且还因此避免的多线程的上下文切换导致的性能损失。</p>
+<h5 id="9-如何避免所有的请求都被一个worker进程给竞争获取了"><a href="#9-如何避免所有的请求都被一个worker进程给竞争获取了" class="headerlink" title="9. 如何避免所有的请求都被一个worker进程给竞争获取了"></a>9. 如何避免所有的请求都被一个worker进程给竞争获取了</h5><p>Nginx采用了一个是否打开accept_mutex选项的值，ngx_accept_disabled标识控制一个worker进程是否需要去竞争获取accept_mutex选项，进而获取accept事件</p>
 <p>ngx_accept_disabled值：nginx单进程的所有连接总数的八分之一，减去剩下的空闲连接数量，得到的这个ngx_accept_disabled。<br>当ngx_accept_disabled大于0时，不会去尝试获取accept_mutex锁，并且将ngx_accept_disabled减1，于是，每次执行到此处时，都会去减1，直到小于0。不去获取accept_mutex锁，就是等于让出获取连接的机会，很显然可以看出，当空闲连接越少时，ngx_accept_disable越大，于是让出的机会就越多，这样其它进程获取锁的机会也就越大。不去accept，自己的连接就控制下来了，其它进程的连接池就会得到利用，这样，nginx就控制了多进程间连接的平衡了。</p>
-<ol start="10">
-<li>nginx挂了怎么办？</li>
-</ol>
-<p>Keepalived+Nginx实现高可用，Keepalived是一个高可用解决方案，主要是用来防止服务器单点发生故障，可以通过和Nginx配合来实现Web服务的高可用。</p>
+<h5 id="10-nginx挂了怎么办？"><a href="#10-nginx挂了怎么办？" class="headerlink" title="10. nginx挂了怎么办？"></a>10. nginx挂了怎么办？</h5><p>Keepalived+Nginx实现高可用，Keepalived是一个高可用解决方案，主要是用来防止服务器单点发生故障，可以通过和Nginx配合来实现Web服务的高可用。</p>
 <p>第一：请求不要直接打到Nginx上，应该先通过Keepalived（这就是所谓虚拟IP，VIP）</p>
 <p>第二：Keepalived应该能监控Nginx的生命状态（提供一个用户自定义的脚本，定期检查Nginx进程状态，进行权重变化,，从而实现Nginx故障切换）</p>
 <ol start="11">
-<li>Nginx如何做到热部署？</li>
+<li><h5 id="Nginx如何做到热部署？"><a href="#Nginx如何做到热部署？" class="headerlink" title="Nginx如何做到热部署？"></a>Nginx如何做到热部署？</h5></li>
 </ol>
 <p>修改配置文件nginx.conf后，重新生成新的worker进程，当然会以新的配置进行处理请求，而且新的请求必须都交给新的worker进程，至于老的worker进程，等把那些以前的请求处理完毕后，kill掉即可。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2021/09/25/Nginx%E5%AD%A6%E4%B9%A0/" data-id="cktznq1sw000noku98u9f85xg" data-title="Nginx面试常问问题" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2021/09/25/Nginx%E5%AD%A6%E4%B9%A0/" data-id="cktznv4ki000ma8u9fki3avc6" data-title="Nginx面试常问问题" class="article-share-link">Share</a>
       
       
       
@@ -215,7 +185,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Gin%E6%A1%86%E6%9E%B6/">Gin框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go%E5%9F%BA%E7%A1%80/">Go基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MQ/">MQ</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Netty/">Netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot-%E6%A1%86%E6%9E%B6/">SpringBoot 框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8C%E6%AD%A5/">同步</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88java%EF%BC%89/">并发编程（java）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%B8%B8/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Gin%E6%A1%86%E6%9E%B6/">Gin框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go%E5%9F%BA%E7%A1%80/">Go基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Netty/">Netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot-%E6%A1%86%E6%9E%B6/">SpringBoot 框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8C%E6%AD%A5/">同步</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88java%EF%BC%89/">并发编程（java）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%B8%B8/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a></li></ul>
     </div>
   </div>
 
