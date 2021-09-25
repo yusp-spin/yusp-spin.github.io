@@ -49,6 +49,67 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-pagehelper的使用方法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/27/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" class="article-date">
+  <time class="dt-published" datetime="2020-11-27T02:55:54.000Z" itemprop="datePublished">2020-11-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/11/27/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">pagehelper的使用方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h5><p>现在一般springboot，mybatis项目中的mapper，pojo都是通过逆向工程直接生成的，但是生成的mapper中的查询语句中是没有分页功能的，如果想要分页的话，只能自己再去xml配置文件中修改sql语句，显得特别麻烦。为了方便快捷的翻页，这里引入一个分页插件。</p>
+<p>pagehelper，原理如下</p>
+<p><img src="/2020/11/27/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/photo/fenye.png" alt="fenye"></p>
+<p>使用这个插件后，会自动在我们的sql查询中加上limit，而不需要我们自己再去做limit处理</p>
+<h5 id="二、使用方法"><a href="#二、使用方法" class="headerlink" title="二、使用方法"></a>二、使用方法</h5><p>​    首先引入依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.pagehelper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pagehelper-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>​    然后再在yml文件中配置</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#pagehelper配置</span></span><br><span class="line"><span class="attr">pagehelper:</span></span><br><span class="line">  <span class="attr">reasonable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">support-methods-arguments:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">params:</span> <span class="string">count=countSql</span></span><br></pre></td></tr></table></figure>
+
+<p>使用的时候只需要在我们的查询使用之前加上一句就行</p>
+<p>​    PageHelper.startPage(pageNum,pageSize);</p>
+<p>​    pageNum是显示第几页；pageSize是每页的记录数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/list&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;TbItem&gt; <span class="title">selectAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        PageHelper.startPage(<span class="number">1</span>,<span class="number">10</span>);</span><br><span class="line">        List&lt;TbItem&gt; tbItems = tbItemService.selectAll();</span><br><span class="line">        <span class="keyword">return</span> tbItems;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：查询语句必须紧跟在PageHelper.startPage(pageNum,pageSize);语句之后，不然分页会有问题。</p>
+<p>为了方便，我们通常创建一个PageInfo的对象，从对象中获取分页信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/list&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> PageInfo&lt;TbItem&gt; <span class="title">selectAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        PageHelper.startPage(<span class="number">1</span>,<span class="number">10</span>);</span><br><span class="line">        List&lt;TbItem&gt; tbItems = tbItemService.selectAll();</span><br><span class="line">        PageInfo&lt;TbItem&gt; pageInfo = <span class="keyword">new</span> PageInfo&lt;&gt;(tbItems);</span><br><span class="line">        <span class="keyword">return</span> pageInfo;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/11/27/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" data-id="cktznq1sw0013oku9hrrq225h" data-title="pagehelper的使用方法" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-设计模式—创建型模式" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2020/11/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E2%80%94%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/" class="article-date">
@@ -165,7 +226,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E2%80%94%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/" data-id="cktzm99hi002z80u9fbf396bo" data-title="设计模式—创建型模式" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E2%80%94%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/" data-id="cktznq1vj004toku9cheabw29" data-title="设计模式—创建型模式" class="article-share-link">Share</a>
       
       
       
@@ -214,7 +275,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/21/springboot%E5%A6%82%E4%BD%95%E4%B8%8D%E4%BE%9D%E8%B5%96parent/" data-id="cktzm99gt001180u9e91j966i" data-title="SpringBoot 必须依赖spring-boot-parent？" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/21/springboot%E5%A6%82%E4%BD%95%E4%B8%8D%E4%BE%9D%E8%B5%96parent/" data-id="cktznq1sw0018oku92mmw4mjv" data-title="SpringBoot 必须依赖spring-boot-parent？" class="article-share-link">Share</a>
       
       
       
@@ -270,7 +331,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/16/%E5%B8%B8%E8%A7%81%E6%8E%92%E5%BA%8F%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/" data-id="cktzm99h6002280u971xs5g0i" data-title="常见排序介绍及优化手段" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/16/%E5%B8%B8%E8%A7%81%E6%8E%92%E5%BA%8F%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/" data-id="cktznq1ts002goku96pi4ayd5" data-title="常见排序介绍及优化手段" class="article-share-link">Share</a>
       
       
       
@@ -344,7 +405,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/15/%E4%BA%86%E8%A7%A3ConcurrentHashMap/" data-id="cktzm99hy004w80u9h89sbohd" data-title="了解ConcurrentHashMap" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/15/%E4%BA%86%E8%A7%A3ConcurrentHashMap/" data-id="cktznq1vy0050oku9fzwdeplk" data-title="了解ConcurrentHashMap" class="article-share-link">Share</a>
       
       
       
@@ -431,7 +492,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/14/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/" data-id="cktzm99h8002b80u98rmxcb5n" data-title="操作系统-存储器管理" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/14/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/" data-id="cktznq1ts002noku993gt0ct1" data-title="操作系统-存储器管理" class="article-share-link">Share</a>
       
       
       
@@ -474,8 +535,8 @@
 <p>git config user.email   查看 邮箱</p>
 <p>git config –global user.name <name>  修改 用户名</name></p>
 <p>git config –global user.email <email>  修改 邮箱</email></p>
-<p>ssh-keygen -t rsa -C “ <a href="mailto:&#121;&#x6f;&#117;&#114;&#x5f;&#x65;&#x6d;&#97;&#105;&#108;&#x40;&#101;&#120;&#97;&#x6d;&#x70;&#x6c;&#101;&#46;&#99;&#x6f;&#x6d;">&#121;&#x6f;&#117;&#114;&#x5f;&#x65;&#x6d;&#97;&#105;&#108;&#x40;&#101;&#120;&#97;&#x6d;&#x70;&#x6c;&#101;&#46;&#99;&#x6f;&#x6d;</a>“ 创建SSH key 【可以填写任意值作为注释key，例如邮箱】</p>
-<p>ssh -T <a href="mailto:&#103;&#x69;&#116;&#64;&#x67;&#x69;&#116;&#101;&#101;&#x2e;&#x63;&#111;&#109;">&#103;&#x69;&#116;&#64;&#x67;&#x69;&#116;&#101;&#101;&#x2e;&#x63;&#111;&#109;</a> 测试该SHH key 已添加到 gitee.com【码云】</p>
+<p>ssh-keygen -t rsa -C “ <a href="mailto:&#121;&#111;&#x75;&#114;&#95;&#x65;&#109;&#97;&#105;&#108;&#x40;&#x65;&#120;&#x61;&#109;&#112;&#108;&#x65;&#46;&#99;&#x6f;&#109;">&#121;&#111;&#x75;&#114;&#95;&#x65;&#109;&#97;&#105;&#108;&#x40;&#x65;&#120;&#x61;&#109;&#112;&#108;&#x65;&#46;&#99;&#x6f;&#109;</a>“ 创建SSH key 【可以填写任意值作为注释key，例如邮箱】</p>
+<p>ssh -T <a href="mailto:&#103;&#105;&#x74;&#64;&#x67;&#105;&#x74;&#101;&#x65;&#46;&#99;&#111;&#x6d;">&#103;&#105;&#x74;&#64;&#x67;&#105;&#x74;&#101;&#x65;&#46;&#99;&#111;&#x6d;</a> 测试该SHH key 已添加到 gitee.com【码云】</p>
 <h5 id="2、创建版本库"><a href="#2、创建版本库" class="headerlink" title="2、创建版本库"></a>2、创建版本库</h5><p>git init  初始化本地版本库【创建一个 .git的子目录】</p>
 <p>git init [project-name]  新建一个目录，并将其初始化为 git 代码库；</p>
 <p>git clone <url>  克隆远程版本库；</url></p>
@@ -535,7 +596,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" data-id="cktzm99gp000u80u90x5v9ndb" data-title="Git常用命令" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" data-id="cktznq1sw0016oku9dzby4mh2" data-title="Git常用命令" class="article-share-link">Share</a>
       
       
       
@@ -609,7 +670,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/09/Netty%E4%BB%8B%E7%BB%8D/" data-id="cktzm99go000q80u95n5r2yh8" data-title="Netty介绍" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/09/Netty%E4%BB%8B%E7%BB%8D/" data-id="cktznq1sh000loku9b6me5t6l" data-title="Netty介绍" class="article-share-link">Share</a>
       
       
       
@@ -682,7 +743,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/08/Go-make%E5%92%8Cnew%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" data-id="cktzm99gc000780u9g0zs3vyg" data-title="Go-make和new关键字的区别和实现原理" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/08/Go-make%E5%92%8Cnew%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" data-id="cktznq1s10006oku9gv0j13xt" data-title="Go-make和new关键字的区别和实现原理" class="article-share-link">Share</a>
       
       
       
@@ -761,99 +822,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/" data-id="cktzm99gl000j80u96ubh4qv1" data-title="Sync(Go语言中的同步手段)" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/" data-id="cktznq1sw000roku94gdq35mf" data-title="Sync(Go语言中的同步手段)" class="article-share-link">Share</a>
       
       
       
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Goroutine" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/11/04/Goroutine/" class="article-date">
-  <time class="dt-published" datetime="2020-11-04T04:12:47.000Z" itemprop="datePublished">2020-11-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/11/04/Goroutine/">Goroutine</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h5 id="一、Goroutine简介"><a href="#一、Goroutine简介" class="headerlink" title="一、Goroutine简介"></a>一、Goroutine简介</h5><p>​    在java/c++中我们要实现并发编程的时候，我们通常需要自己维护一个线程池，并且需要自己去包装一个又一个的任务，同时需要自己去调度线程执行任务并维护上下文切换，这一切通常会耗费程序员大量的心智。那么能不能有一种机制，程序员只需要定义很多个任务，让系统去帮助我们把这些任务分配到CPU上实现并发执行呢？</p>
-<p>​    Go语言中的goroutine就是这样一种机制，goroutine的概念类似于线程，但 goroutine是由Go的运行时（runtime）调度和管理的。Go程序会智能地将 goroutine 中的任务合理地分配给每个CPU。Go语言之所以被称为现代化的编程语言，就是因为它在语言层面已经内置了调度和上下文切换的机制。</p>
-<p>​    在Go语言编程中你不需要去自己写进程、线程、协程，你的技能包里只有一个技能–goroutine，当你需要让某个任务并发执行的时候，你只需要把这个任务包装成一个函数，开启一个goroutine去执行这个函数就可以了，就是这么简单粗暴。</p>
-<h5 id="二、Goroutine使用"><a href="#二、Goroutine使用" class="headerlink" title="二、Goroutine使用"></a>二、Goroutine使用</h5><p>​    Go语言中使用goroutine非常简单，只需要在调用函数的时候在前面加上go关键字，就可以为一个函数创建一个goroutine。</p>
-<p>​    一个goroutine必定对应一个函数，可以创建多个goroutine去执行相同的函数。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">(s <span class="keyword">string</span>)</span></span>  &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;hello&quot;</span>, s)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> hello(<span class="string">&quot;a&quot;</span>)</span><br><span class="line">	<span class="keyword">go</span> hello(<span class="string">&quot;b&quot;</span>)</span><br><span class="line">	<span class="keyword">go</span> hello(<span class="string">&quot;c&quot;</span>)</span><br><span class="line">	time.Sleep(time.Second)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="三、goroutine与线程"><a href="#三、goroutine与线程" class="headerlink" title="三、goroutine与线程"></a>三、goroutine与线程</h5><p>​    OS线程（操作系统线程）一般都有固定的栈内存（通常为2MB）,一个goroutine的栈在其生命周期开始时只有很小的栈（典型情况下2KB），goroutine的栈不是固定的，他可以按需增大和缩小，goroutine的栈大小限制可以达到1GB，虽然极少会用到这个大。所以在Go语言中一次创建十万左右的goroutine也是可以的。</p>
-<p><strong>goroutine调度细节——GPM模型</strong></p>
-<p>​    GPM是Go语言运行时（runtime）层面的实现，是go语言自己实现的一套调度系统。区别于操作系统调度OS线程。</p>
-<ul>
-<li>1.G很好理解，就是个goroutine的，里面除了存放本goroutine信息外 还有与所在P的绑定等信息。</li>
-<li>2.P管理着一组goroutine队列，P里面会存储当前goroutine运行的上下文环境（函数指针，堆栈地址及地址边界），P会对自己管理的goroutine队列做一些调度（比如把占用CPU时间较长的goroutine暂停、运行后续的goroutine等等）当自己的队列消费完了就去全局队列里取，如果全局队列里也消费完了会去其他P的队列里抢任务。</li>
-<li>3.M（machine）是Go运行时（runtime）对操作系统内核线程的虚拟， M与内核线程一般是一一映射的关系， 一个groutine最终是要放到M上执行的；</li>
-</ul>
-<p>P与M一般也是一一对应的。他们关系是： P管理着一组G挂载在M上运行。当一个G长久阻塞在一个M上时，runtime会新建一个M，阻塞G所在的P会把其他的G 挂载在新建的M上。当旧的G阻塞完成或者认为其已经死掉时 回收旧的M。</p>
-<p>P的个数是通过runtime.GOMAXPROCS设定（最大256），Go1.5版本之后默认为物理线程数。 在并发量大的时候会增加一些P和M，但不会太多，切换太频繁的话得不偿失。</p>
-<p>单从线程调度讲，Go语言相比起其他语言的优势在于OS线程是由OS内核来调度的，goroutine则是由Go运行时（runtime）自己的调度器调度的，这个调度器使用一个称为m:n调度的技术（复用/调度m个goroutine到n个OS线程）。 其一大特点是goroutine的调度是在用户态下完成的， 不涉及内核态与用户态之间的频繁切换，包括内存的分配与释放，都是在用户态维护着一块大的内存池， 不直接调用系统的malloc函数（除非内存池需要改变），成本比调度OS线程低很多。 另一方面充分利用了多核的硬件资源，近似的把若干goroutine均分在物理线程上， 再加上本身goroutine的超轻量，以上种种保证了go调度方面的性能。</p>
-<h5 id="四、Goroutine-协程-的理解"><a href="#四、Goroutine-协程-的理解" class="headerlink" title="四、Goroutine(协程)的理解"></a>四、Goroutine(协程)的理解</h5><p>​    先了解一下进程线程协程的定义：</p>
-<ul>
-<li>进程：拥有自己独立的堆和栈，既不共享堆，亦不共享栈，进程由操作系统调度。</li>
-<li>线程：拥有自己独立的栈和共享的堆，共享堆，不共享栈，线程亦由操作系统调度。</li>
-<li>协程 :和线程一样共享堆，不共享栈，协程由程序员在协程的代码里显示调度。</li>
-</ul>
-<p>在操作系统的OS Thread和编程语言的User Thread之间，实际上存在3种线程对应模型，也就是：1:1，1:N，M:N。</p>
-<ul>
-<li><u>1:1：一个用户线程就只在一个内核线程上跑，这时可以利用多核，但是上下文切换很慢，切换效率很低。</u></li>
-<li><u>N:1：多个（N）用户线程始终在一个内核线程上跑，context上下文切换很快，但是无法真正的利用多核。</u></li>
-<li><u>M:N：多个goroutine在多个内核线程上跑，这个可以集齐上面两者的优势,既能快速切换上下文，也能利用多核的优势，而Go正是选择这种实现方式。</u></li>
-</ul>
-<p>Java中的线程属于1：1，Goroutine属于M:N</p>
-<p>简单将 goroutine归纳为协程并不合适。运行时会创建多个线程来执行并发任务,且任务单元可被调度到其他线程并行执行。这更像是多线程和协程的综合体,能最大限度提升执行效率,发挥多核处理能力。</p>
-<h5 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h5><p>​    相比于线程，goroutine并不会更快，它只是增加了更多的并发性。当一goroutine被阻塞（比如等待IO）,golang的调度器会调度其它可以执行的goroutine运行。与线程相比，它有以下几个优点：</p>
-<p>优点：</p>
-<ul>
-<li>内存消耗更少：Goroutine所需要的内存通常只有2kb，而线程则需要1Mb</li>
-<li>创建与销毁的开销更小:由于线程创建时需要向操作系统申请资源，并且在销毁时将资源归还，因此它的创建和销毁的开销比较大。相比之下，goroutine的创建和销毁是由go语言在运行时自己管理的，因此开销更低。</li>
-<li>切换开销更小线程的调度方式是抢占式的，如果一个线程的执行时间超过了分配给它的时间片，就会被其它可执行的线程抢占;而goroutine的调度是协同式的，它不会直接地与操作系统内核打交道。</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>协程调度机制无法实现公平调度：因为协程的调度是非入侵式的，系统不会为他分配资源。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/04/Goroutine/" data-id="cktzm99gg000b80u992q44u8t" data-title="Goroutine" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Goroutine/" rel="tag">Goroutine</a></li></ul>
-
     </footer>
   </div>
   
@@ -875,7 +847,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Goroutine/" rel="tag">Goroutine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/" rel="tag">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netty/" rel="tag">Netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TopK/" rel="tag">TopK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" rel="tag">分布式事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%B0%81%E9%97%AD/" rel="tag">线程封闭</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%83%8C%E5%8C%85/" rel="tag">背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" rel="tag">零拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Goroutine/" rel="tag">Goroutine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/" rel="tag">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netty/" rel="tag">Netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TopK/" rel="tag">TopK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" rel="tag">分布式事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%B0%81%E9%97%AD/" rel="tag">线程封闭</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%83%8C%E5%8C%85/" rel="tag">背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" rel="tag">零拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li></ul>
     </div>
   </div>
 
@@ -886,6 +858,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/09/25/Nginx%E5%AD%A6%E4%B9%A0/">Nginx面试常问问题</a>
+          </li>
         
           <li>
             <a href="/2021/09/25/RocketMQ%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">RocketMQ版的分布式事务实现</a>
@@ -903,10 +879,6 @@
             <a href="/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/">Kafka介绍（二）</a>
           </li>
         
-          <li>
-            <a href="/2021/01/08/Kafka%E5%85%A5%E9%97%A8/">kafka入门介绍</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -916,7 +888,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Gin%E6%A1%86%E6%9E%B6/">Gin框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go%E5%9F%BA%E7%A1%80/">Go基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MQ/">MQ</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Netty/">Netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot-%E6%A1%86%E6%9E%B6/">SpringBoot 框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8C%E6%AD%A5/">同步</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88java%EF%BC%89/">并发编程（java）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%B8%B8/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Gin%E6%A1%86%E6%9E%B6/">Gin框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go%E5%9F%BA%E7%A1%80/">Go基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MQ/">MQ</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Netty/">Netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot-%E6%A1%86%E6%9E%B6/">SpringBoot 框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8C%E6%AD%A5/">同步</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88java%EF%BC%89/">并发编程（java）</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%A5%E5%B8%B8/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a></li></ul>
     </div>
   </div>
 
