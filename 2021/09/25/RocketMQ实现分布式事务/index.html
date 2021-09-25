@@ -94,10 +94,11 @@
 <p>那我们来看下RocketMQ是如何来保证事务的一致性的</p>
 <h5 id="四、RocketMQ分布式事务原理"><a href="#四、RocketMQ分布式事务原理" class="headerlink" title="四、RocketMQ分布式事务原理"></a>四、RocketMQ分布式事务原理</h5><div>
     <p style="text-align:center">
-    <img src="https://yusp-spin.github.io/photo/rocketMq.jpg" width="700" height="350">
+    <img src="https://yusp-spin.github.io/photo/rocketMq.jpg" width="700" height="300">
     <br>rocketMq分布式
     </p>
 </div>
+
 
 <p>1、A服务先发送个Half Message给Brock端，消息中携带 B服务 即将要+100元的信息。 2、当A服务知道Half Message发送成功后，那么开始第3步执行本地事务。 3、执行本地事务(会有三种情况1、执行成功。2、执行失败。3、网络等原因导致没有响应) 4.1)、如果本地事务成功，那么Product像Brock服务器发送Commit,这样B服务就可以消费该message。 4.2)、如果本地事务失败，那么Product像Brock服务器发送Rollback,那么就会直接删除上面这条半消息。 4.3)、如果因为网络等原因迟迟没有返回失败还是成功，那么会执行RocketMQ的回调接口,来进行事务的回查。</p>
 <p>从上面流程可以得知 <code>只有A服务本地事务执行成功 ，B服务才能消费该message</code>。</p>
@@ -131,7 +132,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2021/09/25/RocketMQ%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" data-id="cktzm594j000lfwu9bsy92jeo" data-title="RocketMQ版的分布式事务实现" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2021/09/25/RocketMQ%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" data-id="cktzm99gj000g80u9361g7rho" data-title="RocketMQ版的分布式事务实现" class="article-share-link">Share</a>
       
       
       
