@@ -49,6 +49,83 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Netty—心跳机制" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/30/Netty%E2%80%94%E5%BF%83%E8%B7%B3%E6%9C%BA%E5%88%B6/" class="article-date">
+  <time class="dt-published" datetime="2020-11-30T03:42:36.000Z" itemprop="datePublished">2020-11-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Netty/">Netty</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/11/30/Netty%E2%80%94%E5%BF%83%E8%B7%B3%E6%9C%BA%E5%88%B6/">Netty—心跳机制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h5 id="一、Netty心跳机制"><a href="#一、Netty心跳机制" class="headerlink" title="一、Netty心跳机制"></a>一、Netty心跳机制</h5><p>​    Netty是由JBOSS提供的一个java开源框架。Netty提供异步的、事件驱动的网络应用程序框架和工具，用以快速开发高性能、高可靠性的网络服务器和客户端程序</p>
+<p>​    在Netty中，服务端启动后，等待客户端连接，客户端连接之后，向服务端发送消息。如果客户端在发送，那么服务端必定会收到数据，如果客户端停止发送消息，那么服务端就接收不到这个客户端的消息，既然客户端闲下来了，那么连接资源就是一种浪费，所以服务端检测到一定时间内客户端不活跃的时候，将客户端连接关闭。</p>
+<h5 id="二、心跳实现"><a href="#二、心跳实现" class="headerlink" title="二、心跳实现"></a>二、心跳实现</h5><ul>
+<li>可以使用TCP协议层的Keeplive机制，但是该机制默认的心跳时间是2小时，依赖操作系统实现不够灵活；</li>
+<li>另一种就是，应用层实现自定义心跳机制，比如Netty实现心跳机制；</li>
+</ul>
+<h5 id="三、IdleStateHandler心跳检测"><a href="#三、IdleStateHandler心跳检测" class="headerlink" title="三、IdleStateHandler心跳检测"></a>三、IdleStateHandler心跳检测</h5><p>​    pipeline.addLast(new IdleStateHandler(60,45,20, TimeUnit.SECONDS))指的是60s读空闲，45写空闲，20s读写空闲就触发对应userEventTriggered()方法</p>
+<h5 id="四、代码实现"><a href="#四、代码实现" class="headerlink" title="四、代码实现"></a>四、代码实现</h5><p><strong>Server.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.netty.constants.Constants;</span><br><span class="line"><span class="keyword">import</span> com.netty.factory.ZookeeperFactory;</span><br><span class="line"><span class="keyword">import</span> io.netty.bootstrap.ServerBootstrap;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.*;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.nio.NioEventLoopGroup;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.socket.SocketChannel;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.socket.nio.NioServerSocketChannel;</span><br><span class="line"><span class="keyword">import</span> io.netty.handler.codec.string.StringDecoder;</span><br><span class="line"><span class="keyword">import</span> io.netty.handler.codec.string.StringEncoder;</span><br><span class="line"><span class="keyword">import</span> io.netty.handler.timeout.IdleStateHandler;</span><br><span class="line"><span class="keyword">import</span> org.apache.curator.framework.CuratorFramework;</span><br><span class="line"><span class="keyword">import</span> org.apache.zookeeper.CreateMode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.net.InetAddress;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NettyServer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ServerBootstrap bootstrap = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line">        EventLoopGroup parentGroup = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">        EventLoopGroup childGroup = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            bootstrap.group(parentGroup, childGroup)</span><br><span class="line">                    .option(ChannelOption.SO_BACKLOG, <span class="number">128</span>)</span><br><span class="line">                    .childOption(ChannelOption.SO_KEEPALIVE, <span class="keyword">false</span>)<span class="comment">//自己写心跳包</span></span><br><span class="line">                    .channel(NioServerSocketChannel.class)</span><br><span class="line">                    .childHandler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">                        <span class="meta">@Override</span></span><br><span class="line">                        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel socketChannel)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                            ChannelPipeline pipeline = socketChannel.pipeline();</span><br><span class="line">                            pipeline.addLast(<span class="keyword">new</span> StringDecoder());</span><br><span class="line">                            pipeline.addLast(<span class="keyword">new</span> StringEncoder());</span><br><span class="line">                            <span class="comment">//实现心跳机制</span></span><br><span class="line">                            pipeline.addLast(<span class="keyword">new</span> IdleStateHandler(<span class="number">60</span>,<span class="number">45</span>,<span class="number">20</span>, TimeUnit.SECONDS));</span><br><span class="line"></span><br><span class="line">                            pipeline.addLast(<span class="keyword">new</span> SimpleServerHandler());</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">            ChannelFuture sync = bootstrap.bind(<span class="number">8088</span>).sync();</span><br><span class="line">            sync.channel().closeFuture().sync();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            parentGroup.shutdownGracefully();</span><br><span class="line">            childGroup.shutdownGracefully();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>ServerHandler.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelHandlerContext;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelInboundHandlerAdapter;</span><br><span class="line"><span class="keyword">import</span> io.netty.handler.timeout.IdleState;</span><br><span class="line"><span class="keyword">import</span> io.netty.handler.timeout.IdleStateEvent;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleServerHandler</span> <span class="keyword">extends</span> <span class="title">ChannelInboundHandlerAdapter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(msg);</span><br><span class="line">        ctx.channel().writeAndFlush(<span class="string">&quot;is ok\r\n&quot;</span>);</span><br><span class="line">        ctx.channel().close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">userEventTriggered</span><span class="params">(ChannelHandlerContext ctx, Object evt)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(evt <span class="keyword">instanceof</span> IdleStateEvent) &#123;</span><br><span class="line">            IdleStateEvent event = (IdleStateEvent)evt;</span><br><span class="line">            <span class="keyword">if</span>(event.state().equals(IdleState.READER_IDLE)) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;读空闲==&quot;</span>);</span><br><span class="line">                ctx.channel().close();</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(event.state().equals(IdleState.WRITER_IDLE)) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;写空闲==&quot;</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(event.state().equals(IdleState.ALL_IDLE)) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;读写空闲==&quot;</span>);</span><br><span class="line">                ctx.channel().writeAndFlush(<span class="string">&quot;ping\r\n&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><strong>Client.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> io.netty.bootstrap.Bootstrap;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.*;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.nio.NioEventLoopGroup;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.socket.SocketChannel;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.socket.nio.NioSocketChannel;</span><br><span class="line"><span class="keyword">import</span> io.netty.handler.codec.string.StringDecoder;</span><br><span class="line"><span class="keyword">import</span> io.netty.handler.codec.string.StringEncoder;</span><br><span class="line"><span class="keyword">import</span> io.netty.util.AttributeKey;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NettyClient</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String host = <span class="string">&quot;localhost&quot;</span>;</span><br><span class="line">        <span class="keyword">int</span> port = <span class="number">8088</span>;</span><br><span class="line">        EventLoopGroup group = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            Bootstrap bootstrap = <span class="keyword">new</span> Bootstrap();</span><br><span class="line">            bootstrap.group(group)</span><br><span class="line">                    .channel(NioSocketChannel.class)</span><br><span class="line">                    .option(ChannelOption.SO_KEEPALIVE, <span class="keyword">true</span>)</span><br><span class="line">                    .handler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">                        <span class="meta">@Override</span></span><br><span class="line">                        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel ch)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                            ch.pipeline().addLast(<span class="keyword">new</span> StringEncoder());</span><br><span class="line">                            ch.pipeline().addLast(<span class="keyword">new</span> StringDecoder());</span><br><span class="line">                            ch.pipeline().addLast(<span class="keyword">new</span> SimpleClientHandler());</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">            ChannelFuture f = bootstrap.connect(host, port).sync();</span><br><span class="line">            f.channel().writeAndFlush(<span class="string">&quot;hello, server&quot;</span>);</span><br><span class="line">            f.channel().writeAndFlush(<span class="string">&quot;/r/n&quot;</span>);</span><br><span class="line">            f.channel().closeFuture().sync();</span><br><span class="line">            Object result = f.channel().attr(AttributeKey.valueOf(<span class="string">&quot;ssssss&quot;</span>)).get();</span><br><span class="line">            System.out.println(<span class="string">&quot;获取到服务器返回的数据：&quot;</span> + result);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            group.shutdownGracefully();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><strong>ClientHandler.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.netty.client;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelHandlerContext;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.ChannelInboundHandlerAdapter;</span><br><span class="line"><span class="keyword">import</span> io.netty.util.AttributeKey;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleClientHandler</span> <span class="keyword">extends</span> <span class="title">ChannelInboundHandlerAdapter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="string">&quot;ping&quot;</span>.equals(msg.toString())) &#123;</span><br><span class="line">            ctx.channel().writeAndFlush(<span class="string">&quot;pong\r\n&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(msg.toString());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h5><p>​    使用 Netty 实现心跳机制的关键就是利用 IdleStateHandler 来产生对应的 idle 事件.</p>
+<p>​    对应userEventTriggered()方法来触发对应的idle事件处理</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.yusp-spin.github.io/2020/11/30/Netty%E2%80%94%E5%BF%83%E8%B7%B3%E6%9C%BA%E5%88%B6/" data-id="cl1t2ijdj000rzou9d1jw9crj" data-title="Netty—心跳机制" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Netty/" rel="tag">Netty</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-pagehelper的使用方法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2020/11/27/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" class="article-date">
@@ -98,7 +175,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/27/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" data-id="ckzl88iy40014mcu9c72j8xlx" data-title="pagehelper的使用方法" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/27/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" data-id="cl1t2ijdj0018zou976rr2ekt" data-title="pagehelper的使用方法" class="article-share-link">Share</a>
       
       
       
@@ -226,7 +303,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E2%80%94%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/" data-id="ckzl88iz7002smcu9b09l6vjb" data-title="设计模式—创建型模式" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E2%80%94%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/" data-id="cl1t2ijef0036zou90zjy0np4" data-title="设计模式—创建型模式" class="article-share-link">Share</a>
       
       
       
@@ -275,7 +352,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/21/springboot%E5%A6%82%E4%BD%95%E4%B8%8D%E4%BE%9D%E8%B5%96parent/" data-id="ckzl88iy9001bmcu9ebqo2hxe" data-title="SpringBoot 必须依赖spring-boot-parent？" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/21/springboot%E5%A6%82%E4%BD%95%E4%B8%8D%E4%BE%9D%E8%B5%96parent/" data-id="cl1t2ijdj001czou96j875jfo" data-title="SpringBoot 必须依赖spring-boot-parent？" class="article-share-link">Share</a>
       
       
       
@@ -331,7 +408,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/16/%E5%B8%B8%E8%A7%81%E6%8E%92%E5%BA%8F%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/" data-id="ckzl88iyx0029mcu97lnah5v2" data-title="常见排序介绍及优化手段" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/16/%E5%B8%B8%E8%A7%81%E6%8E%92%E5%BA%8F%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5/" data-id="cl1t2ijdz002bzou98h4odk27" data-title="常见排序介绍及优化手段" class="article-share-link">Share</a>
       
       
       
@@ -405,7 +482,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/15/%E4%BA%86%E8%A7%A3ConcurrentHashMap/" data-id="ckzl88j00004umcu9fes8e2hr" data-title="了解ConcurrentHashMap" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/15/%E4%BA%86%E8%A7%A3ConcurrentHashMap/" data-id="cl1t2ijfa0050zou95a3x1d48" data-title="了解ConcurrentHashMap" class="article-share-link">Share</a>
       
       
       
@@ -492,7 +569,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/14/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/" data-id="ckzl88iz0002cmcu9c2kyebue" data-title="操作系统-存储器管理" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/14/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/" data-id="cl1t2ijdz002szou9a95d4tww" data-title="操作系统-存储器管理" class="article-share-link">Share</a>
       
       
       
@@ -535,8 +612,8 @@
 <p>git config user.email   查看 邮箱</p>
 <p>git config –global user.name <name>  修改 用户名</name></p>
 <p>git config –global user.email <email>  修改 邮箱</email></p>
-<p>ssh-keygen -t rsa -C “ <a href="mailto:&#x79;&#111;&#x75;&#x72;&#95;&#x65;&#x6d;&#97;&#x69;&#x6c;&#64;&#101;&#120;&#x61;&#109;&#112;&#108;&#101;&#46;&#99;&#x6f;&#109;">&#x79;&#111;&#x75;&#x72;&#95;&#x65;&#x6d;&#97;&#x69;&#x6c;&#64;&#101;&#120;&#x61;&#109;&#112;&#108;&#101;&#46;&#99;&#x6f;&#109;</a>“ 创建SSH key 【可以填写任意值作为注释key，例如邮箱】</p>
-<p>ssh -T <a href="mailto:&#103;&#105;&#x74;&#x40;&#103;&#x69;&#x74;&#x65;&#x65;&#46;&#x63;&#x6f;&#x6d;">&#103;&#105;&#x74;&#x40;&#103;&#x69;&#x74;&#x65;&#x65;&#46;&#x63;&#x6f;&#x6d;</a> 测试该SHH key 已添加到 gitee.com【码云】</p>
+<p>ssh-keygen -t rsa -C “ <a href="mailto:&#121;&#x6f;&#117;&#x72;&#x5f;&#101;&#x6d;&#x61;&#105;&#108;&#x40;&#101;&#120;&#97;&#x6d;&#x70;&#108;&#101;&#x2e;&#99;&#111;&#109;">&#121;&#x6f;&#117;&#x72;&#x5f;&#101;&#x6d;&#x61;&#105;&#108;&#x40;&#101;&#120;&#97;&#x6d;&#x70;&#108;&#101;&#x2e;&#99;&#111;&#109;</a>“ 创建SSH key 【可以填写任意值作为注释key，例如邮箱】</p>
+<p>ssh -T <a href="mailto:&#103;&#x69;&#x74;&#64;&#103;&#x69;&#116;&#x65;&#x65;&#46;&#x63;&#111;&#x6d;">&#103;&#x69;&#x74;&#64;&#103;&#x69;&#116;&#x65;&#x65;&#46;&#x63;&#111;&#x6d;</a> 测试该SHH key 已添加到 gitee.com【码云】</p>
 <h5 id="2、创建版本库"><a href="#2、创建版本库" class="headerlink" title="2、创建版本库"></a>2、创建版本库</h5><p>git init  初始化本地版本库【创建一个 .git的子目录】</p>
 <p>git init [project-name]  新建一个目录，并将其初始化为 git 代码库；</p>
 <p>git clone <url>  克隆远程版本库；</url></p>
@@ -596,7 +673,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" data-id="ckzl88ixz000zmcu98twj6dzl" data-title="Git常用命令" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" data-id="cl1t2ijdj0016zou9fbv899qs" data-title="Git常用命令" class="article-share-link">Share</a>
       
       
       
@@ -670,7 +747,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/09/Netty%E4%BB%8B%E7%BB%8D/" data-id="ckzl88ixa000fmcu981u22o7j" data-title="Netty介绍" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/09/Netty%E4%BB%8B%E7%BB%8D/" data-id="cl1t2ijdj000mzou98bzxb8el" data-title="Netty介绍" class="article-share-link">Share</a>
       
       
       
@@ -743,86 +820,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/08/Go-make%E5%92%8Cnew%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" data-id="ckzl88iww0008mcu93mz5eufh" data-title="Go-make和new关键字的区别和实现原理" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Sync(Go语言中的同步手段)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/" class="article-date">
-  <time class="dt-published" datetime="2020-11-06T03:23:47.000Z" itemprop="datePublished">2020-11-06</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%88go%EF%BC%89/">并发编程（go）</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/">Sync(Go语言中的同步手段)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h5 id="1-sync-WaitGroup"><a href="#1-sync-WaitGroup" class="headerlink" title="1.sync.WaitGroup"></a>1.sync.WaitGroup</h5><p>​    Go语言中可以使用sync.WaitGroup来实现并发任务的同步。</p>
-<p>​    sync.WaitGroup内部维护着一个计数器，计数器的值可以增加和减少。例如当我们启动了N 个并发任务时，就将计数器值增加N。每个任务完成时通过调用Done()方法将计数器减1。通过调用Wait()来等待并发任务执行完，当计数器值为0时，表示所有并发任务已经完成</p>
-<pre><code> sync.WaitGroup有以下几个方法：
-</code></pre>
-<table>
-<thead>
-<tr>
-<th>方法名</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>(wg * WaitGroup) Add(delta int)</td>
-<td>计数器+delta</td>
-</tr>
-<tr>
-<td>(wg *WaitGroup) Done()</td>
-<td>计数器-1</td>
-</tr>
-<tr>
-<td>(wg *WaitGroup) Wait()</td>
-<td>阻塞直到计数器变为0</td>
-</tr>
-</tbody></table>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;sync&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">()</span></span>  &#123;</span><br><span class="line">	<span class="keyword">defer</span> wg.Done()</span><br><span class="line">	fmt.Println(<span class="string">&quot;hello Goroutine!&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	wg.Add(<span class="number">1</span>)</span><br><span class="line">	<span class="keyword">go</span> hello()</span><br><span class="line">	fmt.Println(<span class="string">&quot;main gorountine done&quot;</span>)</span><br><span class="line">	wg.Wait()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h5 id="2-sync-Once"><a href="#2-sync-Once" class="headerlink" title="2.sync.Once"></a>2.sync.Once</h5><p>​    确保某些操作在高并发的场景下只执行一次,sunc.Once是一个针对值执行一次场景的解决方案</p>
-<p>​    整个程序，只会执行printNum()方法一次,print()方法是不会被执行的。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;sync&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> once sync.Once</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> i, v :=<span class="keyword">range</span> <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">10</span>) &#123;</span><br><span class="line">		once.Do(printNum)</span><br><span class="line">		fmt.Println(<span class="string">&quot;count:&quot;</span>,v,<span class="string">&quot;---&quot;</span>,i)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			once.Do(<span class="built_in">print</span>)</span><br><span class="line">			fmt.Println(<span class="string">&quot;hello&quot;</span>)</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	time.Sleep(<span class="number">4000</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">printNum</span><span class="params">()</span></span>  &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;123456&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">print</span><span class="params">()</span></span>  &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;abcdefg&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="3-sync-Map"><a href="#3-sync-Map" class="headerlink" title="3.sync.Map"></a>3.sync.Map</h5><p>​    Go语言中内置的map不是并发安全的,有些场景下就需要为map加锁来保证并发的安全性了，Go语言的sync包中提供了一个开箱即用的并发安全版map–sync.Map。开箱即用表示不用像内置的map一样使用make函数初始化就能直接使用。同时sync.Map内置了诸如Store、Load、LoadOrStore、Delete、Range等操作方法</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/11/06/Sync(Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%90%8C%E6%AD%A5%E6%89%8B%E6%AE%B5)/" data-id="ckzl88ixk000mmcu91dlk8v94" data-title="Sync(Go语言中的同步手段)" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/11/08/Go-make%E5%92%8Cnew%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" data-id="cl1t2ijd40008zou99beef8xe" data-title="Go-make和new关键字的区别和实现原理" class="article-share-link">Share</a>
       
       
       
@@ -847,7 +845,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Goroutine/" rel="tag">Goroutine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/" rel="tag">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netty/" rel="tag">Netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TopK/" rel="tag">TopK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" rel="tag">分布式事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%B0%81%E9%97%AD/" rel="tag">线程封闭</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%83%8C%E5%8C%85/" rel="tag">背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" rel="tag">零拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Goroutine/" rel="tag">Goroutine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/" rel="tag">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netty/" rel="tag">Netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TopK/" rel="tag">TopK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" rel="tag">分布式事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%B0%81%E9%97%AD/" rel="tag">线程封闭</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%83%8C%E5%8C%85/" rel="tag">背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%B6%E6%8B%B7%E8%B4%9D/" rel="tag">零拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag">面经</a></li></ul>
     </div>
   </div>
 
@@ -858,6 +856,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2022/04/10/Kafka%E6%B6%88%E8%B4%B9%E8%80%85%E6%B6%88%E8%B4%B9%E6%B6%88%E6%81%AF(%E9%AB%98%E7%BA%A7API)/">Kafka消费者消费消息(高级API)</a>
+          </li>
         
           <li>
             <a href="/2021/09/25/Nginx%E5%AD%A6%E4%B9%A0/">Nginx面试常问问题</a>
@@ -873,10 +875,6 @@
         
           <li>
             <a href="/2021/03/29/AQS%E5%85%A5%E9%97%A8/">AQS介绍</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/">Kafka介绍（二）</a>
           </li>
         
       </ul>
@@ -898,7 +896,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
     </div>
   </div>
 
