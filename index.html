@@ -106,14 +106,45 @@
 <ul>
 <li>Finalizable标记只能通过终结器访问对象</li>
 <li>Remapped 表示这个引用是最新的，只想对象的当前位置。在load-barrier中，完成重映射后，会设置为Remapped</li>
-<li>Marked0和Marked1 标记可访问的对象，在ZGC标记过程中，使用这两交替访问‘</li>
+<li>Marked0和Marked1 标记可访问的对象，在ZGC标记过程中，使用这两交替访问</li>
 </ul>
 <p>ZGC使用42位表示地址，所以ZGC支持堆内存最大位4TB，JDK15中，扩展到了16T</p>
-<h4 id="5-重定位过程"><a href="#5-重定位过程" class="headerlink" title="5. 重定位过程"></a>5. 重定位过程</h4><h4 id="6-重映射过程"><a href="#6-重映射过程" class="headerlink" title="6. 重映射过程"></a>6. 重映射过程</h4><h4 id="7-Load-Barrier"><a href="#7-Load-Barrier" class="headerlink" title="7. Load-Barrier"></a>7. Load-Barrier</h4><h4 id="8-并发标记过程详解"><a href="#8-并发标记过程详解" class="headerlink" title="8. 并发标记过程详解"></a>8. 并发标记过程详解</h4><h4 id="9-并发重定位-amp-重映射过程详解"><a href="#9-并发重定位-amp-重映射过程详解" class="headerlink" title="9. 并发重定位&amp;重映射过程详解"></a>9. 并发重定位&amp;重映射过程详解</h4><h4 id="10-如何进行页面回收的选择"><a href="#10-如何进行页面回收的选择" class="headerlink" title="10. 如何进行页面回收的选择"></a>10. 如何进行页面回收的选择</h4><h4 id="11-总结"><a href="#11-总结" class="headerlink" title="11. 总结"></a>11. 总结</h4>
+<h4 id="5-重定位过程"><a href="#5-重定位过程" class="headerlink" title="5. 重定位过程"></a>5. 重定位过程</h4><p>在完成了标记对象标记后，需要进行具体的回收工作了，在ZGC中，使用复制算法来进行垃圾回收。重定位过程会把需要垃圾回收的page中存活的对象移到一个新的page中，page中存活对象移动完成后，page的回收就完成了。</p>
+<p>重定位包含以下阶段：</p>
+<ul>
+<li><p>准备重定位，这个过程是并发的，主要是选择想进行回收的page，放入到重定位集中。</p>
+</li>
+<li><p>开始重定位，这个过程是stw的，将relocation set中所有根引用重定位，并且更新引用</p>
+</li>
+<li><p>重定位是并发的，根据标记得到的liveMap，GC线程对relocation set中所有存活的对象进行重定位，将新旧地址之间的映射存储在转发表中，应用线程在访问到GC线程还没来得及重定位的对象时，也会给对象进行重定位</p>
+</li>
+</ul>
+<h4 id="6-重映射过程"><a href="#6-重映射过程" class="headerlink" title="6. 重映射过程"></a>6. 重映射过程</h4><p>重定位只是在转发表中保存了新旧地址的映射，并没有对对象的引用进行更新</p>
+<p>当访问对象时，使用的引用地址还是错误的地址，在ZGC中，在Load-Barrier中，根据引用的状态和转发表中的记录，进行引用地址的修正，确保每次能访问到正确对象，并将对象设置为Remapped</p>
+<p>ZGC将这个指针修正的过程被称为指针的自愈</p>
+<p>其余没有被Load-Barrier，将在下一个标记阶段进行</p>
+<p>因为在引用修正的过程中，放在了Load-Barrier中，由应用线程处理，所以，在一次GC中，我们只需要在标记过程中遍历一次对象树。</p>
+<h4 id="7-Load-Barrier"><a href="#7-Load-Barrier" class="headerlink" title="7. Load-Barrier"></a>7. Load-Barrier</h4><p>Load Barrier可以翻译成读屏障，即写屏障。ZGC中，标记和移动阶段，每次【从堆里对象的引用类型中读取一个指针】的时候，都会触发一个Load-Barrier。（比如obj.fieldA）</p>
+<h4 id="8-并发标记过程详解"><a href="#8-并发标记过程详解" class="headerlink" title="8. 并发标记过程详解"></a>8. 并发标记过程详解</h4><p>并发标记时，GC线程和应用线程同时工作，需要特殊处理，防止出现漏标和错标的i情况。错标会出现浮动垃圾，影响不大，会在下一次垃圾回收中回收掉。漏标会让一些可达对象被当作垃圾处理，影响程序正确性，使用 Load-Barrier避免漏标</p>
+<h4 id="9-如何进行页面回收的选择"><a href="#9-如何进行页面回收的选择" class="headerlink" title="9. 如何进行页面回收的选择"></a>9. 如何进行页面回收的选择</h4><p>选择分为两步：筛选可以被回收的页面，从中选择垃圾比较多的页面加入relocation set</p>
+<ol>
+<li><p>筛选所有可以被回收的页面</p>
+<p> 如果页面时本次垃圾回收启动后新分配的页面，就无需回收</p>
+<p>如果页面在标记过程中没标记过，即没有存活对象，可以直接放回页面缓存，重用。</p>
+<p>如果页面是大页面，则不回收，因为大页面只有一个对象，不能回收</p>
+<p>如果页面是中页面、或者小页面，则只有页面垃圾所占空间超过页面空间的25%时，才可以被回收</p>
+</li>
+<li><p>选择垃圾比较多的页面加入relocation set</p>
+<p>排序，根据页面的liveMap来计算活跃内存的大小，按照页面活跃内存数从小到大排序</p>
+<p>选择排序靠前的页面，加入relocation set</p>
+</li>
+</ol>
+<h4 id="10-总结"><a href="#10-总结" class="headerlink" title="10. 总结"></a>10. 总结</h4><p>​    ZGC是一款以低延迟为首要目标，基于page内存布局的、不设分代的、使用了Load-Barrier、Colored Poiner和内存多视图映射等技术的并发垃圾收集器。stw时间只与根节点的数目有关，其余标记和处理过程都是并发的，因此可以保证时延时间基本不随着堆大小变化。但是部分标记和重映射工作由Load-Barrier来完成，吞吐量有所下降</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2022/08/21/ZGC%E5%85%A5%E9%97%A8%E4%BB%8B%E7%BB%8D/" data-id="cl73fb6w70013rou94o6pa8ig" data-title="ZGC简介" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2022/08/21/ZGC%E5%85%A5%E9%97%A8%E4%BB%8B%E7%BB%8D/" data-id="cl7dcgvom00102su92kljfcoh" data-title="ZGC简介" class="article-share-link">Share</a>
       
       
       
@@ -185,7 +216,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2022/04/10/Kafka%E6%B6%88%E8%B4%B9%E8%80%85%E6%B6%88%E8%B4%B9%E6%B6%88%E6%81%AF(%E9%AB%98%E7%BA%A7API)/" data-id="cl73fb6vs000frou9hp65hu6g" data-title="Kafka消费者消费消息(高级API)" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2022/04/10/Kafka%E6%B6%88%E8%B4%B9%E8%80%85%E6%B6%88%E8%B4%B9%E6%B6%88%E6%81%AF(%E9%AB%98%E7%BA%A7API)/" data-id="cl7dcgvo6000f2su94bwj4ls8" data-title="Kafka消费者消费消息(高级API)" class="article-share-link">Share</a>
       
       
       
@@ -265,7 +296,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2021/09/25/Nginx%E5%AD%A6%E4%B9%A0/" data-id="cl73fb6w7000prou9cmmnabff" data-title="Nginx面试常问问题" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2021/09/25/Nginx%E5%AD%A6%E4%B9%A0/" data-id="cl7dcgvom000p2su9bci0ffsk" data-title="Nginx面试常问问题" class="article-share-link">Share</a>
       
       
       
@@ -364,7 +395,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2021/09/25/RocketMQ%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" data-id="cl73fb6w7000srou968eaa6ur" data-title="RocketMQ版的分布式事务实现" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2021/09/25/RocketMQ%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" data-id="cl7dcgvom000s2su94r0kc8vg" data-title="RocketMQ版的分布式事务实现" class="article-share-link">Share</a>
       
       
       
@@ -442,7 +473,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2021/09/05/Netty%E4%B8%AD%E7%9A%84%E9%9B%B6%E6%8B%B7%E8%B4%9D(Zero-Copy)/" data-id="cl73fb6w7000lrou956dicw6v" data-title="理解Netty中的零拷贝(Zero-Copy)" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2021/09/05/Netty%E4%B8%AD%E7%9A%84%E9%9B%B6%E6%8B%B7%E8%B4%9D(Zero-Copy)/" data-id="cl7dcgvom000l2su96jev83bc" data-title="理解Netty中的零拷贝(Zero-Copy)" class="article-share-link">Share</a>
       
       
       
@@ -509,7 +540,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2021/03/29/AQS%E5%85%A5%E9%97%A8/" data-id="cl73fb6ux0001rou949yqgz3p" data-title="AQS介绍" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2021/03/29/AQS%E5%85%A5%E9%97%A8/" data-id="cl7dcgvnq00012su906gyhq9l" data-title="AQS介绍" class="article-share-link">Share</a>
       
       
       
@@ -591,7 +622,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/" data-id="cl73fb6vs000arou9cddr5dks" data-title="Kafka介绍（二）" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2021/01/10/Kafka%E4%BB%8B%E7%BB%8D%EF%BC%88%E4%BA%8C%EF%BC%89/" data-id="cl7dcgvo6000a2su96iw6b7pw" data-title="Kafka介绍（二）" class="article-share-link">Share</a>
       
       
       
@@ -719,7 +750,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2021/01/08/Kafka%E5%85%A5%E9%97%A8/" data-id="cl73fb6vs000crou92vld6e1g" data-title="kafka入门介绍" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2021/01/08/Kafka%E5%85%A5%E9%97%A8/" data-id="cl7dcgvo6000c2su975xg86rb" data-title="kafka入门介绍" class="article-share-link">Share</a>
       
       
       
@@ -818,7 +849,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/" data-id="cl73fb6wn001irou9ejyte1yc" data-title="Redis cluster集群模式介绍" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/12/31/%E5%85%B3%E4%BA%8EredisCluster/" data-id="cl7dcgvp2001i2su9a00j3xt0" data-title="Redis cluster集群模式介绍" class="article-share-link">Share</a>
       
       
       
@@ -880,7 +911,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.yusp-spin.github.io/2020/12/21/TopK%E9%97%AE%E9%A2%98%E7%94%A8%E5%BF%AB%E6%8E%92%E5%92%8C%E5%A0%86%E6%8E%92%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E5%88%AB%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F/" data-id="cl73fb6w7000xrou9ht152cy1" data-title="TopK问题用快排和堆排的复杂度分别是多少？" class="article-share-link">Share</a>
+      <a data-url="https://www.yusp-spin.github.io/2020/12/21/TopK%E9%97%AE%E9%A2%98%E7%94%A8%E5%BF%AB%E6%8E%92%E5%92%8C%E5%A0%86%E6%8E%92%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E5%88%AB%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F/" data-id="cl7dcgvom000x2su9e09za9dk" data-title="TopK问题用快排和堆排的复杂度分别是多少？" class="article-share-link">Share</a>
       
       
       
